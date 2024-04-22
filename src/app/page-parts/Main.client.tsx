@@ -5,6 +5,8 @@ import { Todo } from "@/components/models/interface";
 import useInputChange from "@/components/hooks/useInputChange";
 import useInputValidation from "@/components/hooks/useInputValidation";
 import useHandleSubmit from "@/components/hooks/useHandleSubmit";
+import useCreateTodo from "@/components/hooks/useCreateTodo";
+import useUpdateTodos from "@/components/hooks/useUpdateTodos ";
 
 const Main = () => {
   const [todos, setTodos] = useLocalStorage<Todo[]>("todos", []);
@@ -14,12 +16,12 @@ const Main = () => {
     inputValue
   );
 
+  const { createTodo } = useCreateTodo(inputValue);
+  const { updateTodos } = useUpdateTodos(todos, setTodos, handleChange);
   const { handleSubmit } = useHandleSubmit(
-    todos,
-    setTodos,
-    inputValue,
-    handleChange,
-    validateInput
+    validateInput,
+    createTodo,
+    updateTodos
   );
 
   return (

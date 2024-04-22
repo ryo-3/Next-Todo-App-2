@@ -1,3 +1,4 @@
+// 入力値のバリデーションをおこなう
 import { useState } from "react";
 
 function useInputValidation(
