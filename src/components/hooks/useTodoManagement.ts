@@ -14,14 +14,12 @@ function useTodoManagement(
   const { createTodo } = useCreateTodo(inputValue);
   const { updateTodos } = useUpdateTodos(todos, setTodos, handleChange);
 
-  const validator = (value: string) => value.trim().length > 0;
-  const { validateInput, error } = useInputValidation(validator, inputValue);
-
-  const { handleSubmit } = useHandleSubmit(
-    validateInput,
-    createTodo,
-    updateTodos
+  const { validateInput, error } = useInputValidation(
+    (value: string) => value.trim().length > 0,
+    inputValue
   );
+
+  const { handleSubmit } = useHandleSubmit(validateInput, createTodo, updateTodos);
 
   return { handleSubmit, error };
 }
