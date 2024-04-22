@@ -9,7 +9,7 @@ function useInputValidation(
 
   const validateInput = (): boolean => {
     const isValid = validator(inputValue);
-    setError(isValid ? "" : "Invalid input");
+    setError(isValid ? "" : "!");
     return isValid;
   };
 

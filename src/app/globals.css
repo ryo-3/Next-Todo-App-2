@@ -8,7 +8,14 @@
 }
 body {
 }
-li {
-}
-@layer utilities {
+/* .error {
+    position: abuslute;
+} */
+@layer utilities { 
+    .container {
+        @apply flex justify-start w-11/12  mx-auto 
+    }
+    .error {
+        @apply text-stone-400 absolute left-20 pl-1 pt-2
+    }
 }

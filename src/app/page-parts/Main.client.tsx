@@ -26,12 +26,12 @@ const Main = () => {
 
   return (
     <main>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="flex container mb-4 relative">
         <input
           type="text"
           value={inputValue}
           onChange={handleChange}
-          placeholder="新しいタスクを入力"
+          placeholder="入力欄 ..."
           className="border p-2 rounded mr-2"
         />
         {error && <div className="error">{error}</div>}
@@ -42,9 +42,9 @@ const Main = () => {
           追加
         </button>
       </form>
-      <ul className="list-disc pl-5">
+      <ul className="">
         {todos.map((todo: Todo) => (
-          <li key={todo.id.toString()} className="bg-blue-100 p-2 rounded mb-1">
+          <li key={todo.id.toString()} className=" container bg-blue-100 p-2 rounded mb-1">
             {todo.text}
           </li>
         ))}
