@@ -1,6 +1,7 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import useCreateTodo from "./useCreateTodo";
 import useUpdateTodos from "./useUpdateTodos";
+import useInputValidation from "./useInputValidation";
 import useHandleSubmit from "./useHandleSubmit";
 import { Todo } from "../models/interface";
 
@@ -10,29 +11,19 @@ function useTodoManagement(
   setTodos: Dispatch<SetStateAction<Todo[]>>,
   handleChange: React.ChangeEventHandler<HTMLInputElement>
 ) {
-  const [error, setError] = useState<string>("");
   const { createTodo } = useCreateTodo(inputValue);
   const { updateTodos } = useUpdateTodos(todos, setTodos, handleChange);
 
-  const validateInput = () => {
-    const isValid = inputValue.trim().length > 0;
-    if (!isValid) {
-      setError("!");
-      return false;
-    }
-    setError("");
-    return true;
-  };
+  const validator = (value: string) => value.trim().length > 0;
+  const { validateInput, error } = useInputValidation(validator, inputValue);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (validateInput()) {
-      const newTodo = createTodo();
-      updateTodos(newTodo);
-    }
-  };
+  const { handleSubmit } = useHandleSubmit(
+    validateInput,
+    createTodo,
+    updateTodos
+  );
 
-  return { createTodo, updateTodos, handleSubmit, error };
+  return { handleSubmit, error };
 }
 
 export default useTodoManagement;
