@@ -1,31 +1,26 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { Todo } from "@/components/models/interface";
+import React from "react";
 import useLocalStorage from "@/components/hooks/useLocalStorage";
+import { Todo } from "@/components/models/interface";
+import useInputChange from "@/components/hooks/useInputChange";
+import useInputValidation from "@/components/hooks/useInputValidation";
+import useHandleSubmit from "@/components/hooks/useHandleSubmit";
 
 const Main = () => {
-  // ローカルストレージから todos を読み込む
   const [todos, setTodos] = useLocalStorage<Todo[]>("todos", []);
+  const { inputValue, handleChange } = useInputChange(); // useInputChange フックを使用
+  const { validateInput, error } = useInputValidation(
+    (value) => value.trim().length > 0,
+    inputValue
+  );
 
-  const [inputValue, setInputValue] = useState<string>("");
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (inputValue.trim()) {
-      const newTodo: Todo = {
-        id: Date.now(), // id を number 型として直接設定
-        text: inputValue.trim(),
-        completed: false
-      };
-      const updatedTodos = [...todos, newTodo];
-      setTodos(updatedTodos);  // 更新されたリストを setTodos でローカルストレージに保存
-      setInputValue("");  // 入力フィールドをクリア
-    }
-  };
+  const { handleSubmit } = useHandleSubmit(
+    todos,
+    setTodos,
+    inputValue,
+    handleChange,
+    validateInput
+  );
 
   return (
     <main>
@@ -37,6 +32,7 @@ const Main = () => {
           placeholder="新しいタスクを入力"
           className="border p-2 rounded mr-2"
         />
+        {error && <div className="error">{error}</div>}
         <button
           type="submit"
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
