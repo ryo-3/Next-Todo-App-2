@@ -1,8 +1,9 @@
 // src/app/page-parts/header.tsx
+"use client";
 const Header = () => {
   return (
     <header>
-      <h1 className="container text-3xl mt-5 mb-3">
+      <h1 className="container text-3xl pt-5 pb-3">
         Todoリスト
       </h1>
     </header>

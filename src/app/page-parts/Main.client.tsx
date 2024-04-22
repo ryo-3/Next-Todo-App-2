@@ -5,8 +5,12 @@ import { Todo } from "@/components/models/interface";
 import useInputChange from "@/components/hooks/useInputChange";
 import useTodoManagement from "@/components/hooks/useTodoManagement";
 
-const Main = () => {
-  const [todos, setTodos] = useLocalStorage<Todo[]>("todos", []);
+interface MainProps {
+  todos: Todo[];
+  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
+}
+
+const Main: React.FC<MainProps> = ({ todos, setTodos }) => {
   const { inputValue, handleChange } = useInputChange();
 
   const { handleSubmit, error } = useTodoManagement(
