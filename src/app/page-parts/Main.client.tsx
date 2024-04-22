@@ -6,7 +6,7 @@ import useInputChange from "@/components/hooks/useInputChange";
 import useInputValidation from "@/components/hooks/useInputValidation";
 import useHandleSubmit from "@/components/hooks/useHandleSubmit";
 import useCreateTodo from "@/components/hooks/useCreateTodo";
-import useUpdateTodos from "@/components/hooks/useUpdateTodos ";
+import useUpdateTodos from "@/components/hooks/useUpdateTodos";
 
 const Main = () => {
   const [todos, setTodos] = useLocalStorage<Todo[]>("todos", []);
