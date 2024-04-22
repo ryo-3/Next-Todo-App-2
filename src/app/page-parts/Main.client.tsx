@@ -18,18 +18,21 @@ const Main = () => {
 
   return (
     <main>
-      <form onSubmit={handleSubmit} className="flex container mb-4 relative">
+      <form
+        onSubmit={handleSubmit}
+        className="mx-auto flex justify-between w-11/12  mb-4 relative  smd:justify-start"
+      >
         <input
           type="text"
           value={inputValue}
           onChange={handleChange}
           placeholder="入力欄 ..."
-          className="border p-2 rounded mr-2"
+          className="border p-2 rounded mr-2 w-9/12 "
         />
         {error && <div className="error">{error}</div>}
         <button
           type="submit"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className=" bg-emerald-600 text-white font-bold py-2 px-3.5 rounded ss:px-4"
         >
           追加
         </button>
@@ -38,7 +41,7 @@ const Main = () => {
         {todos.map((todo: Todo) => (
           <li
             key={todo.id.toString()}
-            className="container bg-blue-100 p-2 rounded mb-1"
+            className="container bg-emerald-100 p-2 rounded mb-1"
           >
             {todo.text}
           </li>

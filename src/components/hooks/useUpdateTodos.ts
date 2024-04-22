@@ -7,7 +7,7 @@ const useUpdateTodos = (
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 ): { updateTodos: (newTodo: Todo) => void } => {
   const updateTodos = (newTodo: Todo) => {
-    const updatedTodos = [...todos, newTodo];
+    const updatedTodos = [newTodo, ...todos];
     setTodos(updatedTodos);
     handleChange({
       target: { value: "" },

@@ -13,6 +13,11 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      screens: {
+        'sp': '480px', // スマートフォン用のブレークポイント
+        'smd': '600px', // タブレット用のブレークポイント
+        'ss': '375px', // 小さいスマートフォン用のブレークポイント
+      },
     },
   },
   plugins: [],
