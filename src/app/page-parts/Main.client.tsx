@@ -3,25 +3,17 @@ import React from "react";
 import useLocalStorage from "@/components/hooks/useLocalStorage";
 import { Todo } from "@/components/models/interface";
 import useInputChange from "@/components/hooks/useInputChange";
-import useInputValidation from "@/components/hooks/useInputValidation";
-import useHandleSubmit from "@/components/hooks/useHandleSubmit";
-import useCreateTodo from "@/components/hooks/useCreateTodo";
-import useUpdateTodos from "@/components/hooks/useUpdateTodos";
+import useTodoManagement from "@/components/hooks/useTodoManagement";
 
 const Main = () => {
   const [todos, setTodos] = useLocalStorage<Todo[]>("todos", []);
-  const { inputValue, handleChange } = useInputChange(); // useInputChange フックを使用
-  const { validateInput, error } = useInputValidation(
-    (value) => value.trim().length > 0,
-    inputValue
-  );
+  const { inputValue, handleChange } = useInputChange();
 
-  const { createTodo } = useCreateTodo(inputValue);
-  const { updateTodos } = useUpdateTodos(todos, setTodos, handleChange);
-  const { handleSubmit } = useHandleSubmit(
-    validateInput,
-    createTodo,
-    updateTodos
+  const { handleSubmit, error } = useTodoManagement(
+    inputValue,
+    todos,
+    setTodos,
+    handleChange
   );
 
   return (
@@ -44,7 +36,10 @@ const Main = () => {
       </form>
       <ul className="">
         {todos.map((todo: Todo) => (
-          <li key={todo.id.toString()} className=" container bg-blue-100 p-2 rounded mb-1">
+          <li
+            key={todo.id.toString()}
+            className="container bg-blue-100 p-2 rounded mb-1"
+          >
             {todo.text}
           </li>
         ))}
