@@ -1,3 +1,5 @@
+"use client";
+
 // Todoリストの更新
 import { Todo } from "@/components/models/interface";
 

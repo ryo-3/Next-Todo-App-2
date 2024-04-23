@@ -1,4 +1,5 @@
 // 新しいTodoオブジェクト作成
+"use client";
 import { Todo } from '@/components/models/interface';
 
 const useCreateTodo = (inputValue: string) => {

@@ -1,4 +1,4 @@
-// Home.client.tsx
+// app/page.tsx
 "use client";
 import React from "react";
 import Header from "./page-parts/Header";
@@ -7,17 +7,26 @@ import Footer from "./page-parts/Footer";
 import { Todo } from "@/components/models/interface";
 import useLocalStorage from "@/components/client/hooks/useLocalStorage";
 
-const Home: React.FC = () => {
-  const [todos, setTodos] = useLocalStorage<Todo[]>("todos", []);
-  const clearTodos = () => setTodos([]);
+export async function loader() {
+    const res = await fetch('https://api.example.com/todos');
+    const todos: Todo[] = await res.json();
+    return { props: { todos } };  // ここで取得したtodosをpropsとして返す
+}
 
-  return (
-    <div className="w-full bg-green-50">
-      <Header />
-      <Main todos={todos} setTodos={setTodos} />
-      <Footer clearTodos={clearTodos} /> {/* clearTodos 関数を渡す */}
-    </div>
-  );
+interface PageProps {
+    todos: Todo[];
+}
+
+const Page: React.FC<PageProps> = ({ todos }) => {
+    const [clientTodos, setClientTodos] = useLocalStorage<Todo[]>("todos", todos);
+
+    return (
+        <div className="w-full bg-green-50">
+            <Header />
+            <Main todos={clientTodos} setTodos={setClientTodos} />
+            <Footer setTodos={setClientTodos} />
+        </div>
+    );
 };
 
-export default Home;
+export default Page;

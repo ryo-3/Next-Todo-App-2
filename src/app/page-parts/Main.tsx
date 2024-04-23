@@ -1,24 +1,19 @@
-// "use client";
+// Main.tsx
+"use client";
 import React from "react";
 import { Todo } from "@/components/models/interface";
 import useInputChange from "@/components/client/hooks/useInputChange";
 import useTodoManagement from "@/components/client/hooks/useTodoManagement";
-import useLocalStorage from "@/components/client/hooks/useLocalStorage";
 
 interface MainProps {
-  todos: Todo[];
-  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
+    todos: Todo[];
+    setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
 }
 
 const Main: React.FC<MainProps> = ({ todos, setTodos }) => {
-  const { inputValue, handleChange } = useInputChange();
+    const { inputValue, handleChange } = useInputChange();
+    const { handleSubmit, error } = useTodoManagement(inputValue, todos, setTodos, handleChange);
 
-  const { handleSubmit, error } = useTodoManagement(
-    inputValue,
-    todos,
-    setTodos,
-    handleChange
-  );
 
   return (
     <main>
