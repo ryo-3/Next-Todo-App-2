@@ -1,6 +1,5 @@
-// Main.tsx
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Todo } from "@/components/models/interface";
 import useInputChange from "@/components/client/hooks/useInputChange";
 import useTodoManagement from "@/components/client/hooks/useTodoManagement";
@@ -19,11 +18,14 @@ const Main: React.FC<MainProps> = ({ todos, setTodos }) => {
     handleChange
   );
 
+  const [isLoading, setIsLoading] = useState(true);
+
+
   return (
     <main>
       <form
         onSubmit={handleSubmit}
-        className="container  mb-4 relative  smd:justify-start"
+        className="container mb-4 relative smd:justify-start"
       >
         <input
           type="text"
@@ -35,13 +37,13 @@ const Main: React.FC<MainProps> = ({ todos, setTodos }) => {
         {error && <div className="error">{error}</div>}
         <button
           type="submit"
-          className=" bg-emerald-600 text-white font-bold py-2 px-3.5 rounded ss:px-4"
+          className="bg-emerald-600 text-white font-bold py-2 px-3.5 rounded ss:px-4"
         >
           追加
         </button>
       </form>
-      <ul className="">
-        {todos.map((todo: Todo) => (
+      <ul>
+        {todos.map((todo) => (
           <li
             key={todo.id.toString()}
             className="container bg-emerald-100 p-2 rounded mb-1 text-neutral-900"

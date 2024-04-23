@@ -17,7 +17,7 @@ const ClearListButton: React.FC<ClearListButtonProps> = ({ onClear }) => {
       
 
   return (
-    <button onClick={handleClear} className="text-red-500 cursor-pointer">
+    <button onClick={handleClear} className=" text-white  cursor-pointer bg-red-600">
       全削除
     </button>
   );
