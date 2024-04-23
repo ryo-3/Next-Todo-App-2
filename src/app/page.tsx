@@ -1,16 +1,24 @@
 // Page.tsx
 "use client";
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import useInputChange from "@/components/client/hooks/useInputChange";
 import useTodoManagement from "@/components/client/hooks/useTodoManagement";
 import useLocalStorage from "@/components/client/hooks/useLocalStorage";
 import { Todo } from "@/components/models/interface";
 import ClearListButton from "@/components/client/ui/ClearListButton.client";
 
-const Page: React.FC = () => {
+const Page = () => {
   const { inputValue, handleChange } = useInputChange();
   const [todos, setTodos] = useLocalStorage<Todo[]>("todos", []);
   const { handleSubmit, error } = useTodoManagement(inputValue, todos, setTodos, handleChange);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // 擬似的なデータロード時間をシミュレート
+    setTimeout(() => {
+      setLoading(false); // ロード完了
+    }, ); // 1秒後にロード完了とする
+  }, []);
 
   const clearTodos = () => {
     setTodos([]);
@@ -37,17 +45,18 @@ const Page: React.FC = () => {
           追加
         </button>
       </form>
-      <ul>
-        {todos.map((todo) => (
-          <li
-            key={todo.id.toString()}
-            className="container bg-emerald-100 p-2 rounded mb-1 text-neutral-900"
-          >
-            {todo.text}
-          </li>
-        ))}
-      </ul>
-      <ClearListButton onClear={clearTodos} />  
+      {loading ? (
+        <div>Loading...</div>
+      ) : (
+        <ul>
+          {todos.map((todo) => (
+            <li key={todo.id.toString()} className="container bg-emerald-100 p-2 rounded mb-1 text-neutral-900">
+              {todo.text}
+            </li>
+          ))}
+        </ul>
+      )}
+      <ClearListButton onClear={clearTodos} />
     </main>
   );
 };
