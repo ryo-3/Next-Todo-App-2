@@ -3,17 +3,13 @@ import React from "react";
 import Header from "./page-parts/Header";
 import Main from "./page-parts/Main";
 import Footer from "./page-parts/Footer";
-import { Todo } from "@/components/models/interface";
+import { Todo,PageProps } from "@/components/models/interface";
 import useLocalStorage from "@/components/client/hooks/useLocalStorage";
 
 export async function loader() {
   const res = await fetch("https://api.example.com/todos");
   const todos: Todo[] = await res.json();
   return { props: { todos } };
-}
-
-interface PageProps {
-  todos: Todo[];
 }
 
 const Page: React.FC<PageProps> = ({ todos }) => {

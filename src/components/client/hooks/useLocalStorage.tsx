@@ -1,7 +1,6 @@
+// ローカルストレージ
 "use client";
-
 import { useState, useEffect } from "react";
-
 // useLocalStorage フックの定義
 function useLocalStorage<T>(key: string, initialValue: T): [T, React.Dispatch<React.SetStateAction<T>>] {
   const [storedValue, setStoredValue] = useState<T>(() => {

@@ -2,11 +2,7 @@
 "use client";
 import React from "react";
 import ClearListButton from "@/components/client/ui/ClearListButton.client";
-import { Todo } from "@/components/models/interface";
-
-interface FooterProps {
-    setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
-}
+import { FooterProps } from "@/components/models/interface";
 
 const Footer: React.FC<FooterProps> = ({ setTodos }) => {
     const clearTodos = () => setTodos([]);

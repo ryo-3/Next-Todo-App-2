@@ -1,13 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Todo } from "@/components/models/interface";
 import useInputChange from "@/components/client/hooks/useInputChange";
 import useTodoManagement from "@/components/client/hooks/useTodoManagement";
-
-interface MainProps {
-  todos: Todo[];
-  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
-}
+import { MainProps } from "@/components/models/interface";
 
 const Main: React.FC<MainProps> = ({ todos, setTodos }) => {
   const { inputValue, handleChange } = useInputChange();
@@ -17,9 +12,6 @@ const Main: React.FC<MainProps> = ({ todos, setTodos }) => {
     setTodos,
     handleChange
   );
-
-  const [isLoading, setIsLoading] = useState(true);
-
 
   return (
     <main>

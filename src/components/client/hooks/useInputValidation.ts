@@ -1,5 +1,5 @@
+// エラー表示
 "use client";
-
 import { useState, useEffect } from "react";
 
 function useInputValidation(

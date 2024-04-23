@@ -7,13 +7,13 @@
 @media (prefers-color-scheme: dark) {
 }
 body {
+    width: 90%;
+    margin: 0 auto;
+    background-color: rgba(209, 250, 229, 0.2);
 }
-/* .error {
-    position: abuslute;
-} */
 @layer utilities {
   .container {
-    @apply flex justify-between mx-auto;
+    @apply flex justify-between mx-auto ;
   }
   .error {
     @apply text-stone-400 absolute left-20 pl-1 pt-2;

@@ -1,8 +1,6 @@
-"use client";
-
 // Todoリストの更新
+"use client";
 import { Todo } from "@/components/models/interface";
-
 const useUpdateTodos = (
   todos: Todo[],
   setTodos: React.Dispatch<React.SetStateAction<Todo[]>>,

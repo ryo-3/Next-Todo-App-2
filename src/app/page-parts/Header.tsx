@@ -1,4 +1,4 @@
-// src/app/page-parts/header.tsx
+
 const Header = () => {
   return (
     <header>
