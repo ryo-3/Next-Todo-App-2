@@ -3,7 +3,7 @@ import useCreateTodo from "./useCreateTodo";
 import useUpdateTodos from "./useUpdateTodos";
 import useInputValidation from "./useInputValidation";
 import useHandleSubmit from "./useHandleSubmit";
-import { Todo } from "../models/interface";
+import { Todo } from "../../models/interface";
 
 function useTodoManagement(
   inputValue: string,
@@ -19,7 +19,11 @@ function useTodoManagement(
     inputValue
   );
 
-  const { handleSubmit } = useHandleSubmit(validateInput, createTodo, updateTodos);
+  const { handleSubmit } = useHandleSubmit(
+    validateInput,
+    createTodo,
+    updateTodos
+  );
 
   return { handleSubmit, error };
 }

@@ -7,11 +7,14 @@ interface ClearListButtonProps {
 }
 
 const ClearListButton: React.FC<ClearListButtonProps> = ({ onClear }) => {
-  const handleClear = () => {
-    if (window.confirm("リストを全て削除しますか？")) {
-      onClear();
-    }
-  };
+    const handleClear = () => {
+        console.log("handleClear called");
+        if (window.confirm("リストを全て削除しますか？")) {
+          console.log("Clear confirmed");
+          onClear();
+        }
+      };
+      
 
   return (
     <button onClick={handleClear} className="text-red-500 cursor-pointer">

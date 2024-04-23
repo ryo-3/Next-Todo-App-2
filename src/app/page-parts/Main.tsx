@@ -1,9 +1,9 @@
-"use client";
+// "use client";
 import React from "react";
-import useLocalStorage from "@/components/hooks/useLocalStorage";
 import { Todo } from "@/components/models/interface";
-import useInputChange from "@/components/hooks/useInputChange";
-import useTodoManagement from "@/components/hooks/useTodoManagement";
+import useInputChange from "@/components/client/hooks/useInputChange";
+import useTodoManagement from "@/components/client/hooks/useTodoManagement";
+import useLocalStorage from "@/components/client/hooks/useLocalStorage";
 
 interface MainProps {
   todos: Todo[];

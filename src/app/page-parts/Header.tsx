@@ -1,5 +1,4 @@
 // src/app/page-parts/header.tsx
-"use client";
 const Header = () => {
   return (
     <header>
