@@ -17,9 +17,12 @@ const ClearListButton: React.FC<ClearListButtonProps> = ({ onClear }) => {
   };
 
   return (
-    <button onClick={handleClear} className="fixed bottom-10 right-8">
+    <button
+      onClick={handleClear}
+      className="fixed bottom-4 right-4 bg-white w-12 h-12 border border-stone-300 rounded-full flex justify-center items-center"
+    >
       <Image
-        src="/DeleteButton.svg"
+        src="/DeleteButton.png"
         alt="削除"
         width={30}
         height={30}

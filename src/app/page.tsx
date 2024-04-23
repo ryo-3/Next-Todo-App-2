@@ -5,19 +5,15 @@ import useInputChange from "@/components/client/hooks/useInputChange";
 import useTodoManagement from "@/components/client/hooks/useTodoManagement";
 import useLocalStorage from "@/components/client/hooks/useLocalStorage";
 import { Todo } from "@/components/models/interface";
-import Footer from "./page-parts/Footer";
+import ClearListButton from "@/components/client/ui/ClearListButton.client";
+
 const Page: React.FC = () => {
   const { inputValue, handleChange } = useInputChange();
   const [todos, setTodos] = useLocalStorage<Todo[]>("todos", []);
-  const { handleSubmit, error } = useTodoManagement(
-    inputValue,
-    todos,
-    setTodos,
-    handleChange
-  );
+  const { handleSubmit, error } = useTodoManagement(inputValue, todos, setTodos, handleChange);
 
   const clearTodos = () => {
-    setTodos([]); 
+    setTodos([]);
   };
 
   return (
@@ -51,8 +47,7 @@ const Page: React.FC = () => {
           </li>
         ))}
       </ul>
-
-      <Footer onClear={clearTodos} />
+      <ClearListButton onClear={clearTodos} />  
     </main>
   );
 };
