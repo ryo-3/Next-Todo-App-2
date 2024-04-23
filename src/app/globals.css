@@ -13,7 +13,7 @@ body {
 } */
 @layer utilities {
   .container {
-    @apply flex justify-between w-11/12  mx-auto;
+    @apply flex justify-between mx-auto;
   }
   .error {
     @apply text-stone-400 absolute left-20 pl-1 pt-2;

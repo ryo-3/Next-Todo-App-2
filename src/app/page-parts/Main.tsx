@@ -6,27 +6,31 @@ import useInputChange from "@/components/client/hooks/useInputChange";
 import useTodoManagement from "@/components/client/hooks/useTodoManagement";
 
 interface MainProps {
-    todos: Todo[];
-    setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
+  todos: Todo[];
+  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
 }
 
 const Main: React.FC<MainProps> = ({ todos, setTodos }) => {
-    const { inputValue, handleChange } = useInputChange();
-    const { handleSubmit, error } = useTodoManagement(inputValue, todos, setTodos, handleChange);
-
+  const { inputValue, handleChange } = useInputChange();
+  const { handleSubmit, error } = useTodoManagement(
+    inputValue,
+    todos,
+    setTodos,
+    handleChange
+  );
 
   return (
     <main>
       <form
         onSubmit={handleSubmit}
-        className="mx-auto flex justify-between w-11/12  mb-4 relative  smd:justify-start"
+        className="container  mb-4 relative  smd:justify-start"
       >
         <input
           type="text"
           value={inputValue}
           onChange={handleChange}
           placeholder="入力欄 ..."
-          className="border p-2 rounded mr-2 w-9/12 "
+          className="border p-2 rounded mr-2 w-9/12 focus:outline-none focus:border-green-800"
         />
         {error && <div className="error">{error}</div>}
         <button
@@ -40,7 +44,7 @@ const Main: React.FC<MainProps> = ({ todos, setTodos }) => {
         {todos.map((todo: Todo) => (
           <li
             key={todo.id.toString()}
-            className="container bg-emerald-100 p-2 rounded mb-1"
+            className="container bg-emerald-100 p-2 rounded mb-1 text-neutral-900"
           >
             {todo.text}
           </li>

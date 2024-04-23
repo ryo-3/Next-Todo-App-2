@@ -21,7 +21,7 @@ const Page: React.FC<PageProps> = ({ todos }) => {
     const [clientTodos, setClientTodos] = useLocalStorage<Todo[]>("todos", todos);
 
     return (
-        <div className="w-full bg-green-50">
+        <div className="w-full bg-green-50 h-screen">
             <Header />
             <Main todos={clientTodos} setTodos={setClientTodos} />
             <Footer setTodos={setClientTodos} />
