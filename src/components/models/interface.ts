@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 export interface Todo {
   id: number;
   text: string;
@@ -10,13 +12,13 @@ export interface TodoFormProps {
 
 export interface MainProps {
   todos: Todo[];
-  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
+  setTodos: Dispatch<SetStateAction<Todo[]>>;
 }
 
 export interface FooterProps {
   setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
 }
 
-export interface PageProps {
-  todos: Todo[];
-}
+// export interface PageProps {
+//   todos: Todo[];
+// }
