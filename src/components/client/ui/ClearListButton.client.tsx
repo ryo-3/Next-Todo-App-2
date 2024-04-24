@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import { ClearListButtonProps } from "@/components/models/interface"; // 必要に応じてインポート
+import { ClearListButtonProps } from "@/components/models/interface";
 
 const ClearListButton: React.FC<ClearListButtonProps> = ({
   todos,
@@ -31,7 +31,7 @@ const ClearListButton: React.FC<ClearListButtonProps> = ({
   const handleMouseLeave = () => setIsHovered(false);
 
   const getImageSrc = () => {
-    return isHovered ? "/DeleteButtonActive.png" : "/DeleteButton.png";
+    return "/DeleteButton.png";
   };
 
   return (
