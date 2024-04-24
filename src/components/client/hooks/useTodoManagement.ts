@@ -1,11 +1,11 @@
-// 関数やデータを組み合わせて、ToDo管理に必要な機能をまとめてる
+// useTodoManagement フック
 "use client";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
+import { Todo } from "../../models/interface";
 import useCreateTodo from "./useCreateTodo";
 import useUpdateTodos from "./useUpdateTodos";
 import useInputValidation from "./useInputValidation";
 import useHandleSubmit from "./useHandleSubmit";
-import { Todo } from "../../models/interface";
 
 function useTodoManagement(
   inputValue: string,
@@ -13,21 +13,26 @@ function useTodoManagement(
   setTodos: Dispatch<SetStateAction<Todo[]>>,
   handleChange: React.ChangeEventHandler<HTMLInputElement>
 ) {
-  const { createTodo } = useCreateTodo(inputValue);
-  const { updateTodos } = useUpdateTodos(todos, setTodos, handleChange);
+    const [selectedId, setSelectedId] = useState<number | null>(null);
+    const { createTodo } = useCreateTodo(inputValue);
+    const { updateTodos } = useUpdateTodos(todos, setTodos, handleChange);
+    const { validateInput, error } = useInputValidation(
+      (value: string) => value.trim().length > 0,
+      inputValue
+    );
 
-  const { validateInput, error } = useInputValidation(
-    (value: string) => value.trim().length > 0,
-    inputValue
-  );
+    const { handleSubmit } = useHandleSubmit(
+      validateInput,
+      createTodo,
+      updateTodos
+    );
 
-  const { handleSubmit } = useHandleSubmit(
-    validateInput,
-    createTodo,
-    updateTodos
-  );
+    const handleSelect = (id: number) => {
+      setSelectedId(id === selectedId ? null : id); // Toggle select/deselect
+      console.log("Selected ID:", id); // コンソールログを追加
+    };
 
-  return { handleSubmit, error };
+    return { handleSubmit, handleSelect, selectedId, error };
 }
 
 export default useTodoManagement;

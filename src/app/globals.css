@@ -32,10 +32,9 @@ body {
 .brown {
     color: #5e3425;
 }
-
-.error {
-
-}
+.selected {
+    background-color: #e3f7ed; /* 背景色をグレーに設定 */
+  }
 
 @layer utilities {
   /* ._container {
