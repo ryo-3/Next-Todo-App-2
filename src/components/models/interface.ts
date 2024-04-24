@@ -19,6 +19,8 @@ export interface FooterProps {
   setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
 }
 
-// export interface PageProps {
-//   todos: Todo[];
-// }
+export interface ClearListButtonProps {
+  todos: Todo[];
+  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
+  isTodoCompleted: boolean;
+}

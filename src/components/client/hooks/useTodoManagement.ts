@@ -5,12 +5,15 @@ import useUpdateTodos from "./useUpdateTodos";
 import useInputValidation from "./useInputValidation";
 import useHandleSubmit from "./useHandleSubmit";
 import useLocalStorage from "./useLocalStorage";
-import useInputChange from "./useInputChange"; // useInputChange フックをインポート
+import useInputChange from "./useInputChange";
+import useToggleTodoComplete from "./useToggleTodoComplete"; // 新しいフックをインポート
+import useSelectTodo from "./useSelectTodo"; // 新しいフックをインポート
 
 function useTodoManagement() {
-  const { inputValue, handleChange } = useInputChange(); // useInputChange フックを使用
+  const { inputValue, handleChange } = useInputChange();
   const [todos, setTodos] = useLocalStorage<Todo[]>("todos", []);
-  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const { selectedId, handleSelect } = useSelectTodo();
+  const { toggleTodoComplete } = useToggleTodoComplete(todos, setTodos);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -30,20 +33,6 @@ function useTodoManagement() {
     createTodo,
     updateTodos
   );
-
-  const handleSelect = (id: number) => {
-    setSelectedId(id === selectedId ? null : id);
-  };
-
-  const toggleTodoComplete = (id: number) => {
-    const updatedTodos = todos.map((todo) => {
-      if (todo.id === id) {
-        return { ...todo, completed: !todo.completed };
-      }
-      return todo;
-    });
-    setTodos(updatedTodos);
-  };
 
   return {
     inputValue,
