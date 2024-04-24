@@ -3,22 +3,25 @@
 import React, { useState, useEffect } from "react";
 import useTodoManagement from "@/components/client/hooks/useTodoManagement";
 import ClearListButton from "@/components/client/ui/ClearListButton.client";
+import UndoListButton from "@/components/client/ui/UndoListButton.client";
+import { TodoProvider } from "@/components/client/context/TodoContext";
 
 const Page = () => {
-    const {
-        inputValue,
-        handleChange,
-        todos,
-        setTodos,
-        handleSubmit,
-        error,
-        handleSelect,
-        selectedId,
-        toggleTodoComplete,
-        loading,
-      } = useTodoManagement();
+  const {
+    inputValue,
+    handleChange,
+    todos,
+    setTodos,
+    handleSubmit,
+    error,
+    handleSelect,
+    selectedId,
+    toggleTodoComplete,
+    loading,
+  } = useTodoManagement();
 
   return (
+    <TodoProvider>
     <main>
       <form
         onSubmit={handleSubmit}
@@ -74,8 +77,9 @@ const Page = () => {
         setTodos={setTodos}
         isTodoCompleted={todos.some((todo) => todo.completed)}
       />
-      
+      <UndoListButton />
     </main>
+    </TodoProvider>
   );
 };
 
