@@ -1,25 +1,35 @@
-// ClearListButton.tsx
 import React, { useState } from "react";
 import Image from "next/image";
+import { Todo } from "@/components/models/interface"; // 必要に応じてインポート
 
 interface ClearListButtonProps {
-  onClear: (onlyCompleted: boolean) => void; // onClearにパラメータを追加
+  todos: Todo[];
+  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
   isTodoCompleted: boolean;
 }
 
 const ClearListButton: React.FC<ClearListButtonProps> = ({
-  onClear,
+  todos,
+  setTodos,
   isTodoCompleted,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
+
+  const clearTodos = (onlyCompleted: boolean) => {
+    if (onlyCompleted) {
+      const filteredTodos = todos.filter(todo => !todo.completed);
+      setTodos(filteredTodos);
+    } else {
+      setTodos([]);
+    }
+  };
 
   const handleClear = () => {
     const message = isTodoCompleted
       ? "選択したリストを削除しますか？"
       : "リストを全て削除しますか？";
-
     if (window.confirm(message)) {
-      onClear(isTodoCompleted);
+      clearTodos(isTodoCompleted);
     }
   };
 
@@ -27,8 +37,7 @@ const ClearListButton: React.FC<ClearListButtonProps> = ({
   const handleMouseLeave = () => setIsHovered(false);
 
   const getImageSrc = () => {
-    // isTodoCompletedがtrueの場合は常にアクティブなアイコンを表示
-      return isHovered ? "/DeleteButtonActive.png" : "/DeleteButton.png";
+    return isHovered ? "/DeleteButtonActive.png" : "/DeleteButton.png";
   };
 
   return (

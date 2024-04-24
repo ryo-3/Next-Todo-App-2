@@ -4,20 +4,22 @@ import useCreateTodo from "./useCreateTodo";
 import useUpdateTodos from "./useUpdateTodos";
 import useInputValidation from "./useInputValidation";
 import useHandleSubmit from "./useHandleSubmit";
+import useLocalStorage from "./useLocalStorage"; // useLocalStorage をインポート
 
 function useTodoManagement(
   inputValue: string,
-  todos: Todo[],
-  setTodos: Dispatch<SetStateAction<Todo[]>>,
   handleChange: React.ChangeEventHandler<HTMLInputElement>
 ) {
+  // useLocalStorage フックを使用して todos と setTodos を取得
+  const [todos, setTodos] = useLocalStorage<Todo[]>("todos", []);
+
   const [selectedId, setSelectedId] = useState<number | null>(null);
-  const [loading, setLoading] = useState(true);  // ローディング状態を管理するためのステートを追加
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // 仮のデータフェッチまたは初期化処理を想定
+    // データフェッチまたは初期化処理
     setTimeout(() => {
-      setLoading(false);  // データフェッチが完了したらローディングをfalseに
+      setLoading(false);
     }, 200);
   }, []);
 
@@ -47,7 +49,8 @@ function useTodoManagement(
     setTodos(updatedTodos);
   };
 
-  return { handleSubmit, handleSelect, toggleTodoComplete, selectedId, error, loading };
+  // todos と setTodos を返すことで、これらの値をコンポーネントで使用できるようにする
+  return { todos, setTodos, handleSubmit, handleSelect, toggleTodoComplete, selectedId, error, loading };
 }
 
 export default useTodoManagement;
