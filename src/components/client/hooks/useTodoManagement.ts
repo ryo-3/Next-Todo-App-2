@@ -1,13 +1,14 @@
-import { Dispatch, SetStateAction, useState, useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Todo } from "../../models/interface";
 import useCreateTodo from "./useCreateTodo";
 import useUpdateTodos from "./useUpdateTodos";
 import useInputValidation from "./useInputValidation";
 import useHandleSubmit from "./useHandleSubmit";
 import useLocalStorage from "./useLocalStorage";
+import useInputChange from "./useInputChange"; // useInputChange フックをインポート
 
 function useTodoManagement() {
-  const [inputValue, setInputValue] = useState<string>("");
+  const { inputValue, handleChange } = useInputChange(); // useInputChange フックを使用
   const [todos, setTodos] = useLocalStorage<Todo[]>("todos", []);
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
@@ -17,10 +18,6 @@ function useTodoManagement() {
       setLoading(false);
     }, 200);
   }, []);
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setInputValue(event.target.value);
-  };
 
   const { createTodo } = useCreateTodo(inputValue);
   const { updateTodos } = useUpdateTodos(todos, setTodos, handleChange);
