@@ -24,3 +24,9 @@ export interface ClearListButtonProps {
   setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
   isTodoCompleted: boolean;
 }
+
+export interface ClearListButtonProps {
+  todos: Todo[];
+  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
+  isTodoCompleted: boolean;
+}
