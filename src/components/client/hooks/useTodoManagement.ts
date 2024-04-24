@@ -4,24 +4,23 @@ import useCreateTodo from "./useCreateTodo";
 import useUpdateTodos from "./useUpdateTodos";
 import useInputValidation from "./useInputValidation";
 import useHandleSubmit from "./useHandleSubmit";
-import useLocalStorage from "./useLocalStorage"; // useLocalStorage をインポート
+import useLocalStorage from "./useLocalStorage";
 
-function useTodoManagement(
-  inputValue: string,
-  handleChange: React.ChangeEventHandler<HTMLInputElement>
-) {
-  // useLocalStorage フックを使用して todos と setTodos を取得
+function useTodoManagement() {
+  const [inputValue, setInputValue] = useState<string>("");
   const [todos, setTodos] = useLocalStorage<Todo[]>("todos", []);
-
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // データフェッチまたは初期化処理
     setTimeout(() => {
       setLoading(false);
     }, 200);
   }, []);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setInputValue(event.target.value);
+  };
 
   const { createTodo } = useCreateTodo(inputValue);
   const { updateTodos } = useUpdateTodos(todos, setTodos, handleChange);
@@ -49,8 +48,18 @@ function useTodoManagement(
     setTodos(updatedTodos);
   };
 
-  // todos と setTodos を返すことで、これらの値をコンポーネントで使用できるようにする
-  return { todos, setTodos, handleSubmit, handleSelect, toggleTodoComplete, selectedId, error, loading };
+  return {
+    inputValue,
+    handleChange,
+    todos,
+    setTodos,
+    handleSubmit,
+    handleSelect,
+    toggleTodoComplete,
+    selectedId,
+    error,
+    loading,
+  };
 }
 
 export default useTodoManagement;

@@ -1,22 +1,22 @@
 // Page.tsx
 "use client";
 import React, { useState, useEffect } from "react";
-import useInputChange from "@/components/client/hooks/useInputChange";
 import useTodoManagement from "@/components/client/hooks/useTodoManagement";
 import ClearListButton from "@/components/client/ui/ClearListButton.client";
 
 const Page = () => {
-  const { inputValue, handleChange } = useInputChange();
-  const {
-    todos,
-    setTodos,
-    handleSubmit,
-    error,
-    handleSelect,
-    selectedId,
-    toggleTodoComplete,
-    loading,
-  } = useTodoManagement(inputValue, handleChange);
+    const {
+        inputValue,
+        handleChange,
+        todos,
+        setTodos,
+        handleSubmit,
+        error,
+        handleSelect,
+        selectedId,
+        toggleTodoComplete,
+        loading,
+      } = useTodoManagement();
 
   return (
     <main>
