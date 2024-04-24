@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback,useEffect, useState } from "react";
 import { Todo } from "../../models/interface";
 import useCreateTodo from "./useCreateTodo";
 import useUpdateTodos from "./useUpdateTodos";
@@ -34,6 +34,15 @@ function useTodoManagement() {
     updateTodos
   );
 
+  const removeItem = useCallback(
+    (index: number) => {
+      const newTodos = [...todos];
+      newTodos.splice(index, 1);
+      setTodos(newTodos);
+    },
+    [todos]
+  );
+
   return {
     inputValue,
     handleChange,
@@ -45,6 +54,7 @@ function useTodoManagement() {
     selectedId,
     error,
     loading,
+    removeItem,
   };
 }
 

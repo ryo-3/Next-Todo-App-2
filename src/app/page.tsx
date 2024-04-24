@@ -74,6 +74,7 @@ const Page = () => {
         setTodos={setTodos}
         isTodoCompleted={todos.some((todo) => todo.completed)}
       />
+      
     </main>
   );
 };
