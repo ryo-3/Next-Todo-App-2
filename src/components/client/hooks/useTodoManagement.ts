@@ -1,6 +1,4 @@
-// useTodoManagement フック
-"use client";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { Todo } from "../../models/interface";
 import useCreateTodo from "./useCreateTodo";
 import useUpdateTodos from "./useUpdateTodos";
@@ -14,13 +12,21 @@ function useTodoManagement(
   handleChange: React.ChangeEventHandler<HTMLInputElement>
 ) {
   const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [loading, setLoading] = useState(true);  // ローディング状態を管理するためのステートを追加
+
+  useEffect(() => {
+    // 仮のデータフェッチまたは初期化処理を想定
+    setTimeout(() => {
+      setLoading(false);  // データフェッチが完了したらローディングをfalseに
+    }, 200);
+  }, []);
+
   const { createTodo } = useCreateTodo(inputValue);
   const { updateTodos } = useUpdateTodos(todos, setTodos, handleChange);
   const { validateInput, error } = useInputValidation(
     (value: string) => value.trim().length > 0,
     inputValue
   );
-
   const { handleSubmit } = useHandleSubmit(
     validateInput,
     createTodo,
@@ -28,9 +34,9 @@ function useTodoManagement(
   );
 
   const handleSelect = (id: number) => {
-    setSelectedId(id === selectedId ? null : id); // Toggle select/deselect
-    console.log("Selected ID:", id); // コンソールログを追加
+    setSelectedId(id === selectedId ? null : id);
   };
+
   const toggleTodoComplete = (id: number) => {
     const updatedTodos = todos.map((todo) => {
       if (todo.id === id) {
@@ -41,7 +47,7 @@ function useTodoManagement(
     setTodos(updatedTodos);
   };
 
-  return { handleSubmit, handleSelect, toggleTodoComplete, selectedId, error };
+  return { handleSubmit, handleSelect, toggleTodoComplete, selectedId, error, loading };
 }
 
 export default useTodoManagement;

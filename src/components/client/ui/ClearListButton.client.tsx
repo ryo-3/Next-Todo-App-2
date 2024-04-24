@@ -28,12 +28,7 @@ const ClearListButton: React.FC<ClearListButtonProps> = ({
 
   const getImageSrc = () => {
     // isTodoCompletedがtrueの場合は常にアクティブなアイコンを表示
-    if (isTodoCompleted) {
-      return "/DeleteButtonActive.png";
-    } else {
-      // ホバー状態によってアイコンを切り替え
       return isHovered ? "/DeleteButtonActive.png" : "/DeleteButton.png";
-    }
   };
 
   return (

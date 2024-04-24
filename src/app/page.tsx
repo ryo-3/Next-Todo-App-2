@@ -10,17 +10,12 @@ import ClearListButton from "@/components/client/ui/ClearListButton.client";
 const Page = () => {
   const { inputValue, handleChange } = useInputChange();
   const [todos, setTodos] = useLocalStorage<Todo[]>("todos", []);
-  const { handleSubmit, error, handleSelect, selectedId, toggleTodoComplete } = useTodoManagement(
+  const { handleSubmit, error, handleSelect, selectedId, toggleTodoComplete, loading } = useTodoManagement(
     inputValue,
     todos,
     setTodos,
     handleChange
   );
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => setLoading(false), 200);
-  }, []);
 
   const clearTodos = (onlyCompleted = false) => {
     if (onlyCompleted) {
