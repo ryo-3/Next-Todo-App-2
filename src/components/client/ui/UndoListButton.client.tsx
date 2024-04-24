@@ -1,25 +1,16 @@
-// components/client/ui/UndoListButton.client.tsx
-import React, { useState } from 'react';
-import { Todo } from '@/components/models/interface';
+// src/components/client/ui/UndoListButton.client.tsx
+import React, { useContext } from "react";
+import { TodoContext } from "../context/TodoContext"; // TodoContext のインポート
 
-interface UndoListButtonProps {
-  todos: Todo[];
-  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
-}
-
-const UndoListButton: React.FC<UndoListButtonProps> = ({ todos, setTodos }) => {
-  const [deletedItems, setDeletedItems] = useState<Todo[]>([]);
-
-  const removeItem = (index: number) => {
-    const removedItem = todos.splice(index, 1)[0];
-    setDeletedItems((prevDeletedItems) => [...prevDeletedItems, removedItem]);
-  };
+const UndoListButton = () => {
+  const { deletedItems, setDeletedItems, todos, setTodos } = useContext(TodoContext);
 
   const undoRemoval = () => {
     if (deletedItems.length > 0) {
-      const restoredItem = deletedItems.pop();
-      if (restoredItem) {
-        setTodos((prevTodos) => [...prevTodos, restoredItem]);
+      const restoredItem = deletedItems.pop(); // 最後のアイテムを取り出す
+      if (restoredItem) { // restoredItem が undefined でないことを確認
+        setTodos([...todos, restoredItem]); // todos に復元
+        setDeletedItems([...deletedItems]); // deletedItems 更新
       }
     }
   };

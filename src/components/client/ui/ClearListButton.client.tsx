@@ -3,6 +3,7 @@ import Image from "next/image";
 import { ClearListButtonProps } from "@/components/models/interface";
 import Modal from "./Modal";
 
+
 const ClearListButton: React.FC<ClearListButtonProps> = ({
   todos,
   setTodos,
