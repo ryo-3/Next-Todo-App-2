@@ -30,11 +30,17 @@ body {
   font-style: normal;
 }
 .brown {
-    color: #5e3425;
+  color: #5e3425;
 }
 .selected {
-    background-color: #e3f7ed; /* 背景色をグレーに設定 */
-  }
+  background-color: #e3f7ed; /* 背景色をグレーに設定 */
+}
+.listItem {
+    width: 87%;
+}
+/* input[type="checkbox"] {
+  accent-color: #5e3425; 
+} */
 
 @layer utilities {
   /* ._container {
@@ -44,6 +50,6 @@ body {
     @apply text-stone-400 absolute top-0 left-20 pl-1 pt-2.5;
   }
   .Todolist {
-    @apply  bg-emerald-100 p-2 rounded mb-1 text-neutral-900
+    @apply bg-emerald-100 py-2 pl-2 rounded mb-2 text-neutral-900;
   }
 }

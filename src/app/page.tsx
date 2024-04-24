@@ -22,12 +22,17 @@ const Page = () => {
     setTimeout(() => setLoading(false), 200);
   }, []);
 
-  const clearTodos = () => setTodos([]);
-  const isAnyTodoCompleted = todos.some(todo => todo.completed);
-
+  const clearTodos = (onlyCompleted = false) => {
+    if (onlyCompleted) {
+      const filteredTodos = todos.filter(todo => !todo.completed);
+      setTodos(filteredTodos);
+    } else {
+      setTodos([]);
+    }
+  };
   return (
     <main>
-      <form onSubmit={handleSubmit} className="mb-4 relative flex justify-between smd:justify-start">
+      <form onSubmit={handleSubmit} className="mb-5 relative flex justify-between smd:justify-start">
         <input type="text" value={inputValue} onChange={handleChange}
           placeholder="入力欄 ..." className="border-2 p-2 rounded mr-2 w-9/12 focus:outline-none focus:border-yellow-950"/>
         {error && <div className="error">{error}</div>}
@@ -38,18 +43,20 @@ const Page = () => {
           {todos.map((todo) => (
             <li key={todo.id} className={`Todolist flex justify-between items-center ${selectedId === todo.id ? "selected" : ""}`}
                 onClick={() => handleSelect(todo.id)}>
-              {todo.text}
-              <input
-                type="checkbox"
-                checked={todo.completed}
-                onChange={() => toggleTodoComplete(todo.id)}
-                className="mr-1 align-middle h-5 w-5"
-              />
+              <span className='listItem'>{todo.text}</span>
+              <div onClick={(e) => e.stopPropagation()} className="h-6 w-6 mr-3"> {/* Prevent event propagation */}
+                <input
+                  type="checkbox"
+                  checked={todo.completed}
+                  onChange={() => toggleTodoComplete(todo.id)}
+                  className=" align-middle h-7 w-7 accent-green-900"
+                />
+              </div>
             </li>
           ))}
         </ul>
       )}
-       <ClearListButton onClear={clearTodos} isTodoCompleted={isAnyTodoCompleted} />
+      <ClearListButton onClear={clearTodos} isTodoCompleted={todos.some(todo => todo.completed)} />
     </main>
   );
 };
