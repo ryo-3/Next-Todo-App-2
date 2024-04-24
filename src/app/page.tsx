@@ -35,7 +35,7 @@ const Page = () => {
           value={inputValue}
           onChange={handleChange}
           placeholder="入力欄 ..."
-          className="border p-2 rounded mr-2 w-9/12 focus:outline-none focus:border-green-800"
+          className="border-2 p-2 rounded mr-2 w-9/12 focus:outline-none focus:border-yellow-950"
         />
         {error && <div className="error">{error}</div>}
         <button

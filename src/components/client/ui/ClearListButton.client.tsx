@@ -24,8 +24,8 @@ const ClearListButton: React.FC<ClearListButtonProps> = ({ onClear }) => {
       <Image
         src="/DeleteButton.png"
         alt="削除"
-        width={30}
-        height={30}
+        width={22}
+        height={22}
         priority // この画像をページロード時に優先的に読み込む
       />
     </button>
