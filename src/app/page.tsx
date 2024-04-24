@@ -17,7 +17,7 @@ const Page = () => {
     // 擬似的なデータロード時間をシミュレート
     setTimeout(() => {
       setLoading(false); // ロード完了
-    }, ); // 1秒後にロード完了とする
+    }, 200); // 1秒後にロード完了とする
   }, []);
 
   const clearTodos = () => {
@@ -46,11 +46,11 @@ const Page = () => {
         </button>
       </form>
       {loading ? (
-        <div>Loading...</div>
+        <div className='text-stone-500'>リスト読み込み中...</div>
       ) : (
         <ul>
           {todos.map((todo) => (
-            <li key={todo.id.toString()} className="container bg-emerald-100 p-2 rounded mb-1 text-neutral-900">
+            <li key={todo.id.toString()} className="container Todolist">
               {todo.text}
             </li>
           ))}
