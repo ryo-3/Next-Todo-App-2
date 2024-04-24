@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { ClearListButtonProps } from "@/components/models/interface";
 import Modal from "./Modal";
-
+import { useTodoContext } from "../context/TodoContext";
 
 const ClearListButton: React.FC<ClearListButtonProps> = ({
   todos,
@@ -10,8 +10,14 @@ const ClearListButton: React.FC<ClearListButtonProps> = ({
   isTodoCompleted,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { deletedItems, setDeletedItems } = useTodoContext();
 
   const clearTodos = (onlyCompleted: boolean) => {
+    const deletedTodos = todos.filter((todo) =>
+      onlyCompleted ? todo.completed : true
+    );
+    setDeletedItems([...deletedItems, ...deletedTodos]);
+
     if (onlyCompleted) {
       const filteredTodos = todos.filter((todo) => !todo.completed);
       setTodos(filteredTodos);
@@ -45,7 +51,10 @@ const ClearListButton: React.FC<ClearListButtonProps> = ({
       >
         <Image src={getImageSrc()} alt="削除" width={27} height={27} priority />
       </button>
-      <Modal isOpen={!isTodoCompleted && isModalOpen} onClose={() => setIsModalOpen(false)}>
+      <Modal
+        isOpen={!isTodoCompleted && isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      >
         <p>リストを全て削除しますか？</p>
         <div className="flex justify-center mt-3">
           <button
