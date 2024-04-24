@@ -13,26 +13,35 @@ function useTodoManagement(
   setTodos: Dispatch<SetStateAction<Todo[]>>,
   handleChange: React.ChangeEventHandler<HTMLInputElement>
 ) {
-    const [selectedId, setSelectedId] = useState<number | null>(null);
-    const { createTodo } = useCreateTodo(inputValue);
-    const { updateTodos } = useUpdateTodos(todos, setTodos, handleChange);
-    const { validateInput, error } = useInputValidation(
-      (value: string) => value.trim().length > 0,
-      inputValue
-    );
+  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const { createTodo } = useCreateTodo(inputValue);
+  const { updateTodos } = useUpdateTodos(todos, setTodos, handleChange);
+  const { validateInput, error } = useInputValidation(
+    (value: string) => value.trim().length > 0,
+    inputValue
+  );
 
-    const { handleSubmit } = useHandleSubmit(
-      validateInput,
-      createTodo,
-      updateTodos
-    );
+  const { handleSubmit } = useHandleSubmit(
+    validateInput,
+    createTodo,
+    updateTodos
+  );
 
-    const handleSelect = (id: number) => {
-      setSelectedId(id === selectedId ? null : id); // Toggle select/deselect
-      console.log("Selected ID:", id); // コンソールログを追加
-    };
+  const handleSelect = (id: number) => {
+    setSelectedId(id === selectedId ? null : id); // Toggle select/deselect
+    console.log("Selected ID:", id); // コンソールログを追加
+  };
+  const toggleTodoComplete = (id: number) => {
+    const updatedTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        return { ...todo, completed: !todo.completed };
+      }
+      return todo;
+    });
+    setTodos(updatedTodos);
+  };
 
-    return { handleSubmit, handleSelect, selectedId, error };
+  return { handleSubmit, handleSelect, toggleTodoComplete, selectedId, error };
 }
 
 export default useTodoManagement;

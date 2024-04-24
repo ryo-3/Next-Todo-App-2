@@ -10,7 +10,7 @@ import ClearListButton from "@/components/client/ui/ClearListButton.client";
 const Page = () => {
   const { inputValue, handleChange } = useInputChange();
   const [todos, setTodos] = useLocalStorage<Todo[]>("todos", []);
-  const { handleSubmit, error, handleSelect, selectedId } = useTodoManagement(
+  const { handleSubmit, error, handleSelect, selectedId, toggleTodoComplete } = useTodoManagement(
     inputValue,
     todos,
     setTodos,
@@ -23,6 +23,7 @@ const Page = () => {
   }, []);
 
   const clearTodos = () => setTodos([]);
+  const isAnyTodoCompleted = todos.some(todo => todo.completed);
 
   return (
     <main>
@@ -35,14 +36,20 @@ const Page = () => {
       {loading ? <div className='text-stone-500'>リスト読み込み中...</div> : (
         <ul>
           {todos.map((todo) => (
-            <li key={todo.id} className={`Todolist ${selectedId === todo.id ? "selected" : ""}`}
+            <li key={todo.id} className={`Todolist flex justify-between items-center ${selectedId === todo.id ? "selected" : ""}`}
                 onClick={() => handleSelect(todo.id)}>
               {todo.text}
+              <input
+                type="checkbox"
+                checked={todo.completed}
+                onChange={() => toggleTodoComplete(todo.id)}
+                className="mr-1 align-middle h-5 w-5"
+              />
             </li>
           ))}
         </ul>
       )}
-      <ClearListButton onClear={clearTodos} />
+       <ClearListButton onClear={clearTodos} isTodoCompleted={isAnyTodoCompleted} />
     </main>
   );
 };
