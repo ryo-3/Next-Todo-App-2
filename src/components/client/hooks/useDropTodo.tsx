@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { DragDropContext, Droppable, Draggable, DropResult } from "@hello-pangea/dnd";
+import {  DropResult } from "@hello-pangea/dnd";
 import { Todo } from "@/components/models/interface"; // 仮定のパス
 
 type SetTodos = Dispatch<SetStateAction<Todo[]>>;
