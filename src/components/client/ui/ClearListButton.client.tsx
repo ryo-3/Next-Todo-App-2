@@ -44,7 +44,7 @@ const ClearListButton: React.FC<ClearListButtonProps> = ({
     <>
       <button
         onClick={handleClear}
-        className="fixed bottom-4 right-4 bg-white w-14 h-14 border border-stone-300 rounded-full flex justify-center items-center"
+        className="fixed z-10 bottom-60 right-4 bg-white w-14 h-14 border border-stone-300 rounded-full flex justify-center items-center"
       >
         <Image src={getImageSrc()} alt="Delete" width={32} height={32} priority />
       </button>

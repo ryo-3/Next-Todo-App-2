@@ -32,7 +32,7 @@ const UndoListButton: React.FC<UndoListButtonProps> = ({
   return (
     <button
       onClick={undoRemoval}
-      className="fixed bottom-4 right-20 bg-white w-14 h-14 border border-stone-300 rounded-full flex justify-center items-center"
+      className="fixed z-10 bottom-60 right-20 bg-white w-14 h-14 border border-stone-300 rounded-full flex justify-center items-center"
     >
       <Image src={"/DeleteButtonUp.png"} alt="削除" width={32} height={32} priority />
     </button>
