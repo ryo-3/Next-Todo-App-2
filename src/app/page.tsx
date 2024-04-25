@@ -26,7 +26,10 @@ const Page = () => {
   return (
     <TodoProvider>
       <main>
-        <form onSubmit={handleSubmit} className="mb-5 relative flex justify-between smd:justify-start">
+        <form
+          onSubmit={handleSubmit}
+          className="mb-5 relative flex justify-between smd:justify-start"
+        >
           <input
             type="text"
             value={inputValue}
@@ -35,22 +38,30 @@ const Page = () => {
             className="border-2 py-2 pl-3 rounded mr-2 w-9/12 focus:outline-none focus:border-yellow-950"
           />
           {error && <div className="error">{error}</div>}
-          <button type="submit" className="bg-emerald-600 text-white font-bold py-2 px-3.5 rounded ss:px-4">
+          <button
+            type="submit"
+            className="bg-emerald-600 text-white font-bold py-2 px-3.5 rounded ss:px-4"
+          >
             追加
           </button>
         </form>
         {loading ? (
           <div className="text-stone-500">リスト読み込み中...</div>
         ) : (
-          <ul>
+          <ul className="pb-20">
             {todos.map((todo) => (
               <li
                 key={todo.id}
-                className={`Todolist flex justify-between items-center ${selectedId === todo.id ? "selected" : ""}`}
+                className={`Todolist flex justify-between items-center ${
+                  selectedId === todo.id ? "selected" : ""
+                }`}
                 onClick={() => handleSelect(todo.id)}
               >
                 <span className="listItem">{todo.text}</span>
-                <div onClick={(e) => e.stopPropagation()} className="h-6 w-6 mr-3">
+                <div
+                  onClick={(e) => e.stopPropagation()}
+                  className="h-6 w-6 mr-3"
+                >
                   <input
                     type="checkbox"
                     checked={todo.completed}
