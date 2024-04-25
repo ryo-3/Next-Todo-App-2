@@ -5,6 +5,12 @@ export interface Todo {
   text: string;
   completed: boolean;
 }
+// Todoリストを更新する関数の型定義
+type SetTodos = Dispatch<SetStateAction<Todo[]>>;
+// TodoFormコンポーネントのプロパティ
+export interface TodoFormProps {
+  addTodo: (todo: string) => void;
+}
 
 export interface TodoFormProps {
   addTodo: (todo: string) => void; // addTodoは文字列を引数に取り、返り値がない（void）関数

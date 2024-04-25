@@ -1,9 +1,13 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import useTodoManagement from "@/components/client/hooks/useTodoManagement";
+import useScrollFixed from "@/components/client/hooks/useScrollFixed";
+import useDropTodo from "@/components/client/hooks/useDropTodo";
+import { TodoProvider } from "@/components/client/context/TodoContext";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+
 import ClearListButton from "@/components/client/ui/ClearListButton.client";
 import UndoListButton from "@/components/client/ui/UndoListButton.client";
-import { TodoProvider } from "@/components/client/context/TodoContext";
 
 const Page = () => {
   const {
@@ -19,47 +23,8 @@ const Page = () => {
     loading,
     removeItem,
   } = useTodoManagement();
-
-  const [isFixed, setIsFixed] = useState(false);
-  const formRef = useRef<HTMLDivElement>(null); // フォーム要素への参照
-  const lastScrollY = useRef(0); // 最後のスクロール位置を記憶するためのref
-
-  const initialFormHeight = formRef.current
-    ? formRef.current.offsetHeight
-    : 0;
-  useEffect(() => {
-    // 初回レンダリング時にフォームの高さと位置を設定
-    const initialFormTop = formRef.current ? formRef.current.offsetTop : 0;
-
-    const handleScroll = () => {
-      // スクロールが上に移動しているかどうかを判定
-      const scrollingUp = window.scrollY < lastScrollY.current;
-
-      if (window.scrollY >= -15 + initialFormTop && !scrollingUp) {
-        setIsFixed(true); // スクロール位置がフォームの上端以上で、かつ下にスクロールしている場合はfixedを適用
-      } else if (scrollingUp && window.scrollY <= initialFormTop - 15) {
-        setIsFixed(false); // 上にスクロールしていて、かつスクロール位置がヘッダーの高さ以下になった場合はfixedを解除
-      }
-
-      // 現在のスクロール位置を記録
-      lastScrollY.current = window.scrollY;
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []); // 依存配列が空なので、コンポーネントマウント時に1度だけ設定されます
-
-  // プレースホルダー要素の高さを動的に調整
-  const placeholderStyle = isFixed ? { height: `${initialFormHeight}px` } : {};
-  const fixedStyle: React.CSSProperties = isFixed
-    ? {
-        position: "fixed", // 明示的にCSSのPosition値を指定
-        top: `15px`, // CSSの値は文字列でなければならない
-        width: formRef.current?.offsetWidth + "px", // offsetWidthを用いて幅を保持
-      }
-    : {};
+  const { placeholderStyle, formRef, fixedStyle } = useScrollFixed();
+  const { onDragEnd } = useDropTodo(todos, setTodos);
 
   return (
     <TodoProvider>
@@ -89,30 +54,51 @@ const Page = () => {
         {loading ? (
           <div className="text-stone-500">リスト読み込み中...</div>
         ) : (
-          <ul className="pb-20 pt-5">
-            {todos.map((todo) => (
-              <li
-                key={todo.id}
-                className={`Todolist flex justify-between items-center ${
-                  selectedId === todo.id ? "selected" : ""
-                }`}
-                onClick={() => handleSelect(todo.id)}
-              >
-                <span className="listItem">{todo.text}</span>
-                <div
-                  onClick={(e) => e.stopPropagation()}
-                  className="h-6 w-6 mr-3"
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId="todos-list" direction="vertical">
+              {(provided) => (
+                <ul
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  className="pb-20 pt-5"
                 >
-                  <input
-                    type="checkbox"
-                    checked={todo.completed}
-                    onChange={() => toggleTodoComplete(todo.id)}
-                    className="align-middle h-7 w-7 accent-green-900"
-                  />
-                </div>
-              </li>
-            ))}
-          </ul>
+                  {todos.map((todo, index) => (
+                    <Draggable
+                      key={todo.id}
+                      draggableId={todo.id.toString()}
+                      index={index}
+                    >
+                      {(provided, snapshot) => (
+                        <li
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          className={`Todolist flex justify-between items-center ${
+                            snapshot.isDragging ? "dragging" : ""
+                          } ${selectedId === todo.id ? "selected" : ""}`}
+                          onClick={() => handleSelect(todo.id)}
+                        >
+                          <span className="listItem">{todo.text}</span>
+                          <div
+                            onClick={(e) => e.stopPropagation()}
+                            className="h-6 w-6 mr-3"
+                          >
+                            <input
+                              type="checkbox"
+                              checked={todo.completed}
+                              onChange={() => toggleTodoComplete(todo.id)}
+                              className="h-7 w-7 accent-green-700"
+                            />
+                          </div>
+                        </li>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </ul>
+              )}
+            </Droppable>
+          </DragDropContext>
         )}
         <ClearListButton
           todos={todos}
