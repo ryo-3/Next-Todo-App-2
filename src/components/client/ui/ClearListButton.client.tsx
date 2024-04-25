@@ -56,9 +56,9 @@ const ClearListButton: React.FC<ClearListButtonProps> = ({
         onClose={() => setIsModalOpen(false)}
       >
         <p>リストを全て削除しますか？</p>
-        <div className="flex justify-center mt-3">
+        <div className="flex justify-center mt-6">
           <button
-            className="px-4 py-3 bg-gray-200 rounded-md mr-5"
+            className="px-4 py-3 bg-gray-200 rounded-md mr-8"
             onClick={() => setIsModalOpen(false)}
           >
             キャンセル

@@ -19,7 +19,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
             >
             </button>
          
-          <div className="px-8  pt-3 pb-5 text-center">{children}</div>
+          <div className="px-10  pt-3 pb-5 text-center">{children}</div>
         </div>
       </div>
     </>
