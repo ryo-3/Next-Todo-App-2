@@ -34,6 +34,9 @@ body {
 }
 .Bg-brown {
   background-color: #5e3425;
+  &:hover {
+    background-color: #442a21;
+  }
 }
 .selected {
   background-color: #e3f7ed; /* 背景色をグレーに設定 */

@@ -1,47 +1,44 @@
+// src/components/client/ui/ClearListButton.client.tsx
 import React, { useState } from "react";
 import Image from "next/image";
-import { ClearListButtonProps } from "@/components/models/interface";
 import Modal from "./Modal";
 import { useTodoContext } from "../context/TodoContext";
+import { ClearListButtonProps } from "@/components/models/interface";
 
 const ClearListButton: React.FC<ClearListButtonProps> = ({
   todos,
   setTodos,
-  isTodoCompleted,
+  isTodoCompleted
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { deletedItems, setDeletedItems } = useTodoContext();
 
   const clearTodos = (onlyCompleted: boolean) => {
-    const deletedTodos = todos.filter((todo) =>
-      onlyCompleted ? todo.completed : true
-    );
-    setDeletedItems([...deletedItems, ...deletedTodos]);
-
     if (onlyCompleted) {
-      const filteredTodos = todos.filter((todo) => !todo.completed);
-      setTodos(filteredTodos);
+      // 完了したタスクのみを削除
+      const completedTodos = todos.filter(todo => todo.completed);
+      setDeletedItems([...deletedItems, ...completedTodos]);
+      setTodos(todos.filter(todo => !todo.completed));
     } else {
+      // 全タスクを削除
+      setDeletedItems([...deletedItems, ...todos]);
       setTodos([]);
     }
+    setIsModalOpen(false);
   };
 
   const handleClear = () => {
     if (isTodoCompleted) {
-      clearTodos(true); // 選択したリストを削除する場合はモーダルを表示せずに削除
+      // 完了したタスクがある場合はモーダルなしで削除
+      clearTodos(true);
     } else {
-      setIsModalOpen(true); // リストを全て削除する場合はモーダルを表示
+      // 完了したタスクがない場合はモーダルを表示して全削除を確認
+      setIsModalOpen(true);
     }
   };
 
-  const handleConfirm = () => {
-    clearTodos(false);
-    setIsModalOpen(false);
-  };
-
-  const getImageSrc = () => {
-    return "/DeleteButton.png";
-  };
+  const handleConfirm = () => clearTodos(false);
+  const getImageSrc = () => "/DeleteButton.png";
 
   return (
     <>
@@ -49,27 +46,17 @@ const ClearListButton: React.FC<ClearListButtonProps> = ({
         onClick={handleClear}
         className="fixed bottom-4 right-4 bg-white w-12 h-12 border border-stone-300 rounded-full flex justify-center items-center"
       >
-        <Image src={getImageSrc()} alt="削除" width={27} height={27} priority />
+        <Image src={getImageSrc()} alt="Delete" width={27} height={27} priority />
       </button>
       <Modal
-        isOpen={!isTodoCompleted && isModalOpen}
+        isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+        onConfirm={handleConfirm}
+        title="リストを全削除しますか？"
+        confirmText="削除"
+        cancelText="キャンセル"
       >
-        <p>リストを全て削除しますか？</p>
-        <div className="flex justify-center mt-6">
-          <button
-            className="px-4 py-3 bg-gray-200 rounded-md mr-8"
-            onClick={() => setIsModalOpen(false)}
-          >
-            キャンセル
-          </button>
-          <button
-            className="px-4 py-2 Bg-brown text-white rounded-md"
-            onClick={handleConfirm}
-          >
-            削除
-          </button>
-        </div>
+        <span></span>
       </Modal>
     </>
   );
