@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import useTodoManagement from "@/components/client/hooks/useTodoManagement";
-import useScrollFixed from "@/components/client/hooks/useScrollFixed";
+// import useScrollFixed from "@/components/client/hooks/useHeadrScrollFixed";
 import { TodoProvider } from "@/components/client/context/TodoContext";
 
 import ClearListButton from "@/components/client/ui/ClearListButton.client";
@@ -23,13 +23,14 @@ const Page = () => {
     loading,
     removeItem,
   } = useTodoManagement();
-  const { placeholderStyle, formRef, fixedStyle } = useScrollFixed();
+//   const { placeholderStyle, formRef, fixedStyle } = useScrollFixed();
 
   return (
     <TodoProvider>
       <main>
-        <div style={placeholderStyle}></div>
-        <div ref={formRef} style={fixedStyle}>
+        {/* <div style={placeholderStyle}></div>
+        <div ref={formRef} style={fixedStyle}> */}
+        <div>
           <TodoForm
             inputValue={inputValue}
             handleChange={handleChange}
