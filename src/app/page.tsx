@@ -23,45 +23,56 @@ const Page = () => {
   const [isFixed, setIsFixed] = useState(false);
   const formRef = useRef<HTMLDivElement>(null); // フォーム要素への参照
   const lastScrollY = useRef(0); // 最後のスクロール位置を記憶するためのref
+  const [formHeight, setFormHeight] = useState(0);
+  
 
   useEffect(() => {
+    // 初回レンダリング時にフォームの高さと位置を設定
+    const initialFormHeight = formRef.current
+      ? formRef.current.offsetHeight
+      : 0;
+    const initialFormTop = formRef.current ? formRef.current.offsetTop : 0;
+
+    setFormHeight(initialFormHeight);
+
     const handleScroll = () => {
-      if (formRef.current) {
-        const formTop = formRef.current.offsetTop; // フォームの元の上端位置
-        const formHeight = formRef.current.offsetHeight; // フォームの高さ
-        const formBottom = formTop + formHeight; // フォームの元の下端位置
 
-        // スクロールが上に移動しているかどうかを判定
-        const scrollingUp = window.scrollY < lastScrollY.current;
+      // スクロールが上に移動しているかどうかを判定
+      const scrollingUp = window.scrollY < lastScrollY.current;
 
-        if (window.scrollY >= formTop && !scrollingUp) {
-          setIsFixed(true); // スクロール位置がフォームの上端以上で、かつ下にスクロールしている場合はfixedを適用
-        } else if (scrollingUp && window.scrollY <= formBottom) {
-          setIsFixed(false); // 上にスクロールしていて、かつスクロール位置がフォームの下端以下になった場合はfixedを解除
-        }
-
-        // 現在のスクロール位置を記録
-        lastScrollY.current = window.scrollY;
+      if (window.scrollY >= -15 + initialFormTop && !scrollingUp) {
+        setIsFixed(true); // スクロール位置がフォームの上端以上で、かつ下にスクロールしている場合はfixedを適用
+      } else if (scrollingUp && window.scrollY <= initialFormTop - 15) {
+        setIsFixed(false); // 上にスクロールしていて、かつスクロール位置がヘッダーの高さ以下になった場合はfixedを解除
       }
-    };
 
+      // 現在のスクロール位置を記録
+      lastScrollY.current = window.scrollY;
+    };
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []); // 依存配列が空なので、コンポーネントマウント時に1度だけ設定されます
 
-    // プレースホルダー要素の高さを動的に調整
-    const placeholderStyle = isFixed ? { height: `${formRef.current?.offsetHeight}px` } : {};
+  // プレースホルダー要素の高さを動的に調整
+  const placeholderStyle = isFixed ? { height: `${formHeight}px` } : {};
+  const fixedStyle: React.CSSProperties = isFixed
+    ? {
+        position: "fixed", // 明示的にCSSのPosition値を指定
+        top: `15px`, // CSSの値は文字列でなければならない
+        width: formRef.current?.offsetWidth + "px", // offsetWidthを用いて幅を保持
+      }
+    : {};
 
   return (
     <TodoProvider>
       <main>
-      <div style={placeholderStyle}></div> {/* プレースホルダー要素 */}
-        <div ref={formRef} className={`${isFixed ? "fixed top-0" : ""}`}>
+        <div style={placeholderStyle} /> {/* プレースホルダー要素 */}
+        <div ref={formRef} style={fixedStyle}>
           <form
             onSubmit={handleSubmit}
-            className="mb-5 relative flex justify-between smd:justify-start"
+            className="relative flex justify-between smd:justify-start w-full"
           >
             <input
               type="text"
@@ -82,7 +93,7 @@ const Page = () => {
         {loading ? (
           <div className="text-stone-500">リスト読み込み中...</div>
         ) : (
-          <ul className="pb-20">
+          <ul className="pb-20 pt-5">
             {todos.map((todo) => (
               <li
                 key={todo.id}

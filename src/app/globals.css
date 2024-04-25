@@ -13,6 +13,8 @@ body {
   width: 90%;
   margin: 0 auto;
   background-color: rgba(209, 250, 229, 0.2);
+  /* overflow: hidden; */
+  overflow-y: scroll;
 }
 .rubik-bubbles-regular {
   font-family: "Rubik Bubbles", system-ui;
@@ -45,27 +47,7 @@ body {
   width: 87%;
 }
 
-.form-container {
-  width: 80%; /* あるいは他の適切な幅 */
-  margin: 0 auto; /* センタリング */
-}
-
-.fixed-form {
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: inherit; /* 親要素から幅を継承 */
-}
-
-/* input[type="checkbox"] {
-  accent-color: #5e3425; 
-} */
-
 @layer utilities {
-  /* ._container {
-    @apply flex justify-between mx-auto;
-  } */
   .error {
     @apply text-stone-400 absolute top-0 left-20 pl-1 pt-2.5;
   }
