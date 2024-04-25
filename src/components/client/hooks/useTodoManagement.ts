@@ -1,4 +1,5 @@
 // components/client/hooks/useTodoManagement.ts
+"use client"
 import { useCallback, useEffect, useState } from "react";
 import { Todo } from "../../models/interface";
 import useCreateTodo from "./useCreateTodo";

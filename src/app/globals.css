@@ -13,6 +13,8 @@ body {
   width: 90%;
   margin: 0 auto;
   background-color: rgba(209, 250, 229, 0.2);
+  /* overflow: hidden; */
+  overflow-y: scroll;
 }
 .rubik-bubbles-regular {
   font-family: "Rubik Bubbles", system-ui;
@@ -34,21 +36,21 @@ body {
 }
 .Bg-brown {
   background-color: #5e3425;
+  &:hover {
+    background-color: #442a21;
+  }
 }
 .selected {
   background-color: #e3f7ed; /* 背景色をグレーに設定 */
 }
 .listItem {
-    width: 87%;
+  width: 87%;
 }
-/* input[type="checkbox"] {
-  accent-color: #5e3425; 
-} */
+
+
+
 
 @layer utilities {
-  /* ._container {
-    @apply flex justify-between mx-auto;
-  } */
   .error {
     @apply text-stone-400 absolute top-0 left-20 pl-1 pt-2.5;
   }
