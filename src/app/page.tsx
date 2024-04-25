@@ -1,20 +1,21 @@
 "use client";
-import React from "react";
+import React, { FormEvent, useState } from "react";
 import useTodoManagement from "@/components/client/hooks/useTodoManagement";
-// import useScrollFixed from "@/components/client/hooks/useHeadrScrollFixed";
 import { TodoProvider } from "@/components/client/context/TodoContext";
-
 import ClearListButton from "@/components/client/ui/ClearListButton.client";
 import UndoListButton from "@/components/client/ui/UndoListButton.client";
 import TodoList from "@/components/client/ui/TodoList";
-import TodoForm from "@/components/client/ui/TodoFrom";
+import TodoForm from "@/components/client/ui/TodoFrom"; // ファイル名が "TodoForm" になるように修正が必要
+import FloatingActionButton from "@/components/client/ui/FloatingActionButton";
+import FooterTodoForm from "@/components/client/ui/FooterTodoForm ";
 
-const Page = () => {
+const Page: React.FC = () => {
   const {
     inputValue,
     handleChange,
     todos,
     setTodos,
+    setInputValue,
     handleSubmit,
     error,
     handleSelect,
@@ -23,23 +24,50 @@ const Page = () => {
     loading,
     removeItem,
   } = useTodoManagement();
-//   const { placeholderStyle, formRef, fixedStyle } = useScrollFixed();
+  const [showForm, setShowForm] = useState(false);
+
+  const handleButtonClick = () => {
+    setShowForm(!showForm); // フォームの表示状態をトグル
+  };
+
+  const handleNewSubmit = (event: FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+    if (!inputValue) {
+      setShowForm(false); // フォームが空の場合、フォームを閉じる
+      return;
+    }
+
+    const newTodo = {
+      id: Date.now(),
+      text: inputValue,
+      completed: false,
+    };
+
+    setTodos([...todos, newTodo]);
+    setInputValue(""); // 入力をクリア
+    setShowForm(false); // フォームを閉じる
+  };
 
   return (
     <TodoProvider>
       <main>
-        {/* <div style={placeholderStyle}></div>
-        <div ref={formRef} style={fixedStyle}> */}
-        <div>
-          <TodoForm
+        <FloatingActionButton onClick={handleButtonClick} />
+        {showForm && (
+          <FooterTodoForm
             inputValue={inputValue}
             handleChange={handleChange}
-            handleSubmit={handleSubmit}
+            handleSubmit={handleNewSubmit}
             error={error}
           />
-        </div>
+        )}
+        <TodoForm
+          inputValue={inputValue}
+          handleChange={handleChange}
+          handleSubmit={handleNewSubmit}
+          error={error}
+        />
         {loading ? (
-          <div className="text-stone-500">リスト読み込み中...</div>
+          <div className="text-stone-500">Loading...</div>
         ) : (
           <TodoList
             todos={todos}
@@ -52,7 +80,7 @@ const Page = () => {
         <ClearListButton
           todos={todos}
           setTodos={setTodos}
-          isTodoCompleted={todos.some((todo) => todo.completed)}
+          isTodoCompleted={todos.some(todo => todo.completed)}
         />
         <UndoListButton
           todos={todos}

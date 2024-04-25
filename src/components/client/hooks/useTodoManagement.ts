@@ -1,7 +1,9 @@
 // components/client/hooks/useTodoManagement.ts
 "use client"
 import { useCallback, useEffect, useState } from "react";
-import { Todo } from "../../models/interface";
+import { Todo } from "../../models/interface"; // 確認してください、これが正しいパスかどうか
+
+// その他のカスタムフックのインポート
 import useCreateTodo from "./useCreateTodo";
 import useUpdateTodos from "./useUpdateTodos";
 import useInputValidation from "./useInputValidation";
@@ -12,7 +14,7 @@ import useToggleTodoComplete from "./useToggleTodoComplete";
 import useSelectTodo from "./useSelectTodo";
 
 function useTodoManagement() {
-  const { inputValue, handleChange } = useInputChange();
+  const { inputValue, setInputValue, handleChange } = useInputChange(); // setInputValue を追加
   const [todos, setTodos] = useLocalStorage<Todo[]>("todos", []);
   const { selectedId, handleSelect } = useSelectTodo();
   const { toggleTodoComplete } = useToggleTodoComplete(todos, setTodos);
@@ -23,6 +25,7 @@ function useTodoManagement() {
       setLoading(false);
     }, 200);
   }, []);
+  
 
   const { createTodo } = useCreateTodo(inputValue);
   const { updateTodos } = useUpdateTodos(todos, setTodos, handleChange);
@@ -42,11 +45,12 @@ function useTodoManagement() {
       newTodos.splice(index, 1);
       setTodos(newTodos);
     },
-    [todos]
+    [todos, setTodos]
   );
 
   return {
     inputValue,
+    setInputValue, // setInputValue を戻り値に含める
     handleChange,
     todos,
     setTodos,
