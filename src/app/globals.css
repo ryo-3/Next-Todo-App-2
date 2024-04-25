@@ -42,8 +42,22 @@ body {
   background-color: #e3f7ed; /* 背景色をグレーに設定 */
 }
 .listItem {
-    width: 87%;
+  width: 87%;
 }
+
+.form-container {
+  width: 80%; /* あるいは他の適切な幅 */
+  margin: 0 auto; /* センタリング */
+}
+
+.fixed-form {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: inherit; /* 親要素から幅を継承 */
+}
+
 /* input[type="checkbox"] {
   accent-color: #5e3425; 
 } */
