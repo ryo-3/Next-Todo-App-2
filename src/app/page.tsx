@@ -23,20 +23,15 @@ const Page = () => {
   const [isFixed, setIsFixed] = useState(false);
   const formRef = useRef<HTMLDivElement>(null); // フォーム要素への参照
   const lastScrollY = useRef(0); // 最後のスクロール位置を記憶するためのref
-  const [formHeight, setFormHeight] = useState(0);
-  
 
+  const initialFormHeight = formRef.current
+    ? formRef.current.offsetHeight
+    : 0;
   useEffect(() => {
     // 初回レンダリング時にフォームの高さと位置を設定
-    const initialFormHeight = formRef.current
-      ? formRef.current.offsetHeight
-      : 0;
     const initialFormTop = formRef.current ? formRef.current.offsetTop : 0;
 
-    setFormHeight(initialFormHeight);
-
     const handleScroll = () => {
-
       // スクロールが上に移動しているかどうかを判定
       const scrollingUp = window.scrollY < lastScrollY.current;
 
@@ -49,6 +44,7 @@ const Page = () => {
       // 現在のスクロール位置を記録
       lastScrollY.current = window.scrollY;
     };
+
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -56,7 +52,7 @@ const Page = () => {
   }, []); // 依存配列が空なので、コンポーネントマウント時に1度だけ設定されます
 
   // プレースホルダー要素の高さを動的に調整
-  const placeholderStyle = isFixed ? { height: `${formHeight}px` } : {};
+  const placeholderStyle = isFixed ? { height: `${initialFormHeight}px` } : {};
   const fixedStyle: React.CSSProperties = isFixed
     ? {
         position: "fixed", // 明示的にCSSのPosition値を指定
@@ -68,7 +64,7 @@ const Page = () => {
   return (
     <TodoProvider>
       <main>
-        <div style={placeholderStyle} /> {/* プレースホルダー要素 */}
+        <div style={placeholderStyle}></div>
         <div ref={formRef} style={fixedStyle}>
           <form
             onSubmit={handleSubmit}
