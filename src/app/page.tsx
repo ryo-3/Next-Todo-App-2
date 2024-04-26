@@ -47,7 +47,8 @@ const Page: React.FC = () => {
       completed: false,
     };
 
-    setTodos([...todos, newTodo]); // 新しいTodoを追加
+    // setTodos([...todos, newTodo]); // 新しいTodoを追加　末尾
+    setTodos([newTodo , ...todos ]); // 新しいTodoを追加　先頭
     setInputValue(""); // 入力フィールドをクリア
     inputRef.current?.focus(); // 送信後、フォームにフォーカスを戻す
     // setShowForm(true); // フォームを表示し続ける（必要に応じて）
@@ -73,7 +74,7 @@ const Page: React.FC = () => {
           </div>
         )}
         {loading ? (
-          <div>Loading...</div>
+          <div className=" text-slate-800 pt-6 pl-2">読み込み中...</div>
         ) : (
           <TodoList
             todos={todos}
