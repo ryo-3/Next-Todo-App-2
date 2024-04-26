@@ -6,7 +6,7 @@ type Props = {
   inputRef: React.RefObject<HTMLInputElement>;
 };
 
-const FloatingActionButton: React.FC<Props> = ({ onClick, inputRef }) => {
+const AddTodoButton: React.FC<Props> = ({ onClick, inputRef }) => {
   const handleClick = () => {
     onClick(); // 任意の追加ロジック
     setTimeout(() => inputRef.current?.focus(), 0); // フォーカスを設定
@@ -22,4 +22,4 @@ const FloatingActionButton: React.FC<Props> = ({ onClick, inputRef }) => {
   );
 };
 
-export default FloatingActionButton;
+export default AddTodoButton;

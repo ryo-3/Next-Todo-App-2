@@ -17,11 +17,12 @@ function useInputValidation(
 
   const validateInput = (): boolean => {
     const isValid = validator(inputValue);
-    setError(isValid ? "" : "!");
+    setError(isValid ? "" : "./seedling.png");
     return isValid;
-  };
+};
 
-  return { validateInput, error };
+
+return { validateInput, error };
 }
 
 export default useInputValidation;
