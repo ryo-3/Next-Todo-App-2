@@ -5,12 +5,13 @@ import { TodoProvider } from "@/components/client/context/TodoContext";
 import ClearListButton from "@/components/client/ui/ClearListButton.client";
 import UndoListButton from "@/components/client/ui/UndoListButton.client";
 import TodoList from "@/components/client/ui/TodoList";
-import FloatingActionButton from "@/components/client/ui/FloatingActionButton";
+import FloatingActionButton from "@/components/client/ui/AddTodoButton";
 import TodoForm from "@/components/client/ui/TodoForm";
 import useBtnClickFixed from "@/components/client/hooks/useBtnClickFixed";
 
 const Page: React.FC = () => {
   const {
+    validateInput,
     inputValue,
     handleChange,
     todos,
@@ -28,7 +29,6 @@ const Page: React.FC = () => {
   const { placeholderStyle, fixedStyle, formRef, setFixed } = useBtnClickFixed();
 
   const handleButtonClick = () => {
-    // setFixed(true); // ボタンクリックでフォームを固定
     if (inputRef.current) {
       inputRef.current.focus();  // ボタンクリックで直接フォームにフォーカス
     }
@@ -37,7 +37,7 @@ const Page: React.FC = () => {
 
   const handleFormSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    if (!inputValue) {
+    if (!validateInput()) {
       return; // 入力がなければ何もせずに早期リターン
     }
 
@@ -54,7 +54,6 @@ const Page: React.FC = () => {
     // setShowForm(true); // フォームを表示し続ける（必要に応じて）
     // setFixed(true); // フォームを固定し続ける（必要に応じて）
   };
-
 
   return (
     <TodoProvider>

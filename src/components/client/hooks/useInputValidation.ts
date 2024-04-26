@@ -14,14 +14,16 @@ function useInputValidation(
       setError("");
     }
   }, [inputValue]);
+  console.log(inputValue);
 
   const validateInput = (): boolean => {
     const isValid = validator(inputValue);
     setError(isValid ? "" : "!");
     return isValid;
-  };
+};
 
-  return { validateInput, error };
+
+return { validateInput, error };
 }
 
 export default useInputValidation;

@@ -49,6 +49,7 @@ function useTodoManagement() {
   );
 
   return {
+    validateInput,
     inputValue,
     setInputValue, // setInputValue を戻り値に含める
     handleChange,

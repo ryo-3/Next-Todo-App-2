@@ -14,7 +14,6 @@ body {
   margin: 0 auto;
   background-color: rgba(209, 250, 229, 0.2);
   overflow-y: scroll;
-  padding-bottom: 50vw;
 }
 .rubik-bubbles-regular {
   font-family: "Rubik Bubbles", system-ui;
@@ -49,12 +48,16 @@ body {
 .w-90 {
   width: 90%;
 }
+.draggable-bg-transition {
+    transition: background-color 0.3s ease;
+}
+  
 
 @layer utilities {
   .error {
     @apply text-stone-400 absolute top-0 left-20 pl-1 pt-2.5;
   }
   .Todolist {
-    @apply bg-emerald-100 pt-2 pb-2.5 pl-3 rounded mb-2 text-neutral-900;
+    @apply pt-2 pb-2.5 pl-3 rounded mb-2 text-neutral-900;
   }
 }

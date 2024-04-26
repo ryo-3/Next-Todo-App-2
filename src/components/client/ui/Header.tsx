@@ -11,9 +11,9 @@ const Header = () => {
           src="/wood_kirikabu.png"
           alt="切り株"
           width={55}
-          height={10}
+          height={55}
           priority
-          className=" h-11 flex mt-5 ml-2"
+          className=" h-11 w-auto flex mt-5 ml-2"
         />
       </div>
     </header>
