@@ -1,15 +1,20 @@
-// FloatingActionButton.tsx
-import React from "react";
+import React from 'react';
 
 type Props = {
-  onClick: () => void; // ここで onClick の型を定義
+  onClick: () => void;
+  inputRef: React.RefObject<HTMLInputElement>;
 };
 
-const FloatingActionButton: React.FC<Props> = ({ onClick }) => {
+const FloatingActionButton: React.FC<Props> = ({ onClick, inputRef }) => {
+  const handleClick = () => {
+    onClick(); // 任意の追加ロジック
+    setTimeout(() => inputRef.current?.focus(), 0); // フォーカスを設定
+  };
+
   return (
     <button
-      onClick={onClick}
-      className="fixed bottom-4 left-20 bg-blue-500 text-white p-3 rounded-full"
+      onClick={handleClick}
+      className="fixed z-10 bottom-20 right-4 bg-white w-14 h-14 border border-stone-300 flex justify-center items-center rounded-full"
     >
       +
     </button>

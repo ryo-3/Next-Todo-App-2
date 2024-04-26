@@ -1,13 +1,13 @@
 "use client";
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useState, useRef, useEffect } from "react";
 import useTodoManagement from "@/components/client/hooks/useTodoManagement";
 import { TodoProvider } from "@/components/client/context/TodoContext";
 import ClearListButton from "@/components/client/ui/ClearListButton.client";
 import UndoListButton from "@/components/client/ui/UndoListButton.client";
 import TodoList from "@/components/client/ui/TodoList";
-import TodoForm from "@/components/client/ui/TodoFrom"; // ファイル名が "TodoForm" になるように修正が必要
 import FloatingActionButton from "@/components/client/ui/FloatingActionButton";
-import FooterTodoForm from "@/components/client/ui/FooterTodoForm ";
+import TodoForm from "@/components/client/ui/TodoForm";
+import useBtnClickFixed from "@/components/client/hooks/useBtnClickFixed";
 
 const Page: React.FC = () => {
   const {
@@ -16,25 +16,36 @@ const Page: React.FC = () => {
     todos,
     setTodos,
     setInputValue,
-    handleSubmit,
     error,
-    handleSelect,
     selectedId,
+    handleSelect,
     toggleTodoComplete,
     loading,
     removeItem,
   } = useTodoManagement();
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState(true); // フォームの表示を制御
+  const inputRef = useRef<HTMLInputElement>(null); // 正しくリファレンスを生成
+  const { placeholderStyle, fixedStyle, formRef, setFixed } = useBtnClickFixed();
 
   const handleButtonClick = () => {
-    setShowForm(!showForm); // フォームの表示状態をトグル
+    // setFixed(true); // ボタンクリックでフォームを固定
+    if (inputRef.current) {
+      inputRef.current.focus();  // ボタンクリックで直接フォームにフォーカス
+    }
   };
 
-  const handleNewSubmit = (event: FormEvent<HTMLFormElement>): void => {
+//   useEffect(() => {
+//     if (showForm && inputRef.current) {
+//       inputRef.current.focus();  // showFormがtrueになったときにフォーカス
+//     }
+//   }, [showForm]);
+
+  const handleFormSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     if (!inputValue) {
-      setShowForm(false); // フォームが空の場合、フォームを閉じる
-      return;
+    //   setShowForm(false);
+    //   setFixed(false);
+      return; // 入力がなければ何もせずに早期リターン
     }
 
     const newTodo = {
@@ -43,31 +54,33 @@ const Page: React.FC = () => {
       completed: false,
     };
 
-    setTodos([...todos, newTodo]);
-    setInputValue(""); // 入力をクリア
-    setShowForm(false); // フォームを閉じる
+    setTodos([...todos, newTodo]); // 新しいTodoを追加
+    setInputValue(""); // 入力フィールドをクリア
+    inputRef.current?.focus(); // 送信後、フォームにフォーカスを戻す
+    // setShowForm(true); // フォームを表示し続ける（必要に応じて）
+    // setFixed(true); // フォームを固定し続ける（必要に応じて）
   };
+
 
   return (
     <TodoProvider>
       <main>
-        <FloatingActionButton onClick={handleButtonClick} />
+        <FloatingActionButton onClick={handleButtonClick} inputRef={inputRef} />
         {showForm && (
-          <FooterTodoForm
-            inputValue={inputValue}
-            handleChange={handleChange}
-            handleSubmit={handleNewSubmit}
-            error={error}
-          />
+          <div ref={formRef} style={fixedStyle}>
+            <TodoForm
+              inputValue={inputValue}
+              handleChange={handleChange}
+              handleSubmit={handleFormSubmit}
+              error={error}
+              showForm={showForm}
+              inputRef={inputRef}
+              style={fixedStyle}
+            />
+          </div>
         )}
-        <TodoForm
-          inputValue={inputValue}
-          handleChange={handleChange}
-          handleSubmit={handleNewSubmit}
-          error={error}
-        />
         {loading ? (
-          <div className="text-stone-500">Loading...</div>
+          <div>Loading...</div>
         ) : (
           <TodoList
             todos={todos}
@@ -80,7 +93,7 @@ const Page: React.FC = () => {
         <ClearListButton
           todos={todos}
           setTodos={setTodos}
-          isTodoCompleted={todos.some(todo => todo.completed)}
+          isTodoCompleted={todos.some((todo) => todo.completed)}
         />
         <UndoListButton
           todos={todos}

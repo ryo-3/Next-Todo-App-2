@@ -1,22 +1,26 @@
-import React, { useEffect, useRef, FormEvent } from "react";
+import React, { CSSProperties, useEffect } from "react";
+import useScrollFixed from "../hooks/useHeadrScrollFixed";
 
-interface FooterTodoFormProps {
+interface TodoFormProps {
   inputValue: string;
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-  error?: string;
+  error: string | null;
   inputRef: React.RefObject<HTMLInputElement>;
   showForm: boolean;
+  style?: CSSProperties; // Optionalでstyleプロパティを追加
 }
 
-const FooterTodoForm: React.FC<FooterTodoFormProps> = ({
+const TodoForm: React.FC<TodoFormProps> = ({
   inputValue,
   handleChange,
   handleSubmit,
   error,
-  inputRef,
   showForm,
+  inputRef,
+  style,
 }) => {
+  const { placeholderStyle, fixedStyle, formRef } = useScrollFixed();
   const handleSubmitWithFocus: React.FormEventHandler<HTMLFormElement> = (
     event
   ) => {
@@ -24,27 +28,28 @@ const FooterTodoForm: React.FC<FooterTodoFormProps> = ({
     inputRef.current?.focus();
   };
 
-  useEffect(() => {
-    if (showForm) {
-      inputRef.current?.focus();
-    }
-  }, [showForm]);
+//   useEffect(() => {
+//     if (showForm && inputRef.current) {
+//       inputRef.current?.focus();
+//     }
+//   }, [showForm, inputRef]);
 
   return (
-    <div className="w-full">
+    <div ref={formRef} style={placeholderStyle}>
       <form
         onSubmit={handleSubmitWithFocus}
-        className="fixed top-14 z-10 flex justify-between smd:justify-start w-90"
+        className="relative flex justify-between smd:justify-start w-full"
+        style={fixedStyle}
       >
         <input
-          ref={inputRef}
+        ref={inputRef}
           type="text"
           value={inputValue}
           onChange={handleChange}
-          placeholder="タスクを入力..."
+          placeholder="入力欄 ..."
           className="border-2 py-2 pl-3 rounded mr-2 w-9/12 focus:outline-none focus:border-yellow-950"
         />
-        {error && <p className="text-red-500">{error}</p>}
+        {error && <div className="error">{error}</div>}
         <button
           type="submit"
           className="bg-emerald-600 text-white font-bold py-2 px-3.5 rounded ss:px-4"
@@ -56,4 +61,4 @@ const FooterTodoForm: React.FC<FooterTodoFormProps> = ({
   );
 };
 
-export default FooterTodoForm;
+export default TodoForm;
