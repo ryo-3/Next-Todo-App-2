@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 
 type Props = {
@@ -16,7 +17,7 @@ const FloatingActionButton: React.FC<Props> = ({ onClick, inputRef }) => {
       onClick={handleClick}
       className="fixed z-10 bottom-20 right-4 bg-white w-14 h-14 border border-stone-300 flex justify-center items-center rounded-full"
     >
-      +
+         <Image src={"/plusBtn.png"} alt="追加" width={30} height={30} priority />
     </button>
   );
 };
