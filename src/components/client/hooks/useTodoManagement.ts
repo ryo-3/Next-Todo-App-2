@@ -1,9 +1,4 @@
-// components/client/hooks/useTodoManagement.ts
-"use client"
-import { useCallback, useEffect, useState } from "react";
-import { Todo } from "../../models/interface"; // 確認してください、これが正しいパスかどうか
-
-// その他のカスタムフックのインポート
+"use client";
 import useCreateTodo from "./useCreateTodo";
 import useUpdateTodos from "./useUpdateTodos";
 import useInputValidation from "./useInputValidation";
@@ -12,20 +7,25 @@ import useLocalStorage from "./useLocalStorage";
 import useInputChange from "./useInputChange";
 import useToggleTodoComplete from "./useToggleTodoComplete";
 import useSelectTodo from "./useSelectTodo";
+import { Todo } from "@/components/models/interface";
+import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
+import useBtnClickFixed from "@/components/client/hooks/useBtnClickFixed";
 
 function useTodoManagement() {
-  const { inputValue, setInputValue, handleChange } = useInputChange(); // setInputValue を追加
+  const { inputValue, setInputValue, handleChange } = useInputChange();
   const [todos, setTodos] = useLocalStorage<Todo[]>("todos", []);
   const { selectedId, handleSelect } = useSelectTodo();
   const { toggleTodoComplete } = useToggleTodoComplete(todos, setTodos);
   const [loading, setLoading] = useState(true);
+  const [showForm, setShowForm] = useState(true); // フォームの表示を制御
+  const inputRef = useRef<HTMLInputElement>(null); // 正しくリファレンスを生成
+  const { fixedStyle, formRef } = useBtnClickFixed();
 
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
     }, 200);
   }, []);
-  
 
   const { createTodo } = useCreateTodo(inputValue);
   const { updateTodos } = useUpdateTodos(todos, setTodos, handleChange);
@@ -48,10 +48,21 @@ function useTodoManagement() {
     [todos, setTodos]
   );
 
+  const handleButtonClick = () => {
+    if (inputRef.current) {
+      inputRef.current.focus(); // ボタンクリックで直接フォームにフォーカス
+    }
+  };
+
+  const handleFormSubmit = (event: FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+    handleSubmit(event);
+  };
+
   return {
     validateInput,
     inputValue,
-    setInputValue, // setInputValue を戻り値に含める
+    setInputValue,
     handleChange,
     todos,
     setTodos,
@@ -62,6 +73,13 @@ function useTodoManagement() {
     error,
     loading,
     removeItem,
+    showForm,
+    setShowForm,
+    inputRef,
+    handleButtonClick,
+    handleFormSubmit,
+    fixedStyle,
+    formRef,
   };
 }
 
