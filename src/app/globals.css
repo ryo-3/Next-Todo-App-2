@@ -13,24 +13,24 @@ body {
   width: 90%;
   margin: 0 auto;
   background-color: rgba(209, 250, 229, 0.2);
-  /* overflow: hidden; */
   overflow-y: scroll;
+  padding-bottom: 50vw;
 }
 .rubik-bubbles-regular {
   font-family: "Rubik Bubbles", system-ui;
   font-weight: 400;
   font-style: normal;
 }
-.shadows-into-light-regular {
+/* .shadows-into-light-regular {
   font-family: "Shadows Into Light", cursive;
   font-weight: 400;
   font-style: normal;
-}
-.permanent-marker-regular {
+} */
+/* .permanent-marker-regular {
   font-family: "Permanent Marker", cursive;
   font-weight: 400;
   font-style: normal;
-}
+} */
 .brown {
   color: #5e3425;
 }
@@ -46,9 +46,9 @@ body {
 .listItem {
   width: 87%;
 }
-
-
-
+.w-90 {
+  width: 90%;
+}
 
 @layer utilities {
   .error {
