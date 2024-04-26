@@ -34,17 +34,10 @@ const Page: React.FC = () => {
     }
   };
 
-//   useEffect(() => {
-//     if (showForm && inputRef.current) {
-//       inputRef.current.focus();  // showFormがtrueになったときにフォーカス
-//     }
-//   }, [showForm]);
 
   const handleFormSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     if (!inputValue) {
-    //   setShowForm(false);
-    //   setFixed(false);
       return; // 入力がなければ何もせずに早期リターン
     }
 
