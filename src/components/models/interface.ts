@@ -46,3 +46,11 @@ export interface ModalProps {
   cancelText: string;
   children: ReactNode;
 }
+
+export interface TodoListProps {
+    todos: Todo[];
+    setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
+    selectedId: number | null;
+    handleSelect: (id: number) => void;
+    toggleTodoComplete: (id: number) => void;
+  }
