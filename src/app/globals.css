@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Rubik+Bubbles&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Rubik+Bubbles&family=Shadows+Into+Light&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Rubik+Bubbles&family=Shadows+Into+Light&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Rubik+Bubbles&family=Shadows+Into+Light&family=Yomogi&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,26 +11,34 @@
 @media (prefers-color-scheme: dark) {
 }
 body {
-  width: 90%;
+  width: 94%;
   margin: 0 auto;
   background-color: rgba(209, 250, 229, 0.2);
   overflow-y: scroll;
 }
+
 .rubik-bubbles-regular {
   font-family: "Rubik Bubbles", system-ui;
   font-weight: 400;
   font-style: normal;
 }
-/* .shadows-into-light-regular {
+.shadows-into-light-regular {
   font-family: "Shadows Into Light", cursive;
   font-weight: 400;
   font-style: normal;
-} */
-/* .permanent-marker-regular {
+}
+.permanent-marker-regular {
   font-family: "Permanent Marker", cursive;
   font-weight: 400;
   font-style: normal;
-} */
+}
+
+.yomogi-regular {
+  font-family: "Yomogi", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
 .brown {
   color: #5e3425;
 }
@@ -49,15 +58,70 @@ body {
   width: 90%;
 }
 .draggable-bg-transition {
-    transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease;
 }
-  
+
+/* チェックボックスを隠す */
+.checkbox-custom {
+  position: relative;
+  display: flex;
+  align-items: center; /* 垂直方向の中央揃え */
+  justify-content: flex-start; /* 水平方向の左揃え */
+}
+
+.checkbox-custom input[type="checkbox"] {
+  opacity: 0;
+  position: absolute;
+  z-index: -10;
+}
+
+/* カスタムチェックボックスのデザイン */
+.checkbox-custom label {
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  display: inline-block;
+  line-height: 20px; /* ラベルのテキストの行高を調整 */
+}
+
+.checkbox-custom label::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%; /* 丸くする */
+  background: white; /* 背景色 */
+  border: 1px solid rgb(214 211 209); /* 枠線 */
+}
+.checkbox-custom label::after {
+  content: "";
+  position: absolute;
+  width: 20px; /* 元のサイズより少し大きく */
+  height: 20px; /* 元のサイズより少し大きく */
+  top: -12px; /* 少し上に */
+  left: 0px;
+  background-image: url("/check.png");
+  background-size: cover;
+  background-position: center;
+  opacity: 0; /* 最初は非表示 */
+  transition: opacity 0.2s;
+}
+
+チェックされた時のデザイン
+.checkbox-custom input[type="checkbox"]:checked + label::before {
+  background-image: url("/check.png");
+  background-size: cover;
+}
+
+.checkbox-custom input[type="checkbox"]:checked + label::after {
+  opacity: 1; /* チェック時に表示 */
+}
 
 @layer utilities {
   .error {
-    @apply text-stone-400 absolute top-0 left-20 pl-1 pt-2.5;
-  }
-  .Todolist {
-    @apply pt-2 pb-2.5 pl-3 rounded mb-2 text-neutral-900;
+    @apply text-stone-400 pl-1 pt-2.5;
   }
 }

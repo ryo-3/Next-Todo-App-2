@@ -5,9 +5,8 @@ export interface Todo {
   text: string;
   completed: boolean;
 }
-// Todoリストを更新する関数の型定義
+
 type SetTodos = Dispatch<SetStateAction<Todo[]>>;
-// TodoFormコンポーネントのプロパティ
 export interface TodoFormProps {
   addTodo: (todo: string) => void;
 }
@@ -48,9 +47,15 @@ export interface ModalProps {
 }
 
 export interface TodoListProps {
-    todos: Todo[];
-    setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
-    selectedId: number | null;
-    handleSelect: (id: number) => void;
-    toggleTodoComplete: (id: number) => void;
-  }
+  todos: Todo[];
+  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
+  selectedId: number | null;
+  handleSelect: (id: number) => void;
+  toggleTodoComplete: (id: number) => void;
+}
+
+export interface UndoListButtonProps {
+  todos: Todo[];
+  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
+  removeItem: (index: number) => void;
+}

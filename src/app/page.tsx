@@ -10,11 +10,7 @@ import TodoForm from "@/components/client/ui/TodoForm";
 
 const Page: React.FC = () => {
   const {
-    // validateInput,
-    // setInputValue,
-    // handleSubmit,
     inputValue,
-    // setShowForm,
     handleChange,
     todos,
     setTodos,

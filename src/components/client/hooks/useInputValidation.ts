@@ -14,11 +14,10 @@ function useInputValidation(
       setError("");
     }
   }, [inputValue]);
-  console.log(inputValue);
 
   const validateInput = (): boolean => {
     const isValid = validator(inputValue);
-    setError(isValid ? "" : "!");
+    setError(isValid ? "" : "./seedling.png");
     return isValid;
 };
 
