@@ -14,6 +14,8 @@ const Page: React.FC = () => {
     handleChange,
     todos,
     setTodos,
+    deletedItems,
+    setDeletedItems,
     handleSelect,
     toggleTodoComplete,
     selectedId,
@@ -26,6 +28,7 @@ const Page: React.FC = () => {
     handleFormSubmit,
     fixedStyle,
     formRef,
+    // undoRemoval,
   } = useTodoManagement();
 
   return (
@@ -62,9 +65,11 @@ const Page: React.FC = () => {
           isTodoCompleted={todos.some((todo) => todo.completed)}
         />
         <UndoListButton
-          todos={todos}
-          setTodos={setTodos}
-          removeItem={removeItem}
+        //   deletedItems={deletedItems}
+        //   setDeletedItems={setDeletedItems}
+        //   todos={todos}
+        //   setTodos={setTodos}
+        //   onClick={undoRemoval}
         />
       </main>
     </TodoProvider>

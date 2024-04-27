@@ -4,6 +4,7 @@ export interface Todo {
   id: number;
   text: string;
   completed: boolean;
+  index: number; // インデックス番号を追加
 }
 
 type SetTodos = Dispatch<SetStateAction<Todo[]>>;
@@ -52,10 +53,16 @@ export interface TodoListProps {
   selectedId: number | null;
   handleSelect: (id: number) => void;
   toggleTodoComplete: (id: number) => void;
+  index?: number; // indexプロパティを追加
 }
 
+
 export interface UndoListButtonProps {
+  deletedItems: { item: Todo; deletedIndex: number }[];
+  setDeletedItems: Dispatch<
+    SetStateAction<{ item: Todo; deletedIndex: number }[]>
+  >;
   todos: Todo[];
-  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
-  removeItem: (index: number) => void;
+  setTodos: Dispatch<SetStateAction<Todo[]>>;
+  onClick: () => void; // onClickプロパティを追加
 }

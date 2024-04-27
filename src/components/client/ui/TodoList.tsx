@@ -9,8 +9,11 @@ const TodoList: React.FC<TodoListProps> = ({
   selectedId,
   handleSelect,
   toggleTodoComplete,
+  index,
 }) => {
   const { onDragEnd } = useDropTodo(todos, setTodos);
+  
+  
 
   return (
     <DragDropContext onDragStart={() => {}} onDragEnd={onDragEnd}>
@@ -46,7 +49,7 @@ const TodoList: React.FC<TodoListProps> = ({
                       />
                       <label htmlFor={`checkbox-${todo.id}`}></label>
                     </div>
-                    <span className="listItem">{todo.text}</span>
+                    <span className="listItem">{index + 1}. {todo.text}</span>
                     {/* ドラッグハンドルとして機能するアイコンボタン */}
                     <div
                       {...provided.dragHandleProps} // ドラッグハンドルのプロパティを適用
