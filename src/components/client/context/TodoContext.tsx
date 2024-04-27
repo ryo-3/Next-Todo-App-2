@@ -1,50 +1,29 @@
-// src/components/client/context/TodoContext.tsx
-import React, {
-  createContext,
-  useState,
-  useContext,
-  ReactNode,
-  Dispatch,
-  SetStateAction,
-} from "react";
-import { Todo } from "@/components/models/interface"; // 正しいパスに注意してください。
+import React, { createContext, useState, useContext } from "react";
+import { Todo } from "@/components/models/interface";
 
 interface TodoContextType {
   todos: Todo[];
-  setTodos: Dispatch<SetStateAction<Todo[]>>;
-  deletedItems: Todo[];
-  setDeletedItems: Dispatch<SetStateAction<Todo[]>>;
+  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
 }
 
-const defaultTodoContext: TodoContextType = {
-  todos: [],
-  setTodos: () => {},
-  deletedItems: [],
-  setDeletedItems: () => {},
-};
+const TodoContext = createContext<TodoContextType | undefined>(undefined);
 
-const TodoContext = createContext<TodoContextType>({
-  todos: [],
-  setTodos: () => {},
-  deletedItems: [],
-  setDeletedItems: () => {},
-});
-
-interface TodoProviderProps {
-  children: ReactNode;
-}
-
-export const TodoProvider: React.FC<TodoProviderProps> = ({ children }) => {
+export const TodoProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [deletedItems, setDeletedItems] = useState<Todo[]>([]);
 
   return (
-    <TodoContext.Provider
-      value={{ todos, setTodos, deletedItems, setDeletedItems }}
-    >
+    <TodoContext.Provider value={{ todos, setTodos }}>
       {children}
     </TodoContext.Provider>
   );
 };
 
-export const useTodoContext = () => useContext(TodoContext); // カスタムフックを提供してアクセスを容易にします。
+export const useTodoContext = () => {
+  const context = useContext(TodoContext);
+  if (!context) {
+    throw new Error("useTodoContext must be used within a TodoProvider");
+  }
+  return context;
+};
