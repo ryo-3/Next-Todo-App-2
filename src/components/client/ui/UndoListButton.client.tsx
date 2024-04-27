@@ -29,7 +29,7 @@ const UndoListButton: React.FC = () => {
           setTodos(newTodos);
           
           // ログにアイテムの復元に関する情報を出力
-          console.log(`Item "${lastItem.text}" restored at index ${deletedIndex}`);
+          console.log(`ごみ箱から出そうとしているアイテム＝"${lastItem.text}" 所持していたindex番号 ${deletedIndex}`);
         }
       };
 

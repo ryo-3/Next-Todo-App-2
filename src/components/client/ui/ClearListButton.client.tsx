@@ -33,7 +33,7 @@ const ClearListButton: React.FC<ClearListButtonProps> = ({
       // 5. ログに完了したタスクの詳細を出力
       newDeletedItems.forEach((deletedItem) => {
         console.log(
-          `Completed task deleted: Text="${deletedItem.item.text}", Index=${deletedItem.deletedIndex}`
+          `選択削除されたアイテム="${deletedItem.item.text}", Index=${deletedItem.deletedIndex}`
         );
       });
     } else {
@@ -52,7 +52,7 @@ const ClearListButton: React.FC<ClearListButtonProps> = ({
       // 4. ログに全タスクの詳細を出力
       allDeletedItems.forEach((deletedItem) => {
         console.log(
-          `Task deleted: Text="${deletedItem.item.text}", Index=${deletedItem.deletedIndex}`
+          `全削除されたアイテム="${deletedItem.item.text}", Index=${deletedItem.deletedIndex}`
         );
       });
     }
