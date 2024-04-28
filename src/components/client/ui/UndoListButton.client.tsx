@@ -3,29 +3,39 @@ import React, { useState } from "react";
 import { useDeletedItemContext } from "../context/DeletedItemContext";
 import { Todo, UndoListButtonProps } from "@/components/models/interface";
 import Image from "next/image";
+import { useUndoStack } from "../context/UndoStackContext";
 
 const UndoListButton: React.FC<UndoListButtonProps> = ({ todos, setTodos }) => {
   const { deletedItems, setDeletedItems } = useDeletedItemContext();
- 
-
+  const { undoStack, setUndoStack } = useUndoStack();
 
   const undoRemoval = () => {
+    console.log("Current stack:", JSON.stringify(undoStack, null, 2));
+    if (undoStack.length === 0) return;
+  
+    const lastAction = undoStack[undoStack.length - 1];
+    console.log("Last action to undo:", JSON.stringify(lastAction, null, 2));
+    if (!lastAction) return;
+  
     const restoredTodos = [...todos];
+    lastAction.items.forEach(({ item, deletedIndex }) => {
+      console.log(`Restoring item at index ${deletedIndex}:`, item);
+      restoredTodos.splice(deletedIndex, 0, item);
+    });
   
-    // deletedItemsを逆順に処理して、削除されたアイテムを元の位置に復元
-    const updatedDeletedItems = [...deletedItems];
-    while (updatedDeletedItems.length > 0) {
-      const lastDeleted = updatedDeletedItems.pop();  // 最後のアイテムを取り出す
-      if (lastDeleted) {
-        restoredTodos.splice(lastDeleted.deletedIndex, 0, lastDeleted.item);  // 元の位置に復元
-        console.log("Restored item:", lastDeleted.item);
-      }
-    }
-  
+    console.log("Restored todos:", JSON.stringify(restoredTodos, null, 2));
     setTodos(restoredTodos);
-    setDeletedItems(updatedDeletedItems);  // 更新された削除アイテムリストを設定
+    setDeletedItems((prev) =>
+      prev.filter(
+        (delItem) =>
+          !lastAction.items.some(
+            (actionItem) => actionItem.item === delItem.item
+          )
+      )
+    );
+    setUndoStack((prev) => [...prev.slice(0, -1)]);
   };
-  
+
   return (
     <button
       onClick={undoRemoval}

@@ -8,6 +8,7 @@ import UndoListButton from "@/components/client/ui/UndoListButton.client";
 import TodoList from "@/components/client/ui/TodoList";
 import FloatingActionButton from "@/components/client/ui/AddTodoButton";
 import TodoForm from "@/components/client/ui/TodoForm";
+import { UndoStackProvider } from "@/components/client/context/UndoStackContext";
 
 const Page: React.FC = () => {
   const {
@@ -32,6 +33,7 @@ const Page: React.FC = () => {
   return (
     <TodoProvider>
          <DeletedItemProvider>
+         <UndoStackProvider>
       <main>
         <FloatingActionButton onClick={handleButtonClick} inputRef={inputRef} />
         {showForm && (
@@ -69,6 +71,7 @@ const Page: React.FC = () => {
           removeItem={removeItem}
         />
       </main>
+      </UndoStackProvider>
       </DeletedItemProvider>
     </TodoProvider>
   );
