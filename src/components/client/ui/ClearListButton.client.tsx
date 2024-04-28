@@ -1,6 +1,6 @@
 // src/components/client/ui/ClearListButton.client.tsx
 // src/components/client/ui/ClearListButton.client.tsx
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { useTodoContext } from "../context/TodoContext";
 import { ClearListButtonProps } from "@/components/models/interface";
@@ -9,41 +9,43 @@ import ClearButtonModal from "./ClearButtonModal"; // 追加
 import { useClearButtonModal } from "../hooks/useClearButtonModal";
 
 const ClearListButton: React.FC<ClearListButtonProps> = ({
-    todos,
-    setTodos,
-    isTodoCompleted,
-  }) => {
-    const { deletedItems, setDeletedItems } = useDeletedItemContext();
-    const { isModalOpen, openModal, closeModal, setIsModalOpen } = useClearButtonModal();
-
+  todos,
+  setTodos,
+  isTodoCompleted,
+}) => {
+  const { deletedItems, setDeletedItems } = useDeletedItemContext();
+  const { isModalOpen, openModal, closeModal, setIsModalOpen } =
+    useClearButtonModal();
+  const [undoStack, setUndoStack] = useState([]); // 操作履歴をスタックで管理
 
   const clearTodos = (onlyCompleted: boolean) => {
+    // 完了しているタスクだけ
     if (onlyCompleted) {
-      // 完了したタスクのみを削除
-
-      // 完了しているtodosを抽出
+      // 完了しているタスクをフィルタリングして抽出
       const completedTodos = todos.filter((todo) => todo.completed);
-      // 削除するアイテムをdeletedItems用の形式で新しい配列として作成
-      const newDeletedItems = completedTodos.map((item, index) => ({
+      // 抽出した完了タスクに対して削除アイテムの形式を作成し、各タスクの元のインデックスを記録
+      const newDeletedItems = completedTodos.map((item) => ({
         item,
-        // 削除されたアイテムの位置を指定（現状だとdeletedItemsの長さを使うことで正確な位置が不明瞭になる）
-        deletedIndex: deletedItems.length + index, // 修正：indexを加算して正確な位置を保持
+        deletedIndex: todos.findIndex((t) => t === item), // 元の位置を正確に記録
       }));
-      // 更新されたdeletedItemsを設定
+      // 削除アイテムリストに新しい削除アイテムを追加
       setDeletedItems([...deletedItems, ...newDeletedItems]);
-      // 完了しているタスクを除外したtodosをセット
+      // todosから完了タスクを削除
       setTodos(todos.filter((todo) => !todo.completed));
+      // 削除されたアイテムをログに出力
+      console.log("Deleted completed items:", completedTodos);
     } else {
-      // 全タスクを削除
-      // 全てのtodosを削除するためのdeletedItems用の配列を作成
+      // 全てのタスクを削除アイテムの形式に変換し、各タスクの元のインデックスを記録
       const newDeletedItems = todos.map((item, index) => ({
         item,
         deletedIndex: index, // 各アイテムの正確なインデックスを記録
       }));
-      // 更新されたdeletedItemsを設定
+      // 削除アイテムリストに新しい削除アイテムを追加
       setDeletedItems([...deletedItems, ...newDeletedItems]);
-      // todosを空の配列で更新
+      // todosを空の配列で更新し、全タスクを削除
       setTodos([]);
+      // 削除されたアイテムをログに出力
+      console.log("Deleted all items:", todos);
     }
     // モーダルを閉じる
     setIsModalOpen(false);
