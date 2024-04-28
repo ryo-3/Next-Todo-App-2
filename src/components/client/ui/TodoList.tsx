@@ -19,7 +19,7 @@ const TodoList: React.FC<TodoListProps> = ({
           <ul
             {...provided.droppableProps}
             ref={provided.innerRef}
-            className="pb-20 pt-5"
+            className="pb-40 pt-5"
           >
             {todos.map((todo, index) => (
               <Draggable
