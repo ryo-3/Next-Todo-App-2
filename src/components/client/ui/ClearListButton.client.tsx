@@ -1,19 +1,27 @@
 // src/components/client/ui/ClearListButton.client.tsx
-import React, { useState } from "react";
+// src/components/client/ui/ClearListButton.client.tsx
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import Modal from "./Modal";
 import { useTodoContext } from "../context/TodoContext";
-import { ClearListButtonProps } from "@/components/models/interface";
+import { ClearListButtonProps, Todo } from "@/components/models/interface";
+import { useDeletedItemContext } from "../context/DeletedItemContext";
+import ClearButtonModal from "./ClearButtonModal"; // 追加
+import { useClearButtonModal } from "../hooks/useClearButtonModal";
+import { useUndoStack } from "../context/UndoStackContext";
 
 const ClearListButton: React.FC<ClearListButtonProps> = ({
   todos,
   setTodos,
   isTodoCompleted,
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const { deletedItems, setDeletedItems } = useTodoContext();
+  const { deletedItems, setDeletedItems } = useDeletedItemContext();
+  const { isModalOpen, openModal, closeModal, setIsModalOpen } =
+    useClearButtonModal();
+
+    const { undoStack, setUndoStack } = useUndoStack();
 
   const clearTodos = (onlyCompleted: boolean) => {
+<<<<<<< HEAD
     if (onlyCompleted) {
       // 1. 完了したタスクのみをフィルタリングして新しい配列を作成
       const completedTodos = todos.filter((todo) => todo.completed);
@@ -57,8 +65,30 @@ const ClearListButton: React.FC<ClearListButtonProps> = ({
       });
     }
     // 5. モーダルを閉じる
+=======
+    const targetTodos = onlyCompleted ? todos.filter(todo => todo.completed) : [...todos];
+    const newDeletedItems = targetTodos.map(todo => ({
+      item: todo,
+      deletedIndex: todos.indexOf(todo),
+    }));
+  
+    setTodos(todos.filter(todo => !targetTodos.includes(todo)));
+    setDeletedItems(prev => [...prev, ...newDeletedItems]);
+    setUndoStack(prev => [
+      ...prev,
+      { type: onlyCompleted ? "partial" : "full", items: newDeletedItems }
+    ]);
+    console.log("Updated stack after push:", JSON.stringify(undoStack, null, 2));
+
+>>>>>>> main
     setIsModalOpen(false);
   };
+  
+  useEffect(() => {
+    console.log("Current stack updated:", JSON.stringify(undoStack, null, 2));
+  }, [undoStack]);
+  
+  
 
   const handleClear = () => {
     if (isTodoCompleted) {
@@ -87,16 +117,16 @@ const ClearListButton: React.FC<ClearListButtonProps> = ({
           priority
         />
       </button>
-      <Modal
+      <ClearButtonModal // 更新
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={closeModal}
         onConfirm={handleConfirm}
         title="リストを全削除しますか？"
         confirmText="削除"
         cancelText="キャンセル"
       >
         <span></span>
-      </Modal>
+      </ClearButtonModal>
     </>
   );
 };

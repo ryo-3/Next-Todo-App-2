@@ -1,9 +1,17 @@
 // src/components/client/ui/UndoListButton.client.tsx
+<<<<<<< HEAD
 import React from "react";
 import { useTodoContext } from "../context/TodoContext";
 import { UndoListButtonProps } from "@/components/models/interface";
+=======
+import React, { useState } from "react";
+import { useDeletedItemContext } from "../context/DeletedItemContext";
+import { Todo, UndoListButtonProps } from "@/components/models/interface";
+>>>>>>> main
 import Image from "next/image";
+import { useUndoStack } from "../context/UndoStackContext";
 
+<<<<<<< HEAD
 const UndoListButton: React.FC = () => {
     const { deletedItems, setDeletedItems, todos, setTodos } = useTodoContext();
   
@@ -32,6 +40,38 @@ const UndoListButton: React.FC = () => {
           console.log(`ごみ箱から出そうとしているアイテム＝"${lastItem.text}" 所持していたindex番号 ${deletedIndex}`);
         }
       };
+=======
+const UndoListButton: React.FC<UndoListButtonProps> = ({ todos, setTodos }) => {
+  const { deletedItems, setDeletedItems } = useDeletedItemContext();
+  const { undoStack, setUndoStack } = useUndoStack();
+
+  const undoRemoval = () => {
+    console.log("Current stack:", JSON.stringify(undoStack, null, 2));
+    if (undoStack.length === 0) return;
+  
+    const lastAction = undoStack[undoStack.length - 1];
+    console.log("Last action to undo:", JSON.stringify(lastAction, null, 2));
+    if (!lastAction) return;
+  
+    const restoredTodos = [...todos];
+    lastAction.items.forEach(({ item, deletedIndex }) => {
+      console.log(`Restoring item at index ${deletedIndex}:`, item);
+      restoredTodos.splice(deletedIndex, 0, item);
+    });
+  
+    console.log("Restored todos:", JSON.stringify(restoredTodos, null, 2));
+    setTodos(restoredTodos);
+    setDeletedItems((prev) =>
+      prev.filter(
+        (delItem) =>
+          !lastAction.items.some(
+            (actionItem) => actionItem.item === delItem.item
+          )
+      )
+    );
+    setUndoStack((prev) => [...prev.slice(0, -1)]);
+  };
+>>>>>>> main
 
   return (
     <button

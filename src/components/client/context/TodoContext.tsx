@@ -1,16 +1,9 @@
-// src/components/client/context/TodoContext.tsx
-import React, {
-  createContext,
-  useState,
-  useContext,
-  ReactNode,
-  Dispatch,
-  SetStateAction,
-} from "react";
-import { Todo } from "@/components/models/interface"; // 正しいパスに注意してください。
+import React, { createContext, useState, useContext } from "react";
+import { Todo } from "@/components/models/interface";
 
 interface TodoContextType {
   todos: Todo[];
+<<<<<<< HEAD
   setTodos: Dispatch<SetStateAction<Todo[]>>;
   deletedItems: { item: Todo; deletedIndex: number }[];
   setDeletedItems: Dispatch<
@@ -42,6 +35,17 @@ export const TodoProvider: React.FC<TodoProviderProps> = ({ children }) => {
     // 削除したTodoアイテムと　その配列を記憶
     { item: Todo; deletedIndex: number }[]
   >([]);
+=======
+  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
+}
+
+const TodoContext = createContext<TodoContextType | undefined>(undefined);
+
+export const TodoProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const [todos, setTodos] = useState<Todo[]>([]);
+>>>>>>> main
 
   const handleDelete = (id: number) => {
     const deletedIndex = todos.findIndex((todo) => todo.id === id);
@@ -63,6 +67,7 @@ export const TodoProvider: React.FC<TodoProviderProps> = ({ children }) => {
     // onClick関数の実装
   };
   return (
+<<<<<<< HEAD
     <TodoContext.Provider
       value={{
         todos,
@@ -73,9 +78,18 @@ export const TodoProvider: React.FC<TodoProviderProps> = ({ children }) => {
         onClick
       }}
     >
+=======
+    <TodoContext.Provider value={{ todos, setTodos }}>
+>>>>>>> main
       {children}
     </TodoContext.Provider>
   );
 };
 
-export const useTodoContext = () => useContext(TodoContext); // カスタムフックを提供してアクセスを容易にします。
+export const useTodoContext = () => {
+  const context = useContext(TodoContext);
+  if (!context) {
+    throw new Error("useTodoContext must be used within a TodoProvider");
+  }
+  return context;
+};
