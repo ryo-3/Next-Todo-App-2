@@ -1,18 +1,21 @@
 // src/components/client/ui/ClearListButton.client.tsx
-import React, { useState } from "react";
+// src/components/client/ui/ClearListButton.client.tsx
+import React from "react";
 import Image from "next/image";
-import Modal from "./Modal";
 import { useTodoContext } from "../context/TodoContext";
 import { ClearListButtonProps } from "@/components/models/interface";
 import { useDeletedItemContext } from "../context/DeletedItemContext";
+import ClearButtonModal from "./ClearButtonModal"; // 追加
+import { useClearButtonModal } from "../hooks/useClearButtonModal";
 
 const ClearListButton: React.FC<ClearListButtonProps> = ({
-  todos,
-  setTodos,
-  isTodoCompleted,
-}) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const { deletedItems, setDeletedItems } = useDeletedItemContext();
+    todos,
+    setTodos,
+    isTodoCompleted,
+  }) => {
+    const { deletedItems, setDeletedItems } = useDeletedItemContext();
+    const { isModalOpen, openModal, closeModal, setIsModalOpen } = useClearButtonModal();
+
 
   const clearTodos = (onlyCompleted: boolean) => {
     if (onlyCompleted) {
@@ -73,16 +76,16 @@ const ClearListButton: React.FC<ClearListButtonProps> = ({
           priority
         />
       </button>
-      <Modal
+      <ClearButtonModal // 更新
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={closeModal}
         onConfirm={handleConfirm}
         title="リストを全削除しますか？"
         confirmText="削除"
         cancelText="キャンセル"
       >
         <span></span>
-      </Modal>
+      </ClearButtonModal>
     </>
   );
 };
