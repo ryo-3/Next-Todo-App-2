@@ -1,13 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Todo } from "@/components/models/interface";
+import { TodoItemProps } from "@/components/models/interface";
 
-interface TodoItemProps {
-  todo: Todo;
-  selectedId: number | null;
-  updateTodo: (id: number, newText: string) => void;
-  className?: string;
-  onEditingStateChange: (isFocused: boolean) => void;
-}
 
 const TodoItem: React.FC<TodoItemProps> = ({
   todo,

@@ -1,14 +1,14 @@
-import React, { CSSProperties, useEffect } from "react";
-import useScrollFixed from "../hooks/data/useScrollFixed";
+import React from "react";
 
 interface TodoFormProps {
   inputValue: string;
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   error: string | null;
-  inputRef: React.RefObject<HTMLInputElement>;
   showForm: boolean;
-  style?: CSSProperties; // Optionalでstyleプロパティを追加
+  inputRef: React.RefObject<HTMLInputElement>;
+  fixedStyle?: React.CSSProperties;
+  formRef?: React.RefObject<HTMLDivElement>;
 }
 
 const TodoForm: React.FC<TodoFormProps> = ({
@@ -18,9 +18,9 @@ const TodoForm: React.FC<TodoFormProps> = ({
   error,
   showForm,
   inputRef,
-  style,
+  fixedStyle,
+  formRef,
 }) => {
-  const { placeholderStyle, fixedStyle, formRef } = useScrollFixed();
   const handleSubmitWithFocus: React.FormEventHandler<HTMLFormElement> = (
     event
   ) => {
@@ -29,36 +29,26 @@ const TodoForm: React.FC<TodoFormProps> = ({
   };
 
   return (
-    <div ref={formRef} style={placeholderStyle}>
-      <form
-        onSubmit={handleSubmitWithFocus}
-        className="w-full z-10"
-        style={fixedStyle}
-      >
-        <div className="relative flex items-center">
-          <input
-            ref={inputRef}
-            type="text"
-            value={inputValue}
-            onChange={handleChange}
-            placeholder="入力欄 ..."
-            className="border-2 py-2 pl-3 rounded focus:outline-none focus:border-[#442a21] w-full"
-          />
-          {error && (
-            <img
-              src={error}
-              alt="Error"
-              className="absolute left-20 top-5 transform -translate-y-1/2 h-4 w-4"
+    <div ref={formRef} style={fixedStyle} className="">
+        <form onSubmit={handleSubmitWithFocus} className="">
+          <div className="relative flex items-center ">
+            <input
+              ref={inputRef}
+              type="text"
+              value={inputValue}
+              onChange={handleChange}
+              placeholder="入力欄 ..."
+              className="border-2 py-2 pl-3 rounded focus:outline-none focus:border-[#442a21] w-full "
             />
-          )}
-          <button
-            type="submit"
-            className="bg-emerald-600 text-white font-bold py-2.5 px-4 w-20 rounded ss:px-4 ml-4"
-          >
-            追加
-          </button>
-        </div>
-      </form>
+            {error && <div className="error">{error}</div>}
+            <button
+              type="submit"
+              className="bg-emerald-600 text-white font-bold py-2.5 px-4 w-20 rounded ss:px-4 ml-4 "
+            >
+              追加
+            </button>
+          </div>
+        </form>
     </div>
   );
 };

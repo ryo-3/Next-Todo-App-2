@@ -8,8 +8,9 @@ import useHandleSubmit from "./data/useHandleSubmit";
 import useLocalStorage from "./data/useLocalStorage";
 import useInputChange from "./data/useInputChange";
 import useToggleTodoComplete from "./data/useToggleTodoComplete";
-import useBtnClickFixed from "@/components/client/hooks/data/useScrollFixed";
+import useScrollFixed from "./data/useScrollFixed";
 import useSelectionTimeout from "./data/useSelectionTimeout";
+import useDropTodo from "./data/useDropTodo";
 
 function useTodoManagement() {
   const { inputValue, setInputValue, handleChange } = useInputChange();
@@ -18,9 +19,10 @@ function useTodoManagement() {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
-  const { fixedStyle, formRef } = useBtnClickFixed();
+  const { fixedStyle, formRef , placeholderStyle } = useScrollFixed();
   const { selectedId, handleSelect, resetTimeoutOnFocusChange } =
     useSelectionTimeout();
+  const { onDragEnd } = useDropTodo(todos, setTodos);
 
   useEffect(() => {
     setTimeout(() => {
@@ -106,8 +108,10 @@ function useTodoManagement() {
     handleFormSubmit,
     fixedStyle,
     formRef,
+    placeholderStyle,
     updateTodo,
-    resetTimeoutOnFocusChange
+    resetTimeoutOnFocusChange,
+    onDragEnd,
   };
 }
 

@@ -45,10 +45,20 @@ export interface TodoListProps {
   toggleTodoComplete: (id: number) => void;
   updateTodo: (id: number, newText: string) => void;
   onEditingStateChange: (isFocused: boolean) => void;
+  onDragEnd: (result: any) => void;
+  placeholderStyle?: React.CSSProperties;
 }
 
 export interface UndoListButtonProps {
   todos: Todo[];
   setTodos: SetTodos;
   removeItem: (index: number) => void;
+}
+
+export interface TodoItemProps {
+  todo: Todo;
+  selectedId: number | null;
+  updateTodo: (id: number, newText: string) => void;
+  className?: string;
+  onEditingStateChange: (isFocused: boolean) => void;
 }
