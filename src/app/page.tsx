@@ -1,6 +1,6 @@
 "use client";
 import React, { FormEvent, useState, useRef, useEffect } from "react";
-import useTodoManagement from "@/components/client/hooks/useTodoManagement";
+import useTodoManagement from "@/components/client/hooks/useManagement";
 import { TodoProvider } from "@/components/client/context/TodoContext";
 import { DeletedItemProvider } from "@/components/client/context/DeletedItemContext";
 import ClearListButton from "@/components/client/ui/ClearListButton.client";
@@ -9,6 +9,7 @@ import TodoList from "@/components/client/ui/TodoList";
 import FloatingActionButton from "@/components/client/ui/AddTodoButton";
 import TodoForm from "@/components/client/ui/TodoForm";
 import { UndoStackProvider } from "@/components/client/context/UndoStackContext";
+
 
 const Page: React.FC = () => {
   const {
@@ -28,6 +29,7 @@ const Page: React.FC = () => {
     handleFormSubmit,
     fixedStyle,
     formRef,
+    updateTodo,
   } = useTodoManagement();
 
   return (
@@ -58,6 +60,7 @@ const Page: React.FC = () => {
             selectedId={selectedId}
             handleSelect={handleSelect}
             toggleTodoComplete={toggleTodoComplete}
+            updateTodo={updateTodo}
           />
         )}
         <ClearListButton

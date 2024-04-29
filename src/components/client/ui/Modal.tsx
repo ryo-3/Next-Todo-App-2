@@ -25,7 +25,7 @@ const Modal: React.FC<ModalProps> = ({
             {cancelText}
           </button>
           <button
-            className="Bg-brown text-white rounded-md px-5 py-2"
+            className="bg-blown hover:bg-[#442a21] text-white rounded-md px-5 py-2"
             onClick={onConfirm} //　削除ボタン
           >
             {confirmText}
