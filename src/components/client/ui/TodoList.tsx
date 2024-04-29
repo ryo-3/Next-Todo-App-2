@@ -1,7 +1,7 @@
 import React from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { TodoListProps } from "@/components/models/interface";
-import SelectableItem from "./SelectableItem";
+import SelectableItem from "./TodoItem";
 import useDropTodo from "@/components/client/hooks/data/useDropTodo";
 
 const TodoList: React.FC<TodoListProps> = ({

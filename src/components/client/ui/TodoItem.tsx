@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { TodoItem } from "@/components/models/interface";
+import { Todo } from "@/components/models/interface";
 
-// SelectableItem.tsx
 
-interface SelectableItemProps {
-    todo: TodoItem;
+interface TodoItemProps {
+    todo: Todo;
     selectedId: number | null;
     updateTodo: (id: number, newText: string) => void;
     className?: string;
     onEditingStateChange: (isFocused: boolean) => void; // プロパティ名を修正
   }
   
-  const SelectableItem: React.FC<SelectableItemProps> = ({
+  const TodoItem: React.FC<TodoItemProps> = ({
       todo,
       selectedId,
       updateTodo,
@@ -48,4 +47,4 @@ interface SelectableItemProps {
   };
   
 
-export default SelectableItem;
+export default TodoItem;
