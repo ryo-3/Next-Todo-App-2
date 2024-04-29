@@ -30,12 +30,6 @@ export interface ClearListButtonProps {
   isTodoCompleted: boolean;
 }
 
-export interface ClearListButtonProps {
-  todos: Todo[];
-  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
-  isTodoCompleted: boolean;
-}
-
 export interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -46,12 +40,19 @@ export interface ModalProps {
   children: ReactNode;
 }
 
+export interface TodoItem {
+  id: number;
+  text: string;
+  completed: boolean;
+}
+
 export interface TodoListProps {
-  todos: Todo[];
-  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
+  todos: TodoItem[];
+  setTodos: React.Dispatch<React.SetStateAction<TodoItem[]>>;
   selectedId: number | null;
-  handleSelect: (id: number) => void;
+  handleSelect: (id: number | null) => void; // 型を変更
   toggleTodoComplete: (id: number) => void;
+  updateTodo: (id: number, newText: string) => void;
 }
 
 export interface UndoListButtonProps {

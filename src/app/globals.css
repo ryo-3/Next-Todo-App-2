@@ -1,7 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Rubik+Bubbles&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Rubik+Bubbles&family=Shadows+Into+Light&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Rubik+Bubbles&family=Shadows+Into+Light&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Rubik+Bubbles&family=Shadows+Into+Light&family=Yomogi&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,6 +7,7 @@
 }
 @media (prefers-color-scheme: dark) {
 }
+
 body {
   width: 94%;
   margin: 0 auto;
@@ -22,35 +20,10 @@ body {
   font-weight: 400;
   font-style: normal;
 }
-.shadows-into-light-regular {
-  font-family: "Shadows Into Light", cursive;
-  font-weight: 400;
-  font-style: normal;
-}
-.permanent-marker-regular {
-  font-family: "Permanent Marker", cursive;
-  font-weight: 400;
-  font-style: normal;
-}
 
-.yomogi-regular {
-  font-family: "Yomogi", cursive;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.brown {
-  color: #5e3425;
-}
-.Bg-brown {
-  background-color: #5e3425;
-  &:hover {
-    background-color: #442a21;
-  }
-}
-.selected {
-  background-color: #e3f7ed; /* 背景色をグレーに設定 */
-}
+/* .selected {
+  background-color: #e3f7ed; 
+} */
 .listItem {
   width: 87%;
 }
@@ -99,9 +72,9 @@ body {
 .checkbox-custom label::after {
   content: "";
   position: absolute;
-  width: 20px; /* 元のサイズより少し大きく */
-  height: 20px; /* 元のサイズより少し大きく */
-  top: -12px; /* 少し上に */
+  width: 22px; /* 元のサイズより少し大きく */
+  height: 22px; /* 元のサイズより少し大きく */
+  top: -11px; /* 少し上に */
   left: 0px;
   background-image: url("/check.png");
   background-size: cover;
@@ -110,18 +83,15 @@ body {
   transition: opacity 0.2s;
 }
 
-チェックされた時のデザイン
-.checkbox-custom input[type="checkbox"]:checked + label::before {
+/* チェックされた時のデザイン */
+/* .checkbox-custom input[type="checkbox"]:checked + label::before {
   background-image: url("/check.png");
   background-size: cover;
-}
+} */
 
 .checkbox-custom input[type="checkbox"]:checked + label::after {
-  opacity: 1; /* チェック時に表示 */
+  opacity: 1; 
 }
 
 @layer utilities {
-  .error {
-    @apply text-stone-400 pl-1 pt-2.5;
-  }
 }

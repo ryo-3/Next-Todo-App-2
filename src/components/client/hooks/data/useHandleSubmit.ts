@@ -1,6 +1,6 @@
 // フォームの送信
 "use client";
-import { Todo } from "../../models/interface";
+import { Todo } from "../../../models/interface";
 
 const useHandleSubmit = (
   validateInput: () => boolean,

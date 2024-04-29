@@ -42,7 +42,7 @@ const TodoForm: React.FC<TodoFormProps> = ({
             value={inputValue}
             onChange={handleChange}
             placeholder="入力欄 ..."
-            className="border-2 py-2 pl-3 rounded focus:outline-none focus:border-yellow-950 w-full"
+            className="border-2 py-2 pl-3 rounded focus:outline-none focus:border-[#442a21] w-full"
           />
           {error && (
             <img

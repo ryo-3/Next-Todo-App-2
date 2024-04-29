@@ -1,10 +1,9 @@
-// todoリストの選択時
 import { useState } from 'react';
 
 const useSelectTodo = () => {
   const [selectedId, setSelectedId] = useState<number | null>(null);
-  const handleSelect = (id: number) => {
-    setSelectedId(id === selectedId ? null : id);
+  const handleSelect = (id: number | null) => {
+    setSelectedId(id);
   };
   return { selectedId, handleSelect };
 };

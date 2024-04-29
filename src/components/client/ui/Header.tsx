@@ -4,7 +4,7 @@ const Header = () => {
   return (
     <header>
       <div className="flex">
-        <h1 className="text-4xl pt-5 pb-3 rubik-bubbles-regular brown">
+        <h1 className="text-4xl pt-5 pb-3 rubik-bubbles-regular text-blown">
           Todo List
         </h1>
         <Image

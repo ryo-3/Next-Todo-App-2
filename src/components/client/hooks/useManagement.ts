@@ -1,15 +1,15 @@
 "use client";
-import useCreateTodo from "./useCreateTodo";
-import useUpdateTodos from "./useUpdateTodos";
-import useInputValidation from "./useInputValidation";
-import useHandleSubmit from "./useHandleSubmit";
-import useLocalStorage from "./useLocalStorage";
-import useInputChange from "./useInputChange";
-import useToggleTodoComplete from "./useToggleTodoComplete";
-import useSelectTodo from "./useSelectTodo";
+import useCreateTodo from "./data/useCreateTodo";
+import useUpdateTodos from "./data/useUpdateTodos";
+import useInputValidation from "./data/useInputValidation";
+import useHandleSubmit from "./data/useHandleSubmit";
+import useLocalStorage from "./data/useLocalStorage";
+import useInputChange from "./data/useInputChange";
+import useToggleTodoComplete from "./data/useToggleTodoComplete";
+import useSelectTodo from "./data/useSelectTodo";
 import { Todo } from "@/components/models/interface";
 import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
-import useBtnClickFixed from "@/components/client/hooks/useBtnClickFixed";
+import useBtnClickFixed from "@/components/client/hooks/data/useScrollFixed";
 
 function useTodoManagement() {
   const { inputValue, setInputValue, handleChange } = useInputChange();
@@ -59,6 +59,17 @@ function useTodoManagement() {
     handleSubmit(event);
   };
 
+  const updateTodo = useCallback((id: number, newText: string) => {
+    const updatedTodos = todos.map(todo => {
+      if (todo.id === id) {
+        return { ...todo, text: newText };
+      }
+      return todo;
+    });
+    setTodos(updatedTodos);
+  }, [todos, setTodos]);
+  
+
   return {
     validateInput,
     inputValue,
@@ -80,6 +91,7 @@ function useTodoManagement() {
     handleFormSubmit,
     fixedStyle,
     formRef,
+    updateTodo, // 追加
   };
 }
 
