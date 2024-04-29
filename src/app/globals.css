@@ -74,8 +74,8 @@ body {
   position: absolute;
   width: 22px; /* 元のサイズより少し大きく */
   height: 22px; /* 元のサイズより少し大きく */
-  top: -11px; /* 少し上に */
-  left: 0px;
+  top: -12px; /* 少し上に */
+  left: -0px;
   background-image: url("/check.png");
   background-size: cover;
   background-position: center;

@@ -3,16 +3,16 @@ import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import SelectableItem from "./SelectableItem";
 import { TodoListProps } from "@/components/models/interface";
 import useDropTodo from "@/components/client/hooks/data/useDropTodo";
+import useSelectionTimeout from "../hooks/data/useSelectionTimeout";
 
 const TodoList: React.FC<TodoListProps> = ({
   todos,
   setTodos,
-  selectedId,
-  handleSelect,
   toggleTodoComplete,
   updateTodo,
 }) => {
   const { onDragEnd } = useDropTodo(todos, setTodos);
+  const { selectedId, handleSelect } = useSelectionTimeout(); // 新しいフックを使用
 
   const handleItemClick = (id: number) => {
     if (selectedId !== id) {
@@ -24,17 +24,9 @@ const TodoList: React.FC<TodoListProps> = ({
     <DragDropContext onDragStart={() => {}} onDragEnd={onDragEnd}>
       <Droppable droppableId="todos-list" direction="vertical">
         {(provided) => (
-          <ul
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-            className="pb-40 pt-5"
-          >
+          <ul {...provided.droppableProps} ref={provided.innerRef} className="pb-40 pt-5">
             {todos.map((todo, index) => (
-              <Draggable
-                key={todo.id}
-                draggableId={todo.id.toString()}
-                index={index}
-              >
+              <Draggable key={todo.id} draggableId={todo.id.toString()} index={index}>
                 {(provided, snapshot) => (
                   <li
                     ref={provided.innerRef}
@@ -44,7 +36,7 @@ const TodoList: React.FC<TodoListProps> = ({
                     } ${selectedId === todo.id ? "bg-selected" : ""}`}
                     onClick={() => handleItemClick(todo.id)}
                   >
-                    <div className="checkbox-custom flex-item">
+                    <div className="checkbox-custom">
                       <input
                         id={`checkbox-${todo.id}`}
                         type="checkbox"
@@ -58,19 +50,14 @@ const TodoList: React.FC<TodoListProps> = ({
                       todo={todo}
                       selectedId={selectedId}
                       updateTodo={updateTodo}
-                      className="text-input"
+                      className="text-input flex-grow"
                     />
                     <div
-                      className="pr-2.5 py-1 pl-1"
                       {...provided.dragHandleProps}
                       onClick={(e) => e.stopPropagation()}
+                      className="pr-2.5 py-1 pl-1 flex-shrink-0"
                     >
-                      <div
-                        className="flex-shrink-0 w-5"
-                        style={{ pointerEvents: "none" }}
-                      >
-                        <img src="./seedling.png" alt="" />
-                      </div>
+                      <img src="./seedling.png" className="flex-shrink-0 w-5 h-5" alt="" />
                     </div>
                   </li>
                 )}

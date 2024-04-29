@@ -5,7 +5,7 @@ interface SelectableItemProps {
   todo: TodoItem;
   selectedId: number | null; // selectedIdをPropsに追加
   updateTodo: (id: number, newText: string) => void;
-  className?: string;  
+  className?: string;
 }
 
 const SelectableItem: React.FC<SelectableItemProps> = ({
