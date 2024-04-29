@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useMemo, useCallback } from "react";
 
-function useBtnClickFixed() {
+function useScrollFixed() {
   const [isFixed, setIsFixed] = useState(false);
   const formRef = useRef<HTMLDivElement>(null);
   const [initialFormHeight, setInitialFormHeight] = useState<
@@ -37,4 +37,4 @@ function useBtnClickFixed() {
   return { placeholderStyle, fixedStyle, formRef, setFixed };
 }
 
-export default useBtnClickFixed;
+export default useScrollFixed;
