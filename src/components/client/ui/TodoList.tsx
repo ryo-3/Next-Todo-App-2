@@ -3,21 +3,26 @@ import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import SelectableItem from "./SelectableItem";
 import { TodoListProps } from "@/components/models/interface";
 import useDropTodo from "@/components/client/hooks/data/useDropTodo";
+import useSelectionTimeout from "../hooks/data/useSelectionTimeout";
 
 const TodoList: React.FC<TodoListProps> = ({
   todos,
   setTodos,
-  selectedId,
-  handleSelect,
   toggleTodoComplete,
   updateTodo,
 }) => {
   const { onDragEnd } = useDropTodo(todos, setTodos);
+  const { selectedId, handleSelect, resetTimeoutOnFocusChange } =
+    useSelectionTimeout();
 
   const handleItemClick = (id: number) => {
     if (selectedId !== id) {
       handleSelect(id);
     }
+  };
+
+  const onEditingStateChange = (editing: boolean) => {
+    resetTimeoutOnFocusChange(editing); // 編集状態が変わった際にタイマーをリセット
   };
 
   return (
@@ -44,7 +49,7 @@ const TodoList: React.FC<TodoListProps> = ({
                     } ${selectedId === todo.id ? "bg-selected" : ""}`}
                     onClick={() => handleItemClick(todo.id)}
                   >
-                    <div className="checkbox-custom flex-item">
+                    <div className="checkbox-custom">
                       <input
                         id={`checkbox-${todo.id}`}
                         type="checkbox"
@@ -58,19 +63,19 @@ const TodoList: React.FC<TodoListProps> = ({
                       todo={todo}
                       selectedId={selectedId}
                       updateTodo={updateTodo}
-                      className="text-input"
+                      className="text-input flex-grow"
+                      onFocusChange={onEditingStateChange} // フォーカス状態の変更をハンドリング
                     />
                     <div
-                      className="pr-2.5 py-1 pl-1"
                       {...provided.dragHandleProps}
                       onClick={(e) => e.stopPropagation()}
+                      className="pr-2.5 py-1 pl-1 flex-shrink-0"
                     >
-                      <div
-                        className="flex-shrink-0 w-5"
-                        style={{ pointerEvents: "none" }}
-                      >
-                        <img src="./seedling.png" alt="" />
-                      </div>
+                      <img
+                        src="./seedling.png"
+                        className="flex-shrink-0 w-5 h-5"
+                        alt=""
+                      />
                     </div>
                   </li>
                 )}
