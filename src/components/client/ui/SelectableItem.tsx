@@ -33,7 +33,7 @@ const SelectableItem: React.FC<SelectableItemProps> = ({
         onBlur={handleBlur}
         contentEditable={isEditing}
         suppressContentEditableWarning
-        className={`flex-grow flex-shrink min-w-0 cursor-pointer ${isEditing ? 'editing' : ''} ${selectedId === todo.id ? 'bg-selected' : ''}`}
+        className="flex-grow flex-shrink min-w-0 cursor-pointe"
         style={{ outline: isEditing ? 'none' : 'none' }}
       >
         {todo.text}

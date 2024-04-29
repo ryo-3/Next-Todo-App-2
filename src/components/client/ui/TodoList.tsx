@@ -14,21 +14,35 @@ const TodoList: React.FC<TodoListProps> = ({
 }) => {
   const { onDragEnd } = useDropTodo(todos, setTodos);
 
+  const handleItemClick = (id: number) => {
+    if (selectedId !== id) {
+      handleSelect(id);
+    }
+  };
+
   return (
     <DragDropContext onDragStart={() => {}} onDragEnd={onDragEnd}>
       <Droppable droppableId="todos-list" direction="vertical">
         {(provided) => (
-          <ul {...provided.droppableProps} ref={provided.innerRef} className="pb-40 pt-5">
+          <ul
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+            className="pb-40 pt-5"
+          >
             {todos.map((todo, index) => (
-              <Draggable key={todo.id} draggableId={todo.id.toString()} index={index}>
+              <Draggable
+                key={todo.id}
+                draggableId={todo.id.toString()}
+                index={index}
+              >
                 {(provided, snapshot) => (
                   <li
                     ref={provided.innerRef}
                     {...provided.draggableProps}
-                    className={`flex-container pt-2 pb-2.5 pl-2 rounded-md mb-2 text-neutral-900 flex justify-between items-center ${
+                    className={`flex-container pt-2 pb-2.5 pl-2 rounded-md mb-2 text-neutral-900 flex justify-between items-center draggable-bg-transition ${
                       snapshot.isDragging ? "bg-emerald-200" : "bg-emerald-100"
-                    } ${selectedId === todo.id ? "bg-selected" : ""}`} // bg-selected を適用
-                    onClick={() => handleSelect(todo.id)}
+                    } ${selectedId === todo.id ? "bg-selected" : ""}`}
+                    onClick={() => handleItemClick(todo.id)}
                   >
                     <div className="checkbox-custom flex-item">
                       <input

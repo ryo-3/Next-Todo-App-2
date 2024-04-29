@@ -48,9 +48,9 @@ export interface TodoItem {
 
 export interface TodoListProps {
   todos: TodoItem[];
-  setTodos: Dispatch<SetStateAction<TodoItem[]>>;
+  setTodos: React.Dispatch<React.SetStateAction<TodoItem[]>>;
   selectedId: number | null;
-  handleSelect: (id: number) => void;
+  handleSelect: (id: number | null) => void; // 型を変更
   toggleTodoComplete: (id: number) => void;
   updateTodo: (id: number, newText: string) => void;
 }

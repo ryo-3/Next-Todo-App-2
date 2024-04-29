@@ -72,9 +72,9 @@ body {
 .checkbox-custom label::after {
   content: "";
   position: absolute;
-  width: 20px; /* 元のサイズより少し大きく */
-  height: 20px; /* 元のサイズより少し大きく */
-  top: -12px; /* 少し上に */
+  width: 22px; /* 元のサイズより少し大きく */
+  height: 22px; /* 元のサイズより少し大きく */
+  top: -11px; /* 少し上に */
   left: 0px;
   background-image: url("/check.png");
   background-size: cover;
@@ -84,13 +84,13 @@ body {
 }
 
 /* チェックされた時のデザイン */
-.checkbox-custom input[type="checkbox"]:checked + label::before {
+/* .checkbox-custom input[type="checkbox"]:checked + label::before {
   background-image: url("/check.png");
   background-size: cover;
-}
+} */
 
 .checkbox-custom input[type="checkbox"]:checked + label::after {
-  opacity: 1; /* チェック時に表示 */
+  opacity: 1; 
 }
 
 @layer utilities {
