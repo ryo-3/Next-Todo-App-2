@@ -44,7 +44,7 @@ const Page: React.FC = () => {
               inputRef={inputRef}
             />
             {showForm && (
-              <div ref={formRef} style={fixedStyle}>
+              <div ref={formRef} style={placeholderStyle}>
                 <TodoForm
                   inputValue={inputValue}
                   handleChange={handleChange}
@@ -69,7 +69,7 @@ const Page: React.FC = () => {
                 updateTodo={updateTodo}
                 onEditingStateChange={resetTimeoutOnFocusChange}
                 onDragEnd={onDragEnd}
-                placeholderStyle={placeholderStyle}
+            
               />
             )}
             <ClearListButton

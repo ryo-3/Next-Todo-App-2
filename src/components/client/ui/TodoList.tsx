@@ -12,7 +12,6 @@ const TodoList: React.FC<TodoListProps> = ({
   handleSelect,
   onEditingStateChange,
   onDragEnd,
-  placeholderStyle,
 }) => {
 
   const handleItemClick = (id: number) => {
@@ -28,7 +27,6 @@ const TodoList: React.FC<TodoListProps> = ({
           <ul
             {...provided.droppableProps}
             ref={provided.innerRef}
-            style={placeholderStyle}
             className="pb-40 pt-5"
           >
             {todos.map((todo, index) => (
