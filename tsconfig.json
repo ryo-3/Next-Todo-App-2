@@ -21,6 +21,13 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/不要ファイル/useScrollFixed"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/components/client/hooks/data/useScrollFixed.tsx",
+    "src/不要ファイル/useScrollFixed"
+  ],
   "exclude": ["node_modules"]
 }

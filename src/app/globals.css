@@ -14,7 +14,6 @@ body {
   background-color: rgba(209, 250, 229, 0.2);
   overflow-y: scroll;
 }
-
 .rubik-bubbles-regular {
   font-family: "Rubik Bubbles", system-ui;
   font-weight: 400;
@@ -55,6 +54,7 @@ body {
   cursor: pointer;
   display: inline-block;
   line-height: 20px; /* ラベルのテキストの行高を調整 */
+
 }
 
 .checkbox-custom label::before {
@@ -68,6 +68,7 @@ body {
   border-radius: 50%; /* 丸くする */
   background: white; /* 背景色 */
   border: 1px solid rgb(214 211 209); /* 枠線 */
+
 }
 .checkbox-custom label::after {
   content: "";
@@ -81,13 +82,8 @@ body {
   background-position: center;
   opacity: 0; /* 最初は非表示 */
   transition: opacity 0.2s;
+ 
 }
-
-/* チェックされた時のデザイン */
-/* .checkbox-custom input[type="checkbox"]:checked + label::before {
-  background-image: url("/check.png");
-  background-size: cover;
-} */
 
 .checkbox-custom input[type="checkbox"]:checked + label::after {
   opacity: 1; 

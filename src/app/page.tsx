@@ -28,8 +28,10 @@ const Page: React.FC = () => {
     handleFormSubmit,
     fixedStyle,
     formRef,
+    placeholderStyle,
     updateTodo,
     resetTimeoutOnFocusChange,
+    onDragEnd,
   } = useTodoManagement();
 
   return (
@@ -50,7 +52,8 @@ const Page: React.FC = () => {
                   error={error}
                   showForm={showForm}
                   inputRef={inputRef}
-                  style={fixedStyle}
+                  fixedStyle={fixedStyle} // これを渡す
+                  formRef={formRef} // これを渡す
                 />
               </div>
             )}
@@ -65,6 +68,8 @@ const Page: React.FC = () => {
                 toggleTodoComplete={toggleTodoComplete}
                 updateTodo={updateTodo}
                 onEditingStateChange={resetTimeoutOnFocusChange}
+                onDragEnd={onDragEnd}
+                placeholderStyle={placeholderStyle}
               />
             )}
             <ClearListButton

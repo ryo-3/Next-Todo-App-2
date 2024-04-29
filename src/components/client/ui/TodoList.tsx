@@ -2,7 +2,6 @@ import React from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { TodoListProps } from "@/components/models/interface";
 import SelectableItem from "./TodoItem";
-import useDropTodo from "@/components/client/hooks/data/useDropTodo";
 
 const TodoList: React.FC<TodoListProps> = ({
   todos,
@@ -12,8 +11,9 @@ const TodoList: React.FC<TodoListProps> = ({
   selectedId,
   handleSelect,
   onEditingStateChange,
+  onDragEnd,
+  placeholderStyle,
 }) => {
-  const { onDragEnd } = useDropTodo(todos , setTodos);
 
   const handleItemClick = (id: number) => {
     if (selectedId !== id) {
@@ -28,6 +28,7 @@ const TodoList: React.FC<TodoListProps> = ({
           <ul
             {...provided.droppableProps}
             ref={provided.innerRef}
+            style={placeholderStyle}
             className="pb-40 pt-5"
           >
             {todos.map((todo, index) => (
