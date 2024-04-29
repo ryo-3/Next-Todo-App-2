@@ -10,7 +10,6 @@ import FloatingActionButton from "@/components/client/ui/AddTodoButton";
 import TodoForm from "@/components/client/ui/TodoForm";
 import { UndoStackProvider } from "@/components/client/context/UndoStackContext";
 
-
 const Page: React.FC = () => {
   const {
     inputValue,
@@ -30,51 +29,56 @@ const Page: React.FC = () => {
     fixedStyle,
     formRef,
     updateTodo,
+    resetTimeoutOnFocusChange,
   } = useTodoManagement();
 
   return (
     <TodoProvider>
-         <DeletedItemProvider>
-         <UndoStackProvider>
-      <main>
-        <FloatingActionButton onClick={handleButtonClick} inputRef={inputRef} />
-        {showForm && (
-          <div ref={formRef} style={fixedStyle}>
-            <TodoForm
-              inputValue={inputValue}
-              handleChange={handleChange}
-              handleSubmit={handleFormSubmit}
-              error={error}
-              showForm={showForm}
+      <DeletedItemProvider>
+        <UndoStackProvider>
+          <main>
+            <FloatingActionButton
+              onClick={handleButtonClick}
               inputRef={inputRef}
-              style={fixedStyle}
             />
-          </div>
-        )}
-        {loading ? (
-          <div className=" text-slate-800 pt-6 pl-2">読み込み中...</div>
-        ) : (
-          <TodoList
-            todos={todos}
-            setTodos={setTodos}
-            selectedId={selectedId}
-            handleSelect={handleSelect}
-            toggleTodoComplete={toggleTodoComplete}
-            updateTodo={updateTodo}
-          />
-        )}
-        <ClearListButton
-          todos={todos}
-          setTodos={setTodos}
-          isTodoCompleted={todos.some((todo) => todo.completed)}
-        />
-        <UndoListButton
-          todos={todos}
-          setTodos={setTodos}
-          removeItem={removeItem}
-        />
-      </main>
-      </UndoStackProvider>
+            {showForm && (
+              <div ref={formRef} style={fixedStyle}>
+                <TodoForm
+                  inputValue={inputValue}
+                  handleChange={handleChange}
+                  handleSubmit={handleFormSubmit}
+                  error={error}
+                  showForm={showForm}
+                  inputRef={inputRef}
+                  style={fixedStyle}
+                />
+              </div>
+            )}
+            {loading ? (
+              <div className=" text-slate-800 pt-6 pl-2">読み込み中...</div>
+            ) : (
+              <TodoList
+                todos={todos}
+                setTodos={setTodos}
+                selectedId={selectedId}
+                handleSelect={handleSelect}
+                toggleTodoComplete={toggleTodoComplete}
+                updateTodo={updateTodo}
+                onEditingStateChange={resetTimeoutOnFocusChange}
+              />
+            )}
+            <ClearListButton
+              todos={todos}
+              setTodos={setTodos}
+              isTodoCompleted={todos.some((todo) => todo.completed)}
+            />
+            <UndoListButton
+              todos={todos}
+              setTodos={setTodos}
+              removeItem={removeItem}
+            />
+          </main>
+        </UndoStackProvider>
       </DeletedItemProvider>
     </TodoProvider>
   );

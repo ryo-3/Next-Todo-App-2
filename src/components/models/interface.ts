@@ -53,6 +53,7 @@ export interface TodoListProps {
   handleSelect: (id: number | null) => void; // 型を変更
   toggleTodoComplete: (id: number) => void;
   updateTodo: (id: number, newText: string) => void;
+  onEditingStateChange: (isFocused: boolean) => void;  // 新しいプロパティの追加
 }
 
 export interface UndoListButtonProps {

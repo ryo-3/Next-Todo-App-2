@@ -6,25 +6,38 @@ import useHandleSubmit from "./data/useHandleSubmit";
 import useLocalStorage from "./data/useLocalStorage";
 import useInputChange from "./data/useInputChange";
 import useToggleTodoComplete from "./data/useToggleTodoComplete";
-import useSelectTodo from "./data/useSelectTodo";
 import { Todo } from "@/components/models/interface";
 import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import useBtnClickFixed from "@/components/client/hooks/data/useScrollFixed";
+import useSelectionTimeout from "./data/useSelectionTimeout";
 
 function useTodoManagement() {
   const { inputValue, setInputValue, handleChange } = useInputChange();
   const [todos, setTodos] = useLocalStorage<Todo[]>("todos", []);
-  const { selectedId, handleSelect } = useSelectTodo();
   const { toggleTodoComplete } = useToggleTodoComplete(todos, setTodos);
   const [loading, setLoading] = useState(true);
-  const [showForm, setShowForm] = useState(true); // フォームの表示を制御
-  const inputRef = useRef<HTMLInputElement>(null); // 正しくリファレンスを生成
+  const [showForm, setShowForm] = useState(true);
+  const inputRef = useRef<HTMLInputElement>(null);
   const { fixedStyle, formRef } = useBtnClickFixed();
+  const { selectedId, handleSelect, resetTimeoutOnFocusChange } =
+    useSelectionTimeout();
 
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
     }, 200);
+  }, []);
+
+  // フォーカスが変わった際の処理はこのフック内で完結
+  useEffect(() => {
+    const handleFocus = () => resetTimeoutOnFocusChange(document.hasFocus());
+    window.addEventListener("focus", handleFocus);
+    window.addEventListener("blur", handleFocus);
+
+    return () => {
+      window.removeEventListener("focus", handleFocus);
+      window.removeEventListener("blur", handleFocus);
+    };
   }, []);
 
   const { createTodo } = useCreateTodo(inputValue);
@@ -59,16 +72,18 @@ function useTodoManagement() {
     handleSubmit(event);
   };
 
-  const updateTodo = useCallback((id: number, newText: string) => {
-    const updatedTodos = todos.map(todo => {
-      if (todo.id === id) {
-        return { ...todo, text: newText };
-      }
-      return todo;
-    });
-    setTodos(updatedTodos);
-  }, [todos, setTodos]);
-  
+  const updateTodo = useCallback(
+    (id: number, newText: string) => {
+      const updatedTodos = todos.map((todo) => {
+        if (todo.id === id) {
+          return { ...todo, text: newText };
+        }
+        return todo;
+      });
+      setTodos(updatedTodos);
+    },
+    [todos, setTodos]
+  );
 
   return {
     validateInput,
@@ -91,7 +106,8 @@ function useTodoManagement() {
     handleFormSubmit,
     fixedStyle,
     formRef,
-    updateTodo, // 追加
+    updateTodo,
+    resetTimeoutOnFocusChange
   };
 }
 

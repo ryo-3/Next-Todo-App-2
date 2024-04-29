@@ -1,28 +1,24 @@
 import React from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import SelectableItem from "./SelectableItem";
 import { TodoListProps } from "@/components/models/interface";
+import SelectableItem from "./SelectableItem";
 import useDropTodo from "@/components/client/hooks/data/useDropTodo";
-import useSelectionTimeout from "../hooks/data/useSelectionTimeout";
 
 const TodoList: React.FC<TodoListProps> = ({
   todos,
   setTodos,
   toggleTodoComplete,
   updateTodo,
+  selectedId,
+  handleSelect,
+  onEditingStateChange,
 }) => {
-  const { onDragEnd } = useDropTodo(todos, setTodos);
-  const { selectedId, handleSelect, resetTimeoutOnFocusChange } =
-    useSelectionTimeout();
+  const { onDragEnd } = useDropTodo(todos , setTodos);
 
   const handleItemClick = (id: number) => {
     if (selectedId !== id) {
       handleSelect(id);
     }
-  };
-
-  const onEditingStateChange = (editing: boolean) => {
-    resetTimeoutOnFocusChange(editing); // 編集状態が変わった際にタイマーをリセット
   };
 
   return (
@@ -64,7 +60,7 @@ const TodoList: React.FC<TodoListProps> = ({
                       selectedId={selectedId}
                       updateTodo={updateTodo}
                       className="text-input flex-grow"
-                      onFocusChange={onEditingStateChange} // フォーカス状態の変更をハンドリング
+                      onEditingStateChange={onEditingStateChange}
                     />
                     <div
                       {...provided.dragHandleProps}
