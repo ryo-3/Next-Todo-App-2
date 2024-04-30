@@ -1,3 +1,4 @@
+// 選択状態の自動解除
 import { useEffect, useState } from "react";
 
 const useSelectionTimeout = () => {

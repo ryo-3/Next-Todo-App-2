@@ -1,5 +1,5 @@
 import { DropResult } from "@hello-pangea/dnd";
-import { Dispatch, ReactNode, SetStateAction } from "react";
+import { Dispatch, FormEvent, ReactNode, SetStateAction } from "react";
 
 export interface Todo {
   id: number;
@@ -10,18 +10,18 @@ export interface Todo {
 
 type SetTodos = Dispatch<SetStateAction<Todo[]>>;
 
-export interface TodoFormProps {
-  addTodo: (todo: string) => void;
-}
+// export interface TodoFormProps {
+//   addTodo: (todo: string) => void;
+// }
 
-export interface MainProps {
-  todos: Todo[];
-  setTodos: SetTodos;
-}
+// export interface MainProps {
+//   todos: Todo[];
+//   setTodos: SetTodos;
+// }
 
-export interface FooterProps {
-  setTodos: SetTodos;
-}
+// export interface FooterProps {
+//   setTodos: SetTodos;
+// }
 
 export interface ClearListButtonProps {
   todos: Todo[];
@@ -64,3 +64,33 @@ export interface TodoItemProps {
   className?: string;
   onEditingStateChange: (isFocused: boolean) => void;
 }
+
+// export interface UseTodoManagement { 
+//     inputValue: string;
+//     setInputValue: Dispatch<SetStateAction<string>>;
+//     handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+//     inputRef: React.RefObject<HTMLInputElement>;
+//     pinnedIds: number[];
+//     setPinnedIds: Dispatch<SetStateAction<number[]>>;
+//     pinItem: (id: number) => void;
+//     handlePinClick: (id: number | null) => void;
+//     onDragEnd: (result: DropResult) => void;
+//     todos: Todo[];
+//     setTodos: Dispatch<SetStateAction<Todo[]>>;
+//     loading: boolean;
+//     showForm: boolean;
+//     setShowForm: Dispatch<SetStateAction<boolean>>;
+//     toggleTodoComplete: (id: number) => void;
+//     createTodo: () => void;
+//     updateTodos: () => void;
+//     removeItem: (index: number) => void;
+//     updateTodo: (id: number, newText: string) => void;
+//     validateInput: () => boolean;
+//     error: string | null;
+//     handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
+//     handleFormSubmit: (event: FormEvent<HTMLFormElement>) => void;
+//     handleButtonClick: () => void;
+//     fixedStyle: any;  // 適切な型に変更する
+//     formRef: React.RefObject<HTMLDivElement>;
+//     placeholderStyle: any;  // 適切な型に変更する
+//   }
