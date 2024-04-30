@@ -40,7 +40,7 @@ function useScrollFixed() {
 
   const placeholderStyle = useMemo<React.CSSProperties>(() => {
     return isFixed && initialFormHeight !== undefined
-      ? { paddingTop: `${initialFormHeight + 15 }px` }
+      ? { height: `${initialFormHeight}px` }
       : {};
   }, [isFixed, initialFormHeight]);
 

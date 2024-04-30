@@ -1,7 +1,7 @@
 import React from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { TodoListProps } from "@/components/models/interface";
-import SelectableItem from "./TodoItem";
+import TodoItem from "./TodoItem"; //　リスト専用コンポーネントリストアイテムの使用
 
 const TodoList: React.FC<TodoListProps> = ({
   todos,
@@ -12,7 +12,6 @@ const TodoList: React.FC<TodoListProps> = ({
   handleSelect,
   onEditingStateChange,
   onDragEnd,
-  placeholderStyle,
 }) => {
 
   const handleItemClick = (id: number) => {
@@ -28,7 +27,6 @@ const TodoList: React.FC<TodoListProps> = ({
           <ul
             {...provided.droppableProps}
             ref={provided.innerRef}
-            style={placeholderStyle}
             className="pb-40 pt-5"
           >
             {todos.map((todo, index) => (
@@ -56,7 +54,7 @@ const TodoList: React.FC<TodoListProps> = ({
                       />
                       <label htmlFor={`checkbox-${todo.id}`}></label>
                     </div>
-                    <SelectableItem
+                    <TodoItem
                       todo={todo}
                       selectedId={selectedId}
                       updateTodo={updateTodo}
