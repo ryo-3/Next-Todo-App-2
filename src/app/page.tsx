@@ -58,10 +58,6 @@ const Page: React.FC = () => {
     handlePinClick,
   } = useTodoManagement();
 
-  const handlePin = () => {
-    console.log("Item pinned");
-    // 実際にピン止めするロジックをここに実装
-  };
 
   return (
     <TodoProvider>
