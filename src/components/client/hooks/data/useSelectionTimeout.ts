@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from "react";
 
 const useSelectionTimeout = () => {
     const [selectedId, setSelectedId] = useState<number | null>(null);
@@ -16,7 +16,7 @@ const useSelectionTimeout = () => {
         if (id !== null) {
             const newTimeoutId = setTimeout(() => {
                 setSelectedId(null); // 5秒後に選択を解除
-            }, 5000);
+            }, 8000);
             setTimeoutId(newTimeoutId);
         }
     };
@@ -31,6 +31,16 @@ const useSelectionTimeout = () => {
             setTimeoutId(newTimeoutId);
         }
     };
+
+    useEffect(() => {
+        const handleFocus = () => resetTimeoutOnFocusChange(document.hasFocus());
+        window.addEventListener("focus", handleFocus);
+        window.addEventListener("blur", handleFocus);
+        return () => {
+            window.removeEventListener("focus", handleFocus);
+            window.removeEventListener("blur", handleFocus);
+        };
+    }, [selectedId, timeoutId]);
 
     useEffect(() => {
         return () => {

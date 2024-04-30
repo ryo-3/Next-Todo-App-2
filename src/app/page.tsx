@@ -58,6 +58,7 @@ const Page: React.FC = () => {
     pinItem,
     handlePinClick,
   } = useTodoManagement();
+  const todoManagementProps = useTodoManagement();
 
   return (
     <TodoProvider>
@@ -91,7 +92,7 @@ const Page: React.FC = () => {
             {loading ? (
               <div className="text-slate-800 pt-6 pl-2">読み込み中...</div> // ローディングテキスト
             ) : (
-              <TodoList
+                <TodoList
                 todos={todos} // Todoアイテムのリスト
                 setTodos={setTodos} // Todoリストを更新する関数
                 selectedId={selectedId} // 選択中のTodoアイテムのID
@@ -123,6 +124,7 @@ const Page: React.FC = () => {
         </UndoStackProvider>
       </DeletedItemProvider>
     </TodoProvider>
+    
   );
 };
 

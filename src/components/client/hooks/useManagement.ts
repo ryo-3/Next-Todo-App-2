@@ -1,5 +1,5 @@
 "use client";
-import { Todo } from "@/components/models/interface";
+// import { Todo } from "@/components/models/interface";
 import { Dispatch, FormEvent, SetStateAction, useCallback, useEffect, useRef, useState } from "react";
 
 // 新しいTodoの作成
@@ -21,8 +21,15 @@ import useScrollFixed from "./data/useScrollFixed"; // スクロール時に特�
 
 // 選択とフォーカス管理
 import useSelectionTimeout from "./data/useSelectionTimeout"; // 選択されたTodoアイテムの状態とタイムアウトを管理するためのフック。
-import usePinTodo from "./UIhooks/usePinTodo";
+import usePinTodo from "./data/usePinTodo";
 import { DropResult } from "@hello-pangea/dnd";
+
+export interface Todo {
+  id: number;
+  text: string;
+  completed: boolean;
+  order: number; 
+}
 
 interface UseTodoManagement {
     inputValue: string;
@@ -60,6 +67,7 @@ function useTodoManagement() {
   const { inputValue, setInputValue, handleChange } = useInputChange();
   const inputRef = useRef<HTMLInputElement>(null);
   
+  // ピン止めとピン止めの状態保存
   const [pinnedIds, setPinnedIds] = useLocalStorage<number[]>("pinnedIds", []);
   const { pinItem, handlePinClick } = usePinTodo(pinnedIds, setPinnedIds);
   
@@ -67,6 +75,8 @@ function useTodoManagement() {
   const [todos, setTodos] = useLocalStorage<Todo[]>("todos", []);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(true);
+
+    // ドラッグアンドドロップの終了処理
   const { onDragEnd } = useDropTodo(todos, setTodos, pinnedIds, setPinnedIds);
 
   // UIスタイルの設定
@@ -94,24 +104,10 @@ function useTodoManagement() {
     updateTodos
   );
 
-  // ドラッグアンドドロップの終了処理
-
   // 初期ローディング状態を管理するための効果
   useEffect(() => {
     // 200ミリ秒後にローディング状態をfalseに設定し、UIに表示変更を促す
     setTimeout(() => setLoading(false), 200);
-  }, []);
-
-  // フォーカスとブラーのイベントリスナーを設定して、フォーカスが変わった時にタイムアウトをリセット
-  useEffect(() => {
-    const handleFocus = () => resetTimeoutOnFocusChange(document.hasFocus());
-    window.addEventListener("focus", handleFocus);
-    window.addEventListener("blur", handleFocus);
-    return () => {
-      // コンポーネントのアンマウント時にイベントリスナーをクリーンアップ
-      window.removeEventListener("focus", handleFocus);
-      window.removeEventListener("blur", handleFocus);
-    };
   }, []);
 
   // 指定されたインデックスのTodoをリストから削除する関数
@@ -148,8 +144,6 @@ function useTodoManagement() {
     },
     [todos, setTodos]
   );
-
-
 
   return {
     // 入力管理
