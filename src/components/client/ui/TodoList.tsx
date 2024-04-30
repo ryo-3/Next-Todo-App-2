@@ -1,7 +1,7 @@
 import React from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { TodoListProps } from "@/components/models/interface";
-import TodoItem from "./TodoItem";
+import TodoItem from "./TodoItem"; //　リスト専用コンポーネントリストアイテムの使用
 
 const TodoList: React.FC<TodoListProps> = ({
   todos,
