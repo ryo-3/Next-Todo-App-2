@@ -12,12 +12,20 @@ const TodoList: React.FC<TodoListProps> = ({
   handleSelect,
   onEditingStateChange,
   onDragEnd,
+  pinnedId,
+  
 }) => {
   const handleItemClick = (id: number) => {
     if (selectedId !== id) {
       handleSelect(id);
     }
   };
+
+  todos.sort((a, b) => {
+    if (a.id === pinnedId) return -1;
+    if (b.id === pinnedId) return 1;
+    return a.id - b.id;
+  });
 
   return (
     <DragDropContext onDragStart={() => {}} onDragEnd={onDragEnd}>
