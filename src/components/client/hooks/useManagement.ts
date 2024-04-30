@@ -1,6 +1,6 @@
 "use client";
 import { Todo } from "@/components/models/interface";
-import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
+import { Dispatch, FormEvent, SetStateAction, useCallback, useEffect, useRef, useState } from "react";
 
 // 新しいTodoの作成
 import useCreateTodo from "./data/useCreateTodo"; // 新しいTodoを作成するためのロジックを提供します。
@@ -21,16 +21,53 @@ import useScrollFixed from "./data/useScrollFixed"; // スクロール時に特�
 
 // 選択とフォーカス管理
 import useSelectionTimeout from "./data/useSelectionTimeout"; // 選択されたTodoアイテムの状態とタイムアウトを管理するためのフック。
+import usePinTodo from "./UIhooks/usePinTodo";
+import { DropResult } from "@hello-pangea/dnd";
+
+interface UseTodoManagement {
+    inputValue: string;
+    setInputValue: Dispatch<SetStateAction<string>>;
+    handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    inputRef: React.RefObject<HTMLInputElement>;
+    pinnedIds: number[];
+    setPinnedIds: Dispatch<SetStateAction<number[]>>;
+    pinItem: (id: number) => void;
+    handlePinClick: (id: number | null) => void;
+    onDragEnd: (result: DropResult) => void;
+    todos: Todo[];
+    setTodos: Dispatch<SetStateAction<Todo[]>>;
+    loading: boolean;
+    showForm: boolean;
+    setShowForm: Dispatch<SetStateAction<boolean>>;
+    toggleTodoComplete: (id: number) => void;
+    createTodo: () => void;
+    updateTodos: () => void;
+    removeItem: (index: number) => void;
+    updateTodo: (id: number, newText: string) => void;
+    validateInput: () => boolean;
+    error: string | null;
+    handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
+    handleFormSubmit: (event: FormEvent<HTMLFormElement>) => void;
+    handleButtonClick: () => void;
+    fixedStyle: any;  // 適切な型に変更する
+    formRef: React.RefObject<HTMLDivElement>;
+    placeholderStyle: any;  // 適切な型に変更する
+  }
+  
 
 function useTodoManagement() {
   // 入力関連の処理
   const { inputValue, setInputValue, handleChange } = useInputChange();
   const inputRef = useRef<HTMLInputElement>(null);
-
+  
+  const [pinnedIds, setPinnedIds] = useLocalStorage<number[]>("pinnedIds", []);
+  const { pinItem, handlePinClick } = usePinTodo(pinnedIds, setPinnedIds);
+  
   // Todoリストの状態管理
   const [todos, setTodos] = useLocalStorage<Todo[]>("todos", []);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(true);
+  const { onDragEnd } = useDropTodo(todos, setTodos, pinnedIds, setPinnedIds);
 
   // UIスタイルの設定
   const { fixedStyle, formRef, placeholderStyle } = useScrollFixed();
@@ -58,7 +95,6 @@ function useTodoManagement() {
   );
 
   // ドラッグアンドドロップの終了処理
-  const { onDragEnd } = useDropTodo(todos, setTodos);
 
   // 初期ローディング状態を管理するための効果
   useEffect(() => {
@@ -113,18 +149,7 @@ function useTodoManagement() {
     [todos, setTodos]
   );
 
-  // useSelectionTimeout フック内に追加
-  const [pinnedId, setPinnedId] = useState<number | null>(null);
 
-  // 選択されたアイテムをピン止めする関数
-  const pinItem = (id: number | null) => {
-    setPinnedId(id);
-  };
-  const handlePinClick = () => {
-    if (selectedId !== null) {
-      pinItem(selectedId);
-    }
-  };
 
   return {
     // 入力管理
@@ -164,7 +189,7 @@ function useTodoManagement() {
 
     // 状態とローディング
     loading, // ローディングの状態を示すフラグ
-    pinnedId,
+    pinnedIds,
     pinItem,
     handlePinClick,
   };

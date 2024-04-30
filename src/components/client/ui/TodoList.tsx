@@ -12,8 +12,7 @@ const TodoList: React.FC<TodoListProps> = ({
   handleSelect,
   onEditingStateChange,
   onDragEnd,
-  pinnedId,
-  
+  pinnedIds,
 }) => {
   const handleItemClick = (id: number) => {
     if (selectedId !== id) {
@@ -21,10 +20,13 @@ const TodoList: React.FC<TodoListProps> = ({
     }
   };
 
+  // TodoList コンポーネント内
   todos.sort((a, b) => {
-    if (a.id === pinnedId) return -1;
-    if (b.id === pinnedId) return 1;
-    return a.id - b.id;
+    const aPinned = pinnedIds.includes(a.id);
+    const bPinned = pinnedIds.includes(b.id);
+    if (aPinned && !bPinned) return -1;
+    if (!aPinned && bPinned) return 1;
+    return a.order - b.order; // `order` は各 Todo アイテムの並び順を示すプロパティ
   });
 
   return (
@@ -51,7 +53,13 @@ const TodoList: React.FC<TodoListProps> = ({
                     } ${selectedId === todo.id ? "bg-selected" : ""}`}
                     onClick={() => handleItemClick(todo.id)}
                   >
-                    <img src="./pin.png" alt="" className="absolute pin" />
+                    {pinnedIds.includes(todo.id) && (
+                      <img
+                        src="./pin.png"
+                        alt="Pinned"
+                        className="absolute pin"
+                      />
+                    )}
                     <div className="checkbox-custom">
                       <input
                         id={`checkbox-${todo.id}`}

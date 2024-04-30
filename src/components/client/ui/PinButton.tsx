@@ -7,11 +7,11 @@ type PinButtonProps = {
 
 const PinButton: React.FC<PinButtonProps> = ({ onClick }) => {
     const handleClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
-        console.log('Inside handleClick', onClick);
+        // console.log('Inside handleClick', onClick);
         if (onClick) {
             onClick(e);
         } else {
-            console.error('onClick is not a function');
+            // console.error('onClick is not a function');
         }
     };
 

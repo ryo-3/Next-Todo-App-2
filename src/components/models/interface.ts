@@ -1,9 +1,11 @@
+import { DropResult } from "@hello-pangea/dnd";
 import { Dispatch, ReactNode, SetStateAction } from "react";
 
 export interface Todo {
   id: number;
   text: string;
   completed: boolean;
+  order: number; 
 }
 
 type SetTodos = Dispatch<SetStateAction<Todo[]>>;
@@ -45,8 +47,8 @@ export interface TodoListProps {
   toggleTodoComplete: (id: number) => void;
   updateTodo: (id: number, newText: string) => void;
   onEditingStateChange: (isFocused: boolean) => void;
-  onDragEnd: (result: any) => void;
-  pinnedId: number | null;
+  onDragEnd: (result: DropResult) => void; 
+  pinnedIds: number[];
 }
 
 export interface UndoListButtonProps {

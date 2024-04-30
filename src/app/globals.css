@@ -98,7 +98,7 @@ body {
 .error {
     position: absolute;
     left: 82px;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
 }
 
 @layer utilities {

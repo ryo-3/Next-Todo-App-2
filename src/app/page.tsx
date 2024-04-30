@@ -53,11 +53,11 @@ const Page: React.FC = () => {
 
     // 状態とローディング
     loading, // ローディングの状態を示すフラグ
-    pinnedId,
+
+    pinnedIds,
     pinItem,
     handlePinClick,
   } = useTodoManagement();
-
 
   return (
     <TodoProvider>
@@ -100,7 +100,7 @@ const Page: React.FC = () => {
                 updateTodo={updateTodo} // Todoアイテムのテキスト更新
                 onEditingStateChange={resetTimeoutOnFocusChange} // 編集状態の変更時のタイムアウトリセット
                 onDragEnd={onDragEnd} // ドラッグアンドドロップの終了時のイベント
-                pinnedId={pinnedId}
+                pinnedIds={pinnedIds}
               />
             )}
 
@@ -118,7 +118,7 @@ const Page: React.FC = () => {
               removeItem={removeItem} // 特定のTodoアイテムを削除する関数
             />
             {/* Pin止め機能ボタン */}
-            <PinButton onClick={handlePinClick} />
+            <PinButton onClick={() => handlePinClick(selectedId)} />
           </main>
         </UndoStackProvider>
       </DeletedItemProvider>
