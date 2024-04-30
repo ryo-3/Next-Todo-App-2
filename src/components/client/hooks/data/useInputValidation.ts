@@ -17,7 +17,7 @@ function useInputValidation(
 
   const validateInput = (): boolean => {
     const isValid = validator(inputValue);
-    setError(isValid ? "" : "./seedling.png");
+    setError(isValid ? "" : " ");
     return isValid;
 };
 

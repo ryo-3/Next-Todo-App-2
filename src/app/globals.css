@@ -20,9 +20,6 @@ body {
   font-style: normal;
 }
 
-/* .selected {
-  background-color: #e3f7ed; 
-} */
 .listItem {
   width: 87%;
 }
@@ -60,11 +57,11 @@ body {
 .checkbox-custom label::before {
   content: "";
   position: absolute;
-  left: 0;
-  top: 50%;
+  left: 3px;
+  top: 52%;
   transform: translateY(-50%);
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%; /* 丸くする */
   background: white; /* 背景色 */
   border: 1px solid rgb(214 211 209); /* 枠線 */
@@ -76,7 +73,7 @@ body {
   width: 22px; /* 元のサイズより少し大きく */
   height: 22px; /* 元のサイズより少し大きく */
   top: -12px; /* 少し上に */
-  left: -0px;
+  left: 2px;
   background-image: url("/check.png");
   background-size: cover;
   background-position: center;
@@ -87,6 +84,21 @@ body {
 
 .checkbox-custom input[type="checkbox"]:checked + label::after {
   opacity: 1; 
+}
+
+/* ピン止めアイコンの設定 */
+.pin {
+    top: -4px;
+    left: 3px;
+    height: auto;
+    width: 9px;
+}
+
+/*  */
+.error {
+    position: absolute;
+    left: 82px;
+    margin-bottom: 4px;
 }
 
 @layer utilities {

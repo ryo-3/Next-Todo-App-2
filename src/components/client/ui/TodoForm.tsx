@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 interface TodoFormProps {
   inputValue: string;
@@ -42,7 +43,18 @@ const TodoForm: React.FC<TodoFormProps> = ({
             placeholder="入力欄 ..."
             className="border-2 py-2 pl-3 rounded focus:outline-none focus:border-[#442a21] w-full "
           />
-          {error && <div className="error">{error}</div>}
+          {error && (
+            <div className="error">
+              <Image
+                src="/seedling.png"
+                alt="Error Icon"
+                width={18}
+                height={18}
+                priority
+              />
+              <span>{error}</span>
+            </div>
+          )}
           <button
             type="submit"
             className="bg-emerald-600 text-white font-bold py-2.5 px-4 w-20 rounded ss:px-4 ml-4 "
