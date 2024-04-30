@@ -22,45 +22,7 @@ import useScrollFixed from "./data/useScrollFixed"; // スクロール時に特�
 // 選択とフォーカス管理
 import useSelectionTimeout from "./data/useSelectionTimeout"; // 選択されたTodoアイテムの状態とタイムアウトを管理するためのフック。
 import usePinTodo from "./data/usePinTodo";
-import { DropResult } from "@hello-pangea/dnd";
-
-export interface Todo {
-  id: number;
-  text: string;
-  completed: boolean;
-  order: number; 
-}
-
-interface UseTodoManagement {
-    inputValue: string;
-    setInputValue: Dispatch<SetStateAction<string>>;
-    handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    inputRef: React.RefObject<HTMLInputElement>;
-    pinnedIds: number[];
-    setPinnedIds: Dispatch<SetStateAction<number[]>>;
-    pinItem: (id: number) => void;
-    handlePinClick: (id: number | null) => void;
-    onDragEnd: (result: DropResult) => void;
-    todos: Todo[];
-    setTodos: Dispatch<SetStateAction<Todo[]>>;
-    loading: boolean;
-    showForm: boolean;
-    setShowForm: Dispatch<SetStateAction<boolean>>;
-    toggleTodoComplete: (id: number) => void;
-    createTodo: () => void;
-    updateTodos: () => void;
-    removeItem: (index: number) => void;
-    updateTodo: (id: number, newText: string) => void;
-    validateInput: () => boolean;
-    error: string | null;
-    handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
-    handleFormSubmit: (event: FormEvent<HTMLFormElement>) => void;
-    handleButtonClick: () => void;
-    fixedStyle: any;  // 適切な型に変更する
-    formRef: React.RefObject<HTMLDivElement>;
-    placeholderStyle: any;  // 適切な型に変更する
-  }
-  
+import { Todo } from "@/components/models/interface";
 
 function useTodoManagement() {
   // 入力関連の処理

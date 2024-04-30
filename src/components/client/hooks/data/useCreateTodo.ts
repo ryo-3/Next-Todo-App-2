@@ -1,6 +1,7 @@
 // 新しいTodoオブジェクト作成
 "use client";
-import { Todo } from '@/components/models/interface';
+
+import { Todo } from "@/components/models/interface";
 
 const useCreateTodo = (inputValue: string) => {
   const createTodo = (): Todo => {
@@ -8,6 +9,7 @@ const useCreateTodo = (inputValue: string) => {
       id: Date.now(),
       text: inputValue.trim(),
       completed: false,
+      order: 0 
     };
   };
 
