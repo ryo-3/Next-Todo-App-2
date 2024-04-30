@@ -13,7 +13,6 @@ const TodoList: React.FC<TodoListProps> = ({
   onEditingStateChange,
   onDragEnd,
 }) => {
-
   const handleItemClick = (id: number) => {
     if (selectedId !== id) {
       handleSelect(id);
@@ -39,18 +38,19 @@ const TodoList: React.FC<TodoListProps> = ({
                   <li
                     ref={provided.innerRef}
                     {...provided.draggableProps}
-                    className={`flex-container pt-2 pb-2.5 pl-2 rounded-md mb-2 text-neutral-900 flex justify-between items-center draggable-bg-transition ${
+                    className={`relative flex-container pt-2 pb-2.5 pl-2 rounded-md mb-2 text-neutral-900 flex justify-between items-center draggable-bg-transition ${
                       snapshot.isDragging ? "bg-emerald-200" : "bg-emerald-100"
                     } ${selectedId === todo.id ? "bg-selected" : ""}`}
                     onClick={() => handleItemClick(todo.id)}
                   >
+                    <img src="./pin.png" alt="" className="absolute pin" />
                     <div className="checkbox-custom">
                       <input
                         id={`checkbox-${todo.id}`}
                         type="checkbox"
                         checked={todo.completed}
                         onChange={() => toggleTodoComplete(todo.id)}
-                        className="h-5 w-5 accent-green-700 mr-2"
+                        className=""
                       />
                       <label htmlFor={`checkbox-${todo.id}`}></label>
                     </div>
