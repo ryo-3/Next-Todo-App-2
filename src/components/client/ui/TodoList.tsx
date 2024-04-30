@@ -1,7 +1,7 @@
 import React from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { TodoListProps } from "@/components/models/interface";
-import SelectableItem from "./TodoItem";
+import TodoItem from "./TodoItem";
 
 const TodoList: React.FC<TodoListProps> = ({
   todos,
@@ -54,7 +54,7 @@ const TodoList: React.FC<TodoListProps> = ({
                       />
                       <label htmlFor={`checkbox-${todo.id}`}></label>
                     </div>
-                    <SelectableItem
+                    <TodoItem
                       todo={todo}
                       selectedId={selectedId}
                       updateTodo={updateTodo}

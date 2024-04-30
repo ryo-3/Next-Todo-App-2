@@ -46,7 +46,6 @@ export interface TodoListProps {
   updateTodo: (id: number, newText: string) => void;
   onEditingStateChange: (isFocused: boolean) => void;
   onDragEnd: (result: any) => void;
-  placeholderStyle?: React.CSSProperties;
 }
 
 export interface UndoListButtonProps {
