@@ -1,6 +1,14 @@
 "use client";
 // import { Todo } from "@/components/models/interface";
-import { Dispatch, FormEvent, SetStateAction, useCallback, useEffect, useRef, useState } from "react";
+import {
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 // 新しいTodoの作成
 import useCreateTodo from "./data/useCreateTodo"; // 新しいTodoを作成するためのロジックを提供します。
@@ -28,24 +36,25 @@ function useTodoManagement() {
   // 入力関連の処理
   const { inputValue, setInputValue, handleChange } = useInputChange();
   const inputRef = useRef<HTMLInputElement>(null);
-  
+
   // ピン止めとピン止めの状態保存
   const [pinnedIds, setPinnedIds] = useLocalStorage<number[]>("pinnedIds", []);
   const { pinItem, handlePinClick } = usePinTodo(pinnedIds, setPinnedIds);
-  
+
   // Todoリストの状態管理
   const [todos, setTodos] = useLocalStorage<Todo[]>("todos", []);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(true);
 
-    // ドラッグアンドドロップの終了処理
+  // ドラッグアンドドロップの終了処理
   const { onDragEnd } = useDropTodo(todos, setTodos, pinnedIds, setPinnedIds);
 
   // UIスタイルの設定
   const { fixedStyle, formRef, placeholderStyle } = useScrollFixed();
 
   // 選択とフォーカスのタイムアウト管理
-  const { selectedId, handleSelect, resetTimeoutOnFocusChange } =
+  // useTodoManagement フック内
+  const { selectedId, setSelectedId, handleSelect, resetTimeoutOnFocusChange } =
     useSelectionTimeout();
 
   // Todo操作
@@ -148,6 +157,7 @@ function useTodoManagement() {
     pinnedIds,
     pinItem,
     handlePinClick,
+    setSelectedId,
   };
 }
 

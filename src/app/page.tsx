@@ -57,8 +57,8 @@ const Page: React.FC = () => {
     pinnedIds,
     pinItem,
     handlePinClick,
+    setSelectedId,
   } = useTodoManagement();
-  const todoManagementProps = useTodoManagement();
 
   return (
     <TodoProvider>
@@ -96,6 +96,7 @@ const Page: React.FC = () => {
                 todos={todos} // Todoアイテムのリスト
                 setTodos={setTodos} // Todoリストを更新する関数
                 selectedId={selectedId} // 選択中のTodoアイテムのID
+                setSelectedId={setSelectedId} 
                 handleSelect={handleSelect} // Todoアイテムの選択をハンドルする関数
                 toggleTodoComplete={toggleTodoComplete} // Todoの完了状態のトグル
                 updateTodo={updateTodo} // Todoアイテムのテキスト更新
@@ -110,6 +111,7 @@ const Page: React.FC = () => {
               todos={todos} // Todoアイテムのリスト
               setTodos={setTodos} // Todoリストを更新する関数
               isTodoCompleted={todos.some((todo) => todo.completed)} // Todoが完了しているかどうか
+              pinnedIds={pinnedIds} 
             />
 
             {/* Undo操作ボタン */}
@@ -119,7 +121,7 @@ const Page: React.FC = () => {
               removeItem={removeItem} // 特定のTodoアイテムを削除する関数
             />
             {/* Pin止め機能ボタン */}
-            <PinButton onClick={() => handlePinClick(selectedId)} />
+            {selectedId && <PinButton onClick={() => handlePinClick(selectedId)} />}
           </main>
         </UndoStackProvider>
       </DeletedItemProvider>
