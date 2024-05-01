@@ -29,19 +29,16 @@ const ClearListButton: React.FC<ClearListButtonProps> = ({
   const clearCompletedTodos = useCallback(() => {
     setIconActive(true); // アイコンをアクティブにする
     setTimeout(() => setIconActive(false), 700); 
+    const completedTodos = todos.filter(todo => todo.completed);
+    setTodos(todos.filter(todo => !completedTodos.includes(todo)));
 
-    const completedTodos = todos.filter(
-      (todo) => todo.completed && !pinnedIds.includes(todo.id)
-    );
-    setTodos(todos.filter((todo) => !completedTodos.includes(todo)));
-
-    const deletedItemsToAdd = completedTodos.map((todo) => ({
+    const deletedItemsToAdd = completedTodos.map(todo => ({
       item: todo,
       deletedIndex: todos.indexOf(todo),
     }));
-    setDeletedItems(deletedItemsToAdd);
-    setUndoStack([{ type: "partial", items: deletedItemsToAdd }]);
-  }, [todos, setTodos, setDeletedItems, setUndoStack, pinnedIds]);
+    setDeletedItems([...deletedItems, ...deletedItemsToAdd]);
+    setUndoStack([...undoStack, { type: 'partial', items: deletedItemsToAdd }]);
+  }, [todos, setTodos, deletedItems, setDeletedItems, undoStack, setUndoStack]);
 
   // 全てのタスクを削除（ピン止めされていないもののみ）
   const handleClearTodos = useCallback(() => {
