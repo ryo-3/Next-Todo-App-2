@@ -27,8 +27,8 @@ const useSelectionTimeout = () => {
         resetTimeout();
         if (!isFocused && selectedId !== null) {
             const newTimeoutId = setTimeout(() => {
-                setSelectedId(null); // フォーカスが外れた状態で5秒後に選択を解除
-            }, 300);
+                setSelectedId(null); 
+            }, 4000);
             setTimeoutId(newTimeoutId);
         }
     };
