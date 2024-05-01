@@ -28,7 +28,7 @@ const useSelectionTimeout = () => {
         if (!isFocused && selectedId !== null) {
             const newTimeoutId = setTimeout(() => {
                 setSelectedId(null); 
-            }, 4000);
+            }, 1000);
             setTimeoutId(newTimeoutId);
         }
     };

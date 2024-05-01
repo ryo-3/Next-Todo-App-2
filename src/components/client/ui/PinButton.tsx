@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 
 type PinButtonProps = {
@@ -6,27 +6,29 @@ type PinButtonProps = {
 };
 
 const PinButton: React.FC<PinButtonProps> = ({ onClick }) => {
-    const handleClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
-        // console.log('Inside handleClick', onClick);
-        if (onClick) {
-            onClick(e);
-        } else {
-            // console.error('onClick is not a function');
-        }
+    const [isActive, setIsActive] = useState(false);
+
+       const handleClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+        setIsActive(true); // ボタンがクリックされたときにアクティブ状態にする
+        setTimeout(() => setIsActive(false), 200); // 200ミリ秒後に非アクティブ状態に戻る
+        onClick?.(e);
     };
 
     return (
         <button
             onClick={handleClick}
-            className="fixed bottom-4 left-4 bg-white w-14 h-14 border border-stone-300 rounded-full flex justify-center items-center"
+            className={`fixed bottom-4 left-4 bg-white w-14 h-14 border border-stone-300 rounded-full flex justify-center items-center `}
+            
         >
-            <Image
-                src={"/pin.png"}
-                alt="Pin"
-                width={24}
-                height={24}
-                priority
-            />
+            <div className={isActive ? 'translate-active' : 'translate-inactive'}>
+                <Image
+                    src={"/pin.png"}
+                    alt="Pin"
+                    width={24}
+                    height={24}
+                    priority
+                />
+            </div>
         </button>
     );
 };
