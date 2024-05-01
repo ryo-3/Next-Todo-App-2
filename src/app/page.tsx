@@ -111,6 +111,7 @@ const Page: React.FC = () => {
               todos={todos} // Todoアイテムのリスト
               setTodos={setTodos} // Todoリストを更新する関数
               isTodoCompleted={todos.some((todo) => todo.completed)} // Todoが完了しているかどうか
+              pinnedIds={pinnedIds} 
             />
 
             {/* Undo操作ボタン */}

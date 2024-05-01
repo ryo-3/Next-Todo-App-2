@@ -27,6 +27,7 @@ export interface ClearListButtonProps {
   todos: Todo[];
   setTodos: SetTodos;
   isTodoCompleted: boolean;
+  pinnedIds: number[];  
 }
 
 export interface ModalProps {

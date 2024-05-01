@@ -1,9 +1,8 @@
-// src/contexts/UndoStackContext.tsx
 import React, { createContext, useContext, useState } from 'react';
 import { Todo } from '@/components/models/interface';
 
 interface UndoAction {
-  type: "partial" | "full";
+  type: "partial" | "full" | "delete"; // "delete"を正しく含むように修正
   items: { item: Todo; deletedIndex: number }[];
 }
 
