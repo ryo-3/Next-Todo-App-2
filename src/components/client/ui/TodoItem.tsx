@@ -26,7 +26,6 @@ const TodoItem: React.FC<TodoItemProps> = ({
             updateTodo(todo.id, textRef.current.textContent);
             setIsEditing(false);
             onEditingStateChange(false);
-            setSelectedId(null);  // 編集終了後に選択状態を解除
         }
     };
 
