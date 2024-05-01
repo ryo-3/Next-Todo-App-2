@@ -13,6 +13,7 @@ const TodoList: React.FC<TodoListProps> = ({
   onEditingStateChange,
   onDragEnd,
   pinnedIds,
+  setSelectedId,
 }) => {
   const handleItemClick = (id: number) => {
     if (selectedId !== id) {
@@ -71,11 +72,13 @@ const TodoList: React.FC<TodoListProps> = ({
                       <label htmlFor={`checkbox-${todo.id}`}></label>
                     </div>
                     <TodoItem
-                      todo={todo}
-                      selectedId={selectedId}
-                      updateTodo={updateTodo}
-                      className="text-input flex-grow"
-                      onEditingStateChange={onEditingStateChange}
+                       key={todo.id}
+                       todo={todo}
+                       selectedId={selectedId}
+                       setSelectedId={setSelectedId}
+                       updateTodo={updateTodo}
+                       className="text-input flex-grow"
+                       onEditingStateChange={onEditingStateChange}
                     />
                     <div
                       {...provided.dragHandleProps}

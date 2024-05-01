@@ -57,6 +57,7 @@ const Page: React.FC = () => {
     pinnedIds,
     pinItem,
     handlePinClick,
+    setSelectedId,
   } = useTodoManagement();
   const todoManagementProps = useTodoManagement();
 
@@ -96,6 +97,7 @@ const Page: React.FC = () => {
                 todos={todos} // Todoアイテムのリスト
                 setTodos={setTodos} // Todoリストを更新する関数
                 selectedId={selectedId} // 選択中のTodoアイテムのID
+                setSelectedId={setSelectedId} 
                 handleSelect={handleSelect} // Todoアイテムの選択をハンドルする関数
                 toggleTodoComplete={toggleTodoComplete} // Todoの完了状態のトグル
                 updateTodo={updateTodo} // Todoアイテムのテキスト更新

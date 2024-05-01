@@ -44,12 +44,13 @@ const useSelectionTimeout = () => {
     }, [selectedId, timeoutId]);
 
     useEffect(() => {
+     
         return () => {
             resetTimeout();
         };
     }, [timeoutId]);
 
-    return { selectedId, handleSelect, resetTimeoutOnFocusChange };
+    return { selectedId, handleSelect, resetTimeoutOnFocusChange, setSelectedId };
 };
 
 export default useSelectionTimeout;

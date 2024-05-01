@@ -43,6 +43,7 @@ export interface TodoListProps {
   todos: Todo[];
   setTodos: SetTodos;
   selectedId: number | null;
+  setSelectedId: (id: number | null) => void; 
   handleSelect: (id: number | null) => void;
   toggleTodoComplete: (id: number) => void;
   updateTodo: (id: number, newText: string) => void;
@@ -60,6 +61,7 @@ export interface UndoListButtonProps {
 export interface TodoItemProps {
   todo: Todo;
   selectedId: number | null;
+  setSelectedId: (id: number | null) => void; 
   updateTodo: (id: number, newText: string) => void;
   className?: string;
   onEditingStateChange: (isFocused: boolean) => void;
