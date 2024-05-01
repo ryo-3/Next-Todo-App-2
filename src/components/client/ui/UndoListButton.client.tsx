@@ -1,5 +1,5 @@
 // src/components/client/ui/UndoListButton.client.tsx
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { useDeletedItemContext } from "../context/DeletedItemContext";
 import { UndoListButtonProps } from "@/components/models/interface";
@@ -8,8 +8,18 @@ import { useUndoStack } from "../context/UndoStackContext";
 const UndoListButton: React.FC<UndoListButtonProps> = ({ todos, setTodos }) => {
   const { deletedItems, setDeletedItems } = useDeletedItemContext();
   const { undoStack, setUndoStack } = useUndoStack();
+  const [iconActive, setIconActive] = useState(false);
+
+  // アイコンのソースを管理する
+  const getImageSrc = () => {
+    return iconActive 
+      ? "/DeleteButtonUpActive.png"
+      : "/DeleteButtonUp.png";
+  };
 
   const undoRemoval = () => {
+    setIconActive(true); // アイコンをアクティブにする
+    setTimeout(() => setIconActive(false), 700); 
     // 現在のUndoスタックをログに出力
     // console.log("現在のスタック:", JSON.stringify(undoStack, null, 2));
     // スタックが空の場合、操作を中断
@@ -54,7 +64,7 @@ const UndoListButton: React.FC<UndoListButtonProps> = ({ todos, setTodos }) => {
       className="fixed bottom-4 right-20 bg-white w-14 h-14 border border-stone-300 rounded-full flex justify-center items-center"
     >
       <Image
-        src={"/DeleteButtonUp.png"}
+        src={getImageSrc()}
         alt="削除"
         width={32}
         height={32}
