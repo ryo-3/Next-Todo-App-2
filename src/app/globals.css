@@ -100,8 +100,8 @@ body {
 
 /* 解除時のアニメーション */
 .pin-deactivate-animation {
-  transform: translateY(-5px);
-  opacity: 0; /* ピン解除時は透明にする */
+  transform: translateY(-5px) translateX(5px);
+  opacity: 0;
 }
 
 /*  */
