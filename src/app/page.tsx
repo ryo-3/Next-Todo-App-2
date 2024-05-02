@@ -55,10 +55,11 @@ const Page: React.FC = () => {
     loading, // ローディングの状態を示すフラグ
 
     pinnedIds,
-    pinItem,
     handlePinClick,
     setSelectedId,
   } = useTodoManagement();
+  const isPinned = pinnedIds.includes(selectedId ?? -1);
+  
 
   return (
     <TodoProvider>
@@ -121,7 +122,9 @@ const Page: React.FC = () => {
               removeItem={removeItem} // 特定のTodoアイテムを削除する関数
             />
             {/* Pin止め機能ボタン */}
-            {selectedId && <PinButton onClick={() => handlePinClick(selectedId)} />}
+            {selectedId && (
+              <PinButton isPinned={isPinned} onClick={handlePinClick} />
+            )}
           </main>
         </UndoStackProvider>
       </DeletedItemProvider>

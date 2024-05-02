@@ -27,7 +27,7 @@ body {
   width: 90%;
 }
 .draggable-bg-transition {
-  transition: background-color 0.3s ease;
+  transition: background-color 0.1s ease;
 }
 
 /* チェックボックスを隠す */
@@ -51,7 +51,6 @@ body {
   cursor: pointer;
   display: inline-block;
   line-height: 20px; /* ラベルのテキストの行高を調整 */
-
 }
 
 .checkbox-custom label::before {
@@ -65,7 +64,6 @@ body {
   border-radius: 50%; /* 丸くする */
   background: white; /* 背景色 */
   border: 1px solid rgb(214 211 209); /* 枠線 */
-
 }
 .checkbox-custom label::after {
   content: "";
@@ -79,26 +77,41 @@ body {
   background-position: center;
   opacity: 0; /* 最初は非表示 */
   transition: opacity 0.2s;
- 
 }
 
 .checkbox-custom input[type="checkbox"]:checked + label::after {
-  opacity: 1; 
+  opacity: 1;
 }
 
 /* ピン止めアイコンの設定 */
 .pin {
-    top: -4px;
-    left: 4px;
-    height: auto;
-    width: 11px;
+  top: -4px;
+  left: 4px;
+  height: auto;
+  width: 11px;
 }
 
 /*  */
 .error {
-    position: absolute;
-    left: 82px;
-    margin-bottom: 4px;
+  position: absolute;
+  left: 82px;
+  margin-bottom: 4px;
+}
+
+/* styles.css */
+.pin-activate-animation {
+    transform: translateY(6px) translateX(-5.5px);
+    transition: transform 0.5s;
+}
+
+.pin-deactivate-animation {
+    transform: translateY(-6px) translateX(5.5px);
+    transition: transform 0.3s;
+}
+
+.no-animation {
+  transform: translateY(0); /* 元の位置に戻る */
+  transition: transform 2s;
 }
 
 @layer utilities {

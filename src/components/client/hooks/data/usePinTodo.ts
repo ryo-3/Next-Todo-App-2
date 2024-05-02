@@ -1,40 +1,40 @@
 import { useCallback, Dispatch, SetStateAction } from "react";
 
 interface UsePinTodo {
-  pinItem: (id: number) => void;
-  handlePinClick: (id: number | null) => void;
+  handlePinClick: () => void;
 }
 
-// usePinTodoフックは、指定されたIDのTodoアイテムのピン止め状態を管理します。
 const usePinTodo = (
-  pinnedIds: number[], 
+  selectedId: number | null,
+  pinnedIds: number[],
   setPinnedIds: Dispatch<SetStateAction<number[]>>
 ): UsePinTodo => {
-  // 指定されたIDをピン止めまたはピン止め解除する関数
-  const pinItem = useCallback((id: number) => {
-    // 現在のピン止めIDリストを更新
+  const pinItem = useCallback(() => {
+    console.log(`pinItem: Selected ID - ${selectedId}`);
+    if (selectedId === null) {
+      console.warn("pinItem: No item selected.");
+      return;
+    }
+
     setPinnedIds((prev) => {
-      const isPinned = prev.includes(id);
-      // 既にピン止めされている場合は、そのIDをリストから除去
-      return isPinned ? prev.filter((pid) => pid !== id) : [...prev, id];
+      const isPinned = prev.includes(selectedId);
+      console.log("pinItem: Is Pinned before toggle:", isPinned);
+
+      const updatedIds = isPinned
+        ? prev.filter((pid) => pid !== selectedId)
+        : [...prev, selectedId];
+
+      console.log("Updated pinnedIds:", updatedIds);
+      return updatedIds;
     });
-  }, [setPinnedIds]);
+  }, [selectedId, setPinnedIds]);
 
-  // クリックイベントに反応して、ピン止めまたはピン止め解除を行う関数
-  const handlePinClick = useCallback(
-    (id: number | null) => {
-      if (id === null) {
-        // IDがnullの場合、エラーログを出力して処理を中断
-        console.log("No ID provided for pinning.");
-        return;
-      }
-      // 有効なIDがある場合、ピン止め操作を実行
-      pinItem(id);
-    },
-    [pinItem]
-  );
+  const handlePinClick = useCallback(() => {
+    console.log("handlePinClick: Executing pinItem");
+    pinItem(); // 1回だけ実行
+  }, [pinItem]);
 
-  return { pinItem, handlePinClick };
+  return { handlePinClick };
 };
 
 export default usePinTodo;

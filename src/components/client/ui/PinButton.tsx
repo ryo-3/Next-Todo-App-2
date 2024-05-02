@@ -1,34 +1,64 @@
-import React from 'react';
-import Image from 'next/image';
+import React, { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 
 type PinButtonProps = {
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
+  isPinned: boolean;
+  onClick: () => void;
 };
 
-const PinButton: React.FC<PinButtonProps> = ({ onClick }) => {
-    const handleClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
-        // console.log('Inside handleClick', onClick);
-        if (onClick) {
-            onClick(e);
-        } else {
-            // console.error('onClick is not a function');
-        }
+const PinButton: React.FC<PinButtonProps> = ({ isPinned, onClick }) => {
+  const [isActive, setIsActive] = useState(false);
+  const [buttonClicked, setButtonClicked] = useState(false);
+  const animationDivRef = useRef<HTMLDivElement>(null); // アニメーションの div への参照を追加
+
+  useEffect(() => {
+    if (buttonClicked) {
+      setIsActive(true);
+      const timer = setTimeout(() => {
+        setIsActive(false);
+        setButtonClicked(false); // アニメーション後にリセット
+      }, 200);
+      return () => clearTimeout(timer);
+    }
+  }, [buttonClicked]);
+
+  useEffect(() => {
+    const animationDiv = animationDivRef.current;
+    const handleTransitionEnd = () => {
+      if (!isActive) {
+        animationDiv?.classList.add("no-animation");
+      }
     };
 
-    return (
-        <button
-            onClick={handleClick}
-            className="fixed bottom-4 left-4 bg-white w-14 h-14 border border-stone-300 rounded-full flex justify-center items-center"
-        >
-            <Image
-                src={"/pin.png"}
-                alt="Pin"
-                width={24}
-                height={24}
-                priority
-            />
-        </button>
-    );
+    animationDiv?.addEventListener("transitionend", handleTransitionEnd);
+    return () => {
+      animationDiv?.removeEventListener("transitionend", handleTransitionEnd);
+    };
+  }, [isActive]);
+
+  return (
+    <button
+      onClick={() => {
+        console.log("PinButton: Button clicked");
+        setButtonClicked(true); // ボタンがクリックされたことを設定
+        onClick();
+      }}
+      className="fixed bottom-4 left-4 bg-white w-14 h-14 border border-stone-300 rounded-full flex justify-center items-center"
+    >
+      <div
+        ref={animationDivRef} // div に参照を追加
+        className={
+          isActive
+            ? isPinned
+              ? "pin-activate-animation"
+              : "pin-deactivate-animation"
+            : "no-animation"
+        }
+      >
+        <Image src="/pin.png" alt="Pin" width={24} height={24} priority />
+      </div>
+    </button>
+  );
 };
 
 export default PinButton;

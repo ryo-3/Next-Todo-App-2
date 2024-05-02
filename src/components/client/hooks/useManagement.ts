@@ -39,7 +39,7 @@ function useTodoManagement() {
 
   // ピン止めとピン止めの状態保存
   const [pinnedIds, setPinnedIds] = useLocalStorage<number[]>("pinnedIds", []);
-  const { pinItem, handlePinClick } = usePinTodo(pinnedIds, setPinnedIds);
+  //   const { pinItem, handlePinClick } = usePinTodo(pinnedIds, setPinnedIds,);
 
   // Todoリストの状態管理
   const [todos, setTodos] = useLocalStorage<Todo[]>("todos", []);
@@ -53,9 +53,13 @@ function useTodoManagement() {
   const { fixedStyle, formRef, placeholderStyle } = useScrollFixed();
 
   // 選択とフォーカスのタイムアウト管理
-  // useTodoManagement フック内
   const { selectedId, setSelectedId, handleSelect, resetTimeoutOnFocusChange } =
     useSelectionTimeout();
+  const { handlePinClick } = usePinTodo(
+    selectedId, // selectedIdを渡す
+    pinnedIds,
+    setPinnedIds
+  );
 
   // Todo操作
   const { toggleTodoComplete } = useToggleTodoComplete(todos, setTodos);
@@ -155,7 +159,6 @@ function useTodoManagement() {
     // 状態とローディング
     loading, // ローディングの状態を示すフラグ
     pinnedIds,
-    pinItem,
     handlePinClick,
     setSelectedId,
   };

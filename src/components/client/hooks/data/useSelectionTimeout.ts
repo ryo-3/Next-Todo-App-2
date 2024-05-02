@@ -16,7 +16,7 @@ const useSelectionTimeout = () => {
         resetTimeout();
         if (id !== null) {
             const newTimeoutId = setTimeout(() => {
-                setSelectedId(null); // 5秒後に選択を解除
+                setSelectedId(null);
             }, 8000);
             setTimeoutId(newTimeoutId);
         }
