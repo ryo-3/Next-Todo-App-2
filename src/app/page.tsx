@@ -58,6 +58,7 @@ const Page: React.FC = () => {
     handlePinClick,
     setSelectedId,
   } = useTodoManagement();
+  const isPinned = pinnedIds.includes(selectedId ?? -1);
   
 
   return (
@@ -121,7 +122,9 @@ const Page: React.FC = () => {
               removeItem={removeItem} // 特定のTodoアイテムを削除する関数
             />
             {/* Pin止め機能ボタン */}
-            {selectedId && <PinButton onClick={handlePinClick} />}
+            {selectedId && (
+              <PinButton isPinned={isPinned} onClick={handlePinClick} />
+            )}
           </main>
         </UndoStackProvider>
       </DeletedItemProvider>

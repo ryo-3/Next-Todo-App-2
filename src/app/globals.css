@@ -99,14 +99,19 @@ body {
 }
 
 /* styles.css */
-.translate-active {
-  transform: translateY(3px) translateX(-2px);
-  transition: transform 0.2s;
+.pin-activate-animation {
+    transform: translateY(6px) translateX(-5.5px);
+    transition: transform 0.5s;
 }
 
-.translate-inactive {
+.pin-deactivate-animation {
+    transform: translateY(-6px) translateX(5.5px);
+    transition: transform 0.3s;
+}
+
+.no-animation {
   transform: translateY(0); /* 元の位置に戻る */
-  transition: transform 0.2s;
+  transition: transform 2s;
 }
 
 @layer utilities {
