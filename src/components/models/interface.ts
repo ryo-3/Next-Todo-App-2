@@ -51,6 +51,7 @@ export interface TodoListProps {
   onEditingStateChange: (isFocused: boolean) => void;
   onDragEnd: (result: DropResult) => void; 
   pinnedIds: number[];
+  setPinnedIds: (ids: number[]) => void;
 }
 
 export interface UndoListButtonProps {

@@ -83,12 +83,26 @@ body {
   opacity: 1;
 }
 
-/* ピン止めアイコンの設定 */
+/* ピン留めアイコンの設定 */
 .pin {
-  top: -4px;
-  left: 4px;
+  top: -8px;
+  left: 8px;
   height: auto;
   width: 11px;
+  opacity: 0;
+  transition: transform 0.8s, opacity 0.8s; /* opacityのトランジションを追加 */
+}
+
+/* ピン留め時のアニメーション */
+.pin-activate-animation {
+  transform: translateY(4px) translateX(-4px);
+  opacity: 1;
+}
+
+/* 解除時のアニメーション */
+.pin-deactivate-animation {
+  transform: translateY(-5px) translateX(5px);
+  opacity: 0;
 }
 
 /*  */
@@ -98,18 +112,18 @@ body {
   margin-bottom: 4px;
 }
 
-/* styles.css */
-.pin-activate-animation {
-    transform: translateY(6px) translateX(-5.5px);
-    transition: transform 0.5s;
+/* ピンボタンのアニメーション */
+.pinButton-activate-animation {
+  transform: translateY(6px) translateX(-5.5px);
+  transition: transform 0.5s;
 }
 
-.pin-deactivate-animation {
-    transform: translateY(-6px) translateX(5.5px);
-    transition: transform 0.3s;
+.pinButton-deactivate-animation {
+  transform: translateY(-6px) translateX(5.5px);
+  transition: transform 0.3s;
 }
 
-.no-animation {
+.noButton-animation {
   transform: translateY(0); /* 元の位置に戻る */
   transition: transform 2s;
 }

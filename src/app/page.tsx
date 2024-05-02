@@ -57,6 +57,8 @@ const Page: React.FC = () => {
     pinnedIds,
     handlePinClick,
     setSelectedId,
+    setPinnedIds,
+
   } = useTodoManagement();
   const isPinned = pinnedIds.includes(selectedId ?? -1);
   
@@ -94,16 +96,17 @@ const Page: React.FC = () => {
               <div className="text-slate-800 pt-6 pl-2">読み込み中...</div> // ローディングテキスト
             ) : (
                 <TodoList
-                todos={todos} // Todoアイテムのリスト
-                setTodos={setTodos} // Todoリストを更新する関数
-                selectedId={selectedId} // 選択中のTodoアイテムのID
-                setSelectedId={setSelectedId} 
-                handleSelect={handleSelect} // Todoアイテムの選択をハンドルする関数
-                toggleTodoComplete={toggleTodoComplete} // Todoの完了状態のトグル
-                updateTodo={updateTodo} // Todoアイテムのテキスト更新
-                onEditingStateChange={resetTimeoutOnFocusChange} // 編集状態の変更時のタイムアウトリセット
-                onDragEnd={onDragEnd} // ドラッグアンドドロップの終了時のイベント
+                todos={todos}
+                setTodos={setTodos}
+                toggleTodoComplete={toggleTodoComplete}
+                updateTodo={updateTodo}
+                selectedId={selectedId}
+                handleSelect={handleSelect}
+                onEditingStateChange={resetTimeoutOnFocusChange}
+                onDragEnd={onDragEnd}
                 pinnedIds={pinnedIds}
+                setSelectedId={setSelectedId}
+                setPinnedIds={setPinnedIds}
               />
             )}
 

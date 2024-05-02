@@ -161,6 +161,7 @@ function useTodoManagement() {
     pinnedIds,
     handlePinClick,
     setSelectedId,
+    setPinnedIds,
   };
 }
 

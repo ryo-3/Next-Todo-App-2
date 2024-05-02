@@ -50,9 +50,9 @@ const PinButton: React.FC<PinButtonProps> = ({ isPinned, onClick }) => {
         className={
           isActive
             ? isPinned
-              ? "pin-activate-animation"
-              : "pin-deactivate-animation"
-            : "no-animation"
+              ? "pinButton-activate-animation"
+              : "pinButton-deactivate-animation"
+            : "noButton-animation"
         }
       >
         <Image src="/pin.png" alt="Pin" width={24} height={24} priority />
