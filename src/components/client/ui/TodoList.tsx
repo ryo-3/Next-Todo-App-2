@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { TodoListProps } from "@/components/models/interface";
 import TodoItem from "./TodoItem";
@@ -22,27 +22,26 @@ const TodoList: React.FC<TodoListProps> = ({
     }
   };
 
-  // アニメーションの状態を追跡するための状態を追加
-  const [pinAnimation, setPinAnimation] = useState<{ [key: number]: string }>(
-    {}
-  );
+  const [pinAnimation, setPinAnimation] = useState<{ [key: number]: string }>({});
+  const initialLoad = useRef(true); // 初回ロードフラグ
 
   useEffect(() => {
     todos.forEach((todo) => {
       const isPinned = pinnedIds.includes(todo.id);
-      const animationClass = isPinned
-        ? "pin-activate-animation"
-        : "pin-deactivate-animation";
+      let animationClass = "hidden"; // デフォルトでは非表示
+      if (isPinned) {
+        animationClass = "pin-activate-animation";
+      } else if (!initialLoad.current) {
+        animationClass = "";
+      }
 
-      // タイミングを調整
-      setTimeout(() => {
-        setPinAnimation((prev) => ({
-          ...prev,
-          [todo.id]: animationClass,
-        }));
-      }, 10);
+      setPinAnimation((prev) => ({
+        ...prev,
+        [todo.id]: animationClass,
+      }));
     });
-  }, [pinnedIds, todos]);
+    initialLoad.current = false; // 初期ロードが終了したらフラグを更新
+  }, [todos, pinnedIds]);
 
   const togglePin = (id: number) => {
     const isPinned = pinnedIds.includes(id);
@@ -70,7 +69,6 @@ const TodoList: React.FC<TodoListProps> = ({
     }
   };
 
-  // Todoリストのソート
   todos.sort((a, b) => {
     const aPinned = pinnedIds.includes(a.id);
     const bPinned = pinnedIds.includes(b.id);
