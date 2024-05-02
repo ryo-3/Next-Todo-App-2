@@ -98,18 +98,18 @@ body {
   margin-bottom: 4px;
 }
 
-/* styles.css */
-.pin-activate-animation {
+/* ピンボタンのアニメーション */
+.pinButton-activate-animation {
     transform: translateY(6px) translateX(-5.5px);
     transition: transform 0.5s;
-}
+}   
 
-.pin-deactivate-animation {
+.pinButton-deactivate-animation {
     transform: translateY(-6px) translateX(5.5px);
     transition: transform 0.3s;
 }
 
-.no-animation {
+.noButton-animation {
   transform: translateY(0); /* 元の位置に戻る */
   transition: transform 2s;
 }
