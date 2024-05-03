@@ -10,7 +10,7 @@ const usePinTodo = (
   setPinnedIds: Dispatch<SetStateAction<number[]>>
 ): UsePinTodo => {
   const pinItem = useCallback(() => {
-    console.log(`pinItem: Selected ID - ${selectedId}`);
+    // console.log(`pinItem: Selected ID - ${selectedId}`);
     if (selectedId === null) {
       console.warn("pinItem: No item selected.");
       return;
@@ -18,7 +18,7 @@ const usePinTodo = (
 
     setPinnedIds((prev) => {
       const isPinned = prev.includes(selectedId);
-      console.log("pinItem: Is Pinned before toggle:", isPinned);
+    //   console.log("pinItem: Is Pinned before toggle:", isPinned);
 
       const updatedIds = isPinned
         ? prev.filter((pid) => pid !== selectedId)

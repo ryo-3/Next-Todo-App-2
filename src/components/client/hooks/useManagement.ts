@@ -1,5 +1,6 @@
 "use client";
-// import { Todo } from "@/components/models/interface";
+
+// 必要なReactフックをインポート
 import {
   Dispatch,
   FormEvent,
@@ -11,50 +12,50 @@ import {
 } from "react";
 
 // 新しいTodoの作成
-import useCreateTodo from "./data/useCreateTodo"; // 新しいTodoを作成するためのロジックを提供します。
+import useCreateTodo from "./data/useCreateTodo"; // 新しいTodoを作成するためのロジックを提供します
 
 // Todoリストの管理
-import useUpdateTodos from "./data/useUpdateTodos"; // Todoリストの更新を管理するためのフック。
-import useLocalStorage from "./data/useLocalStorage"; // ローカルストレージを使用してTodoリストを永続化するためのフック。
-import useToggleTodoComplete from "./data/useToggleTodoComplete"; // Todoの完了状態のトグルを管理するフック。
-import useDropTodo from "./data/useDropTodo"; // ドラッグアンドドロップを通じてTodoの順番を並び替えるためのフック。
+import useUpdateTodos from "./data/useUpdateTodos"; // Todoリストの更新を管理するためのフック
+import useLocalStorage from "./data/useLocalStorage"; // ローカルストレージを使用してTodoリストを永続化するためのフック
+import useToggleTodoComplete from "./data/useToggleTodoComplete"; // Todoの完了状態のトグルを管理するフック
+import useDropTodo from "./data/useDropTodo"; // ドラッグアンドドロップを通じてTodoの順番を並び替えるためのフック
 
 // 入力とバリデーションの管理
-import useInputChange from "./data/useInputChange"; // 入力フィールドの値変更を管理するためのフック。
-import useInputValidation from "./data/useInputValidation"; // 入力値のバリデーションを行うためのフック。
-import useHandleSubmit from "./data/useHandleSubmit"; // フォーム送信の処理を行うためのフック。
+import useInputChange from "./data/useInputChange"; // 入力フィールドの値変更を管理するためのフック
+import useInputValidation from "./data/useInputValidation"; // 入力値のバリデーションを行うためのフック
+import useHandleSubmit from "./data/useHandleSubmit"; // フォーム送信の処理を行うためのフック
 
 // UIスタイルと固定
-import useScrollFixed from "./data/useScrollFixed"; // スクロール時に特定のUI要素の位置を固定するためのスタイリングフック。
+import useScrollFixed from "./data/useScrollFixed"; // スクロール時に特定のUI要素の位置を固定するためのスタイリングフック
 
 // 選択とフォーカス管理
-import useSelectionTimeout from "./data/useSelectionTimeout"; // 選択されたTodoアイテムの状態とタイムアウトを管理するためのフック。
-import usePinTodo from "./data/usePinTodo";
+import useSelectionTimeout from "./data/useSelectionTimeout"; // 選択されたTodoアイテムの状態とタイムアウトを管理するためのフック
+import usePinTodo from "./data/usePinTodo"; // ピン留めされたTodoの操作を行うためのフック
 import { Todo } from "@/components/models/interface";
 
 function useTodoManagement() {
-  // 入力関連の処理
-  const { inputValue, setInputValue, handleChange } = useInputChange();
-  const inputRef = useRef<HTMLInputElement>(null);
+  // 入力管理
+  const { inputValue, setInputValue, handleChange } = useInputChange(); // 入力関連の処理
+  const inputRef = useRef<HTMLInputElement>(null); // 入力エレメントへの参照
 
-  // ピン止めとピン止めの状態保存
-  const [pinnedIds, setPinnedIds] = useLocalStorage<number[]>("pinnedIds", []);
-  //   const { pinItem, handlePinClick } = usePinTodo(pinnedIds, setPinnedIds,);
+  // ピン管理
+  const [pinnedIds, setPinnedIds] = useLocalStorage<number[]>("pinnedIds", []); // ピン止めとピン止めの状態保存
 
-  // Todoリストの状態管理
-  const [todos, setTodos] = useLocalStorage<Todo[]>("todos", []);
-  const [loading, setLoading] = useState(true);
-  const [showForm, setShowForm] = useState(true);
+  // Todoリストの管理
+  const [todos, setTodos] = useLocalStorage<Todo[]>("todos", []); // Todoリストの状態管理
+  const [loading, setLoading] = useState(true); // ローディングの状態
+  const [showForm, setShowForm] = useState(true); // フォームの表示状態
 
-  // ドラッグアンドドロップの終了処理
-  const { onDragEnd } = useDropTodo(todos, setTodos, pinnedIds, setPinnedIds);
+  const { onDragEnd } = useDropTodo(todos, setTodos, pinnedIds, setPinnedIds); // ドラッグアンドドロップの終了処理
 
-  // UIスタイルの設定
-  const { fixedStyle, formRef, placeholderStyle } = useScrollFixed();
+  // UIスタイルと固定
+  const { fixedStyle, formRef, placeholderStyle } = useScrollFixed(); // UIスタイルの設定
 
-  // 選択とフォーカスのタイムアウト管理
+  // 選択とフォーカス管理
   const { selectedId, setSelectedId, handleSelect, resetTimeoutOnFocusChange } =
-    useSelectionTimeout();
+    useSelectionTimeout(); // 選択とフォーカスのタイムアウト管理
+
+  // ピン管理の操作
   const { handlePinClick } = usePinTodo(
     selectedId, // selectedIdを渡す
     pinnedIds,
@@ -62,9 +63,9 @@ function useTodoManagement() {
   );
 
   // Todo操作
-  const { toggleTodoComplete } = useToggleTodoComplete(todos, setTodos);
-  const { createTodo } = useCreateTodo(inputValue);
-  const { updateTodos } = useUpdateTodos(todos, setTodos, handleChange);
+  const { toggleTodoComplete } = useToggleTodoComplete(todos, setTodos); // Todoの完了状態を切り替える
+  const { createTodo } = useCreateTodo(inputValue); // 新しいTodoの作成
+  const { updateTodos } = useUpdateTodos(todos, setTodos, handleChange); // Todoの更新
 
   // 入力のバリデーション
   const { validateInput, error } = useInputValidation(
@@ -85,7 +86,7 @@ function useTodoManagement() {
     setTimeout(() => setLoading(false), 200);
   }, []);
 
-  // 指定されたインデックスのTodoをリストから削除する関数
+  // 特定のTodoの削除処理
   const removeItem = useCallback(
     (index: number) => {
       const newTodos = [...todos]; // 現在のTodosのコピーを作成
@@ -108,7 +109,7 @@ function useTodoManagement() {
     handleSubmit(event); // カスタムのサブミット処理を実行
   };
 
-  // 特定のTodoのテキストを更新する関数
+  // 特定のTodoのテキストを更新する処理
   const updateTodo = useCallback(
     (id: number, newText: string) => {
       // Todoリストを走査し、該当するIDのTodoのテキストを更新
@@ -119,6 +120,9 @@ function useTodoManagement() {
     },
     [todos, setTodos]
   );
+
+  // 指定されたTodoがピン留めされているかどうかを確認する
+  const isPinned = pinnedIds.includes(selectedId ?? -1);
 
   return {
     // 入力管理
@@ -142,10 +146,11 @@ function useTodoManagement() {
     toggleTodoComplete, // Todoの完了状態を切り替える関数
     onDragEnd, // ドラッグアンドドロップの終了時に呼ばれる関数
 
-    // ユーザーインタラクションとUIの管理
+    // 選択とUIの管理
     selectedId, // 現在選択されているTodoアイテムのID
     handleSelect, // Todoアイテムの選択を処理する関数
     resetTimeoutOnFocusChange, // フォーカスが変わった時にタイムアウトをリセットする関数
+    setSelectedId, // `selectedId`を更新する関数
 
     // バリデーションとエラー処理
     validateInput, // 入力のバリデーションを行う関数
@@ -158,10 +163,12 @@ function useTodoManagement() {
 
     // 状態とローディング
     loading, // ローディングの状態を示すフラグ
-    pinnedIds,
-    handlePinClick,
-    setSelectedId,
-    setPinnedIds,
+
+    // ピン管理
+    pinnedIds, // ピン留めされたTodoアイテムのIDリスト
+    handlePinClick, // Todoアイテムのピン留めと解除を処理する関数
+    setPinnedIds, // ピン留めされたTodoアイテムのIDリストを更新する関数
+    isPinned, // Todoアイテムがピン留めされているかどうかを確認する関数
   };
 }
 
