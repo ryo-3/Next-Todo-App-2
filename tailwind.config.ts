@@ -20,7 +20,7 @@ theme: {
         },
         colors: {
           blown: "#5e3425",
-          selected: '#e3f7ed', 
+          selected: '#e4f5ec', 
         },
     },
   },

@@ -96,7 +96,7 @@ const TodoList: React.FC<TodoListProps> = ({
                   <li
                     ref={provided.innerRef}
                     {...provided.draggableProps}
-                    className={`relative flex-container pt-2 pb-2.5 pl-2 rounded-md mb-2 text-neutral-900 flex justify-between items-center draggable-bg-transition ${
+                    className={`relative flex-container pt-2 pb-2.5 pl-2 rounded-md mb-2 text-neutral-900 flex justify-between items-center bg-transition ${
                       snapshot.isDragging ? "bg-emerald-200" : "bg-emerald-100"
                     } ${selectedId === todo.id ? "bg-selected" : ""}`}
                     onClick={() => handleItemClick(todo.id)}
