@@ -10,6 +10,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { Todo } from "@/components/models/interface";
 
 // 新しいTodoの作成
 import useCreateTodo from "./data/useCreateTodo"; // 新しいTodoを作成するためのロジックを提供します
@@ -30,8 +31,6 @@ import useScrollFixed from "./data/useScrollFixed"; // スクロール時に特�
 
 // 選択とフォーカス管理
 import useSelectionTimeout from "./data/useSelectionTimeout"; // 選択されたTodoアイテムの状態とタイムアウトを管理するためのフック
-import usePinTodo from "./data/usePinTodo"; // ピン留めされたTodoの操作を行うためのフック
-import { Todo } from "@/components/models/interface";
 
 function useTodoManagement() {
   // 入力管理
@@ -54,13 +53,6 @@ function useTodoManagement() {
   // 選択とフォーカス管理
   const { selectedId, setSelectedId, handleSelect, resetTimeoutOnFocusChange } =
     useSelectionTimeout(); // 選択とフォーカスのタイムアウト管理
-
-  // ピン管理の操作
-//   const { handlePinClick } = usePinTodo(
-//     selectedId, // selectedIdを渡す
-//     pinnedIds,
-//     setPinnedIds
-//   );
 
   // Todo操作
   const { toggleTodoComplete } = useToggleTodoComplete(todos, setTodos); // Todoの完了状態を切り替える
@@ -166,7 +158,6 @@ function useTodoManagement() {
 
     // ピン管理
     pinnedIds, // ピン留めされたTodoアイテムのIDリスト
-    // handlePinClick, // Todoアイテムのピン留めと解除を処理する関数
     setPinnedIds, // ピン留めされたTodoアイテムのIDリストを更新する関数
     isPinned, // Todoアイテムがピン留めされているかどうかを確認する関数
   };
