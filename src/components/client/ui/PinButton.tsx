@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
+// PinButton.tsx
+import React, { useState } from "react";
 import Image from "next/image";
 
 type PinButtonProps = {
@@ -7,58 +8,33 @@ type PinButtonProps = {
 };
 
 const PinButton: React.FC<PinButtonProps> = ({ isPinned, onClick }) => {
-  const [isActive, setIsActive] = useState(false);
-  const [buttonClicked, setButtonClicked] = useState(false);
-  const animationDivRef = useRef<HTMLDivElement>(null);
+  const [animationClass, setAnimationClass] = useState("noButton-animation");
 
-  useEffect(() => {
-    if (buttonClicked) {
-      setIsActive(true);
-      const timer = setTimeout(() => {
-        setIsActive(false);
-        setButtonClicked(false);
-      }, 500); // 0.5秒間アニメーションを実行
-      return () => clearTimeout(timer);
-    }
-  }, [buttonClicked]);
+  const handleButtonClick = () => {
+    // アニメーションのクラスを変更
+    const newClass = isPinned
+      ? "pinButton-deactivate-animation"
+      : "pinButton-activate-animation";
 
-  useEffect(() => {
-    const animationDiv = animationDivRef.current;
-    const handleTransitionEnd = () => {
-      if (!isActive) {
-        animationDiv?.classList.add("no-animation");
-      }
-    };
+    setAnimationClass(newClass);
+    onClick();
 
-    animationDiv?.addEventListener("transitionend", handleTransitionEnd);
-    return () => {
-      animationDiv?.removeEventListener("transitionend", handleTransitionEnd);
-    };
-  }, [isActive]);
+    // アニメーション後に初期位置に戻す
+    setTimeout(() => {
+      setAnimationClass("noButton-animation");
+    }, 260); // アニメーションの長さに応じて変更
+  };
 
   return (
     <button
-      onClick={() => {
-        console.log("PinButton: Button clicked");
-        setButtonClicked(true); // ボタンがクリックされたことを設定
-        onClick(); // handlePinClick を呼び出す
-      }}
+      onClick={handleButtonClick}
       className="fixed z-10 bottom-4 left-4 bg-white w-14 h-14 border border-stone-300 rounded-full flex justify-center items-center"
     >
-      <div
-        ref={animationDivRef}
-        className={
-          isActive
-            ? isPinned
-              ? "pinButton-deactivate-animation"
-              : "pinButton-activate-animation"
-            : "noButton-animation"
-        }
-      >
+      <div className={animationClass}>
         <Image src="/pin.png" alt="Pin" width={24} height={24} priority />
       </div>
     </button>
   );
 };
 
-export default PinButton;
+export default React.memo(PinButton);

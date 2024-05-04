@@ -125,7 +125,7 @@ body {
 
 .noButton-animation {
   transform: translateY(0); /* 元の位置に戻る */
-  transition: transform 1s;
+  transition: transform 0.8s;
 }
 
 @layer utilities {
