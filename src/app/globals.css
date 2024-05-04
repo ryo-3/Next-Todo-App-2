@@ -26,8 +26,8 @@ body {
 .w-90 {
   width: 90%;
 }
-.draggable-bg-transition {
-  transition: background-color 0.1s ease;
+.bg-transition {
+  transition: background-color 0.3s ease;
 }
 
 /* チェックボックスを隠す */
@@ -125,7 +125,7 @@ body {
 
 .noButton-animation {
   transform: translateY(0); /* 元の位置に戻る */
-  transition: transform 2s;
+  transition: transform 0.8s;
 }
 
 @layer utilities {

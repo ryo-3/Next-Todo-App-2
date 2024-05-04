@@ -1,40 +1,71 @@
-import { useCallback, Dispatch, SetStateAction } from "react";
+// usePinTodo.ts
+import { useCallback, Dispatch, SetStateAction, useState, useEffect, useRef } from 'react';
+import { Todo } from '@/components/models/interface'; // Todoの型がここに含まれていることを仮定
 
 interface UsePinTodo {
-  handlePinClick: () => void;
+  togglePin: (id: number) => void;
+  pinAnimation: { [key: number]: string };
 }
 
 const usePinTodo = (
-  selectedId: number | null,
   pinnedIds: number[],
-  setPinnedIds: Dispatch<SetStateAction<number[]>>
+  setPinnedIds: Dispatch<SetStateAction<number[]>>,
+  todos: Todo[] // 新しいパラメータ
 ): UsePinTodo => {
-  const pinItem = useCallback(() => {
-    console.log(`pinItem: Selected ID - ${selectedId}`);
-    if (selectedId === null) {
-      console.warn("pinItem: No item selected.");
-      return;
-    }
+  const [pinAnimation, setPinAnimation] = useState<{ [key: number]: string }>({});
+  const initialLoad = useRef(true);
 
-    setPinnedIds((prev) => {
-      const isPinned = prev.includes(selectedId);
-      console.log("pinItem: Is Pinned before toggle:", isPinned);
+  useEffect(() => {
+    todos.forEach((todo) => {
+      const isPinned = pinnedIds.includes(todo.id);
+      let animationClass = "hidden"; // デフォルトでは非表示
+      if (isPinned) {
+        animationClass = "pin-activate-animation";
+      } else if (!initialLoad.current) {
+        animationClass = "";
+      }
 
-      const updatedIds = isPinned
-        ? prev.filter((pid) => pid !== selectedId)
-        : [...prev, selectedId];
-
-      console.log("Updated pinnedIds:", updatedIds);
-      return updatedIds;
+      setPinAnimation((prev) => ({
+        ...prev,
+        [todo.id]: animationClass,
+      }));
     });
-  }, [selectedId, setPinnedIds]);
+    initialLoad.current = false; // 初期ロードが終了したらフラグを更新
+  }, [todos, pinnedIds]);
 
-  const handlePinClick = useCallback(() => {
-    console.log("handlePinClick: Executing pinItem");
-    pinItem(); // 1回だけ実行
-  }, [pinItem]);
+  const togglePin = (id: number) => {
+    const isPinned = pinnedIds.includes(id);
+  
+    if (isPinned) {
+      setTimeout(() => {
+        setPinAnimation((prev) => ({
+          ...prev,
+          [id]: "pin-deactivate-animation",
+        }));
+      }, 0);
+  
+      setTimeout(() => {
+        setPinnedIds(pinnedIds.filter((pinnedId) => pinnedId !== id));
+        setPinAnimation((prev) => ({
+          ...prev,
+          [id]: "hidden",
+        }));
+      }, 800);
+    } else {
+      setTimeout(() => {
+        setPinnedIds([...pinnedIds, id]);
+      }, 800);
+  
+      setTimeout(() => {
+        setPinAnimation((prev) => ({
+          ...prev,
+          [id]: "pin-activate-animation",
+        }));
+      }, 0);
+    }
+  };
 
-  return { handlePinClick };
+  return { togglePin, pinAnimation };
 };
 
 export default usePinTodo;
