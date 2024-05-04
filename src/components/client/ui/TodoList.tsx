@@ -1,5 +1,4 @@
-// TodoList.tsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { TodoListProps } from "@/components/models/interface";
 import TodoItem from "./TodoItem";
@@ -20,6 +19,18 @@ const TodoList: React.FC<TodoListProps> = ({
   setPinnedIds,
 }) => {
   const { togglePin, pinAnimation } = usePinTodo(pinnedIds, setPinnedIds, todos);
+
+  // アニメーション状態を保持するためのstate
+  const [pinButtonVisible, setPinButtonVisible] = useState(false);
+
+  // 選択状態の変更時にアニメーション状態を更新
+  useEffect(() => {
+    if (selectedId !== null) {
+      setPinButtonVisible(true);
+    } else {
+      setPinButtonVisible(false);
+    }
+  }, [selectedId]);
 
   const handleItemClick = (id: number) => {
     if (selectedId !== id) {
@@ -73,12 +84,13 @@ const TodoList: React.FC<TodoListProps> = ({
                       )}
                     </div>
 
-                    {selectedId === todo.id && (
+                    {/* アニメーションのためのクラスを追加 */}
+                    <div className={`fade-in ${pinButtonVisible && selectedId === todo.id ? 'show' : ''}`}>
                       <PinButton
                         isPinned={isPinned(todo.id)}
                         onClick={() => togglePin(todo.id)}
                       />
-                    )}
+                    </div>
 
                     <div className="checkbox-custom">
                       <input
@@ -119,7 +131,6 @@ const TodoList: React.FC<TodoListProps> = ({
       </Droppable>
     </DragDropContext>
   );
-  
 };
 
 export default TodoList;
