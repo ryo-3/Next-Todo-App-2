@@ -132,7 +132,7 @@ const TodoList: React.FC<TodoListProps> = ({
                       )}
                     </div>
 
-                    {selectedId === todo.id && ( // Todoアイテムが選択されている場合
+                    {selectedId === todo.id && ( //Todoアイテムが選択されている場合
                       <PinButton
                         isPinned={isPinned(todo.id)}
                         onClick={() => togglePin(todo.id)} 
@@ -178,6 +178,7 @@ const TodoList: React.FC<TodoListProps> = ({
       </Droppable>
     </DragDropContext>
   );
+  
 };
 
 export default TodoList;
