@@ -36,5 +36,4 @@ const PinButton: React.FC<PinButtonProps> = ({ isPinned, onClick }) => {
     </button>
   );
 };
-
 export default React.memo(PinButton);
