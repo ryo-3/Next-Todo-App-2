@@ -57,7 +57,7 @@ const Page: React.FC = () => {
 
     // ピン管理
     pinnedIds, // ピン留めされたTodoアイテムのIDリスト
-    handlePinClick, // Todoアイテムのピン留めと解除を処理する関数
+    // handlePinClick, // Todoアイテムのピン留めと解除を処理する関数
     setPinnedIds, // ピン留めされたTodoアイテムのIDリストを更新する関数
     isPinned, // Todoアイテムがピン留めされているかどうかを確認する関数
   } = useTodoManagement();
@@ -126,10 +126,10 @@ const Page: React.FC = () => {
             />
             {/* Pin止め機能ボタン */}
             
-            {selectedId && ( // Todoアイテムが選択されている場合
+            {/* {selectedId && ( // Todoアイテムが選択されている場合
               // ピン留めボタンの表示とピン留め状態の切り替え
               <PinButton isPinned={isPinned} onClick={handlePinClick} />
-            )}
+            )} */}
           </main>
         </UndoStackProvider>
       </DeletedItemProvider>

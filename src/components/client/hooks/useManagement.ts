@@ -56,11 +56,11 @@ function useTodoManagement() {
     useSelectionTimeout(); // 選択とフォーカスのタイムアウト管理
 
   // ピン管理の操作
-  const { handlePinClick } = usePinTodo(
-    selectedId, // selectedIdを渡す
-    pinnedIds,
-    setPinnedIds
-  );
+//   const { handlePinClick } = usePinTodo(
+//     selectedId, // selectedIdを渡す
+//     pinnedIds,
+//     setPinnedIds
+//   );
 
   // Todo操作
   const { toggleTodoComplete } = useToggleTodoComplete(todos, setTodos); // Todoの完了状態を切り替える
@@ -166,7 +166,7 @@ function useTodoManagement() {
 
     // ピン管理
     pinnedIds, // ピン留めされたTodoアイテムのIDリスト
-    handlePinClick, // Todoアイテムのピン留めと解除を処理する関数
+    // handlePinClick, // Todoアイテムのピン留めと解除を処理する関数
     setPinnedIds, // ピン留めされたTodoアイテムのIDリストを更新する関数
     isPinned, // Todoアイテムがピン留めされているかどうかを確認する関数
   };

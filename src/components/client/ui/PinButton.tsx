@@ -9,15 +9,15 @@ type PinButtonProps = {
 const PinButton: React.FC<PinButtonProps> = ({ isPinned, onClick }) => {
   const [isActive, setIsActive] = useState(false);
   const [buttonClicked, setButtonClicked] = useState(false);
-  const animationDivRef = useRef<HTMLDivElement>(null); // アニメーションの div への参照を追加
+  const animationDivRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (buttonClicked) {
       setIsActive(true);
       const timer = setTimeout(() => {
         setIsActive(false);
-        setButtonClicked(false); // アニメーション後にリセット
-      }, 200);
+        setButtonClicked(false);
+      }, 500); // 0.5秒間アニメーションを実行
       return () => clearTimeout(timer);
     }
   }, [buttonClicked]);
@@ -41,17 +41,17 @@ const PinButton: React.FC<PinButtonProps> = ({ isPinned, onClick }) => {
       onClick={() => {
         console.log("PinButton: Button clicked");
         setButtonClicked(true); // ボタンがクリックされたことを設定
-        onClick();
+        onClick(); // handlePinClick を呼び出す
       }}
-      className="fixed bottom-4 left-4 bg-white w-14 h-14 border border-stone-300 rounded-full flex justify-center items-center"
+      className="fixed z-10 bottom-4 left-4 bg-white w-14 h-14 border border-stone-300 rounded-full flex justify-center items-center"
     >
       <div
-        ref={animationDivRef} // div に参照を追加
+        ref={animationDivRef}
         className={
           isActive
             ? isPinned
-              ? "pinButton-activate-animation"
-              : "pinButton-deactivate-animation"
+              ? "pinButton-deactivate-animation"
+              : "pinButton-activate-animation"
             : "noButton-animation"
         }
       >

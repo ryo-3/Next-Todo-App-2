@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { TodoListProps } from "@/components/models/interface";
 import TodoItem from "./TodoItem";
+import PinButton from "./PinButton";
+// import usePinTodo from "../hooks/data/usePinTodo";
 
 const TodoList: React.FC<TodoListProps> = ({
   todos,
@@ -22,7 +24,9 @@ const TodoList: React.FC<TodoListProps> = ({
     }
   };
 
-  const [pinAnimation, setPinAnimation] = useState<{ [key: number]: string }>({});
+  const [pinAnimation, setPinAnimation] = useState<{ [key: number]: string }>(
+    {}
+  );
   const initialLoad = useRef(true); // 初回ロードフラグ
 
   useEffect(() => {
@@ -43,38 +47,55 @@ const TodoList: React.FC<TodoListProps> = ({
     initialLoad.current = false; // 初期ロードが終了したらフラグを更新
   }, [todos, pinnedIds]);
 
+//   const { handlePinClick } = usePinTodo(selectedId, pinnedIds, setPinnedIds);
+
+  const isPinned = (id: number) => pinnedIds.includes(id);
+
   const togglePin = (id: number) => {
     const isPinned = pinnedIds.includes(id);
+  
     if (isPinned) {
-      setPinAnimation((prev) => ({
-        ...prev,
-        [id]: "pin-deactivate-animation",
-      }));
-
-      // アニメーションの完了を待つ
+      // ピン解除アニメーションを遅延開始
+      setTimeout(() => {
+        setPinAnimation((prev) => ({
+          ...prev,
+          [id]: "pin-deactivate-animation",
+        }));
+      }, 0); // <== アニメーションの開始タイミング
+  
+      // ピン解除アニメーションの後でピンを解除
       setTimeout(() => {
         setPinnedIds(pinnedIds.filter((pinnedId) => pinnedId !== id));
         setPinAnimation((prev) => ({
           ...prev,
-          [id]: "hidden", // アニメーション終了後に非表示にする
+          [id]: "hidden", // アニメーションをリセットするか、非表示にする
         }));
-      }, 800);
+      }, 800); // <== ピン解除のタイミング
     } else {
-      setPinAnimation((prev) => ({
-        ...prev,
-        [id]: "pin-activate-animation",
-      }));
-
-      setPinnedIds([...pinnedIds, id]);
+      // ピンを固定する直前のアクション
+      setTimeout(() => {
+        setPinnedIds([...pinnedIds, id]);
+      }, 800); // <== ピン固定前のタイミング
+  
+      // ピン固定アニメーションの開始
+      setTimeout(() => {
+        setPinAnimation((prev) => ({
+          ...prev,
+          [id]: "pin-activate-animation",
+        }));
+      }, 0); // <== ピン固定アニメーションのタイミング
     }
   };
+  
 
   todos.sort((a, b) => {
     const aPinned = pinnedIds.includes(a.id);
     const bPinned = pinnedIds.includes(b.id);
+
     if (aPinned && !bPinned) return -1;
     if (!aPinned && bPinned) return 1;
-    return a.order - b.order;
+
+    return a.order - b.order; // 二次ソートとして `order` を使用
   });
 
   return (
@@ -110,6 +131,13 @@ const TodoList: React.FC<TodoListProps> = ({
                         />
                       )}
                     </div>
+
+                    {selectedId === todo.id && ( // Todoアイテムが選択されている場合
+                      <PinButton
+                        isPinned={isPinned(todo.id)}
+                        onClick={() => togglePin(todo.id)} 
+                      />
+                    )}
 
                     <div className="checkbox-custom">
                       <input
