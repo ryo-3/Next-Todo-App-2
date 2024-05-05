@@ -85,7 +85,7 @@ const TodoList: React.FC<TodoListProps> = ({
                     </div>
 
                     {/* アニメーションのためのクラスを追加 */}
-                    <div className={`fade-in ${pinButtonVisible && selectedId === todo.id ? 'show' : ''}`}>
+                    <div className={`fade-in ${pinButtonVisible && selectedId === todo.id ? 'show' : 'hide'}`}>
                       <PinButton
                         isPinned={isPinned(todo.id)}
                         onClick={() => togglePin(todo.id)}
