@@ -4,18 +4,19 @@ import Image from "next/image";
 type PinButtonProps = {
   isPinned: boolean;
   onClick: () => void;
+  isVisible: boolean; // 新しいプロパティを追加
 };
 
-const PinButton: React.FC<PinButtonProps> = ({ isPinned, onClick }) => {
+const PinButton: React.FC<PinButtonProps> = ({ isPinned, onClick, isVisible }) => {
   const [animationClass, setAnimationClass] = useState("noButton-animation");
-  const [fadeInClass, setFadeInClass] = useState("fade-in hide");
+  const [fadeInClass, setFadeInClass] = useState("fade-in");
 
   useEffect(() => {
-    setFadeInClass("fade-in show");
-  }, []);
+    // 表示・非表示に応じてクラスを設定
+    setFadeInClass(isVisible ? "fade-in show" : "fade-out");
+  }, [isVisible]);
 
   const handleButtonClick = () => {
-    // アニメーションのクラスを画像に適用
     const newClass = isPinned
       ? "pinButton-deactivate-animation"
       : "pinButton-activate-animation";

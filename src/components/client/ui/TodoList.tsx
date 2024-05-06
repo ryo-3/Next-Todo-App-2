@@ -55,12 +55,11 @@ const TodoList: React.FC<TodoListProps> = ({
   return (
     <>
       {/* ピンボタンをTodoListの外に配置 */}
-      {pinButtonVisible && selectedId !== null && (
-        <PinButton
-          isPinned={isPinned(selectedId)}
-          onClick={() => togglePin(selectedId)}
-        />
-      )}
+      <PinButton
+        isPinned={selectedId !== null && isPinned(selectedId)}
+        onClick={() => selectedId !== null && togglePin(selectedId)}
+        isVisible={pinButtonVisible}
+      />
 
       <DragDropContext onDragStart={() => {}} onDragEnd={onDragEnd}>
         <Droppable droppableId="todos-list" direction="vertical">
