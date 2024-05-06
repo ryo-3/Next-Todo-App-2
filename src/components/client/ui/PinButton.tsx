@@ -1,5 +1,4 @@
-// PinButton.tsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
 type PinButtonProps = {
@@ -9,9 +8,14 @@ type PinButtonProps = {
 
 const PinButton: React.FC<PinButtonProps> = ({ isPinned, onClick }) => {
   const [animationClass, setAnimationClass] = useState("noButton-animation");
+  const [fadeInClass, setFadeInClass] = useState("fade-in hide");
+
+  useEffect(() => {
+    setFadeInClass("fade-in show");
+  }, []);
 
   const handleButtonClick = () => {
-    // アニメーションのクラスを変更
+    // アニメーションのクラスを画像に適用
     const newClass = isPinned
       ? "pinButton-deactivate-animation"
       : "pinButton-activate-animation";
@@ -19,7 +23,7 @@ const PinButton: React.FC<PinButtonProps> = ({ isPinned, onClick }) => {
     setAnimationClass(newClass);
     onClick();
 
-    // アニメーション後に初期位置に戻す
+    // アニメーション後に画像のアニメーションを初期化
     setTimeout(() => {
       setAnimationClass("noButton-animation");
     }, 260); // アニメーションの長さに応じて変更
@@ -28,7 +32,7 @@ const PinButton: React.FC<PinButtonProps> = ({ isPinned, onClick }) => {
   return (
     <button
       onClick={handleButtonClick}
-      className="fixed z-10 bottom-4 left-4 bg-white w-14 h-14 border border-stone-300 rounded-full flex justify-center items-center"
+      className={`fixed z-50 bottom-20 right-20 bg-white w-14 h-14 border border-stone-300 rounded-full flex justify-center items-center ${fadeInClass}`}
     >
       <div className={animationClass}>
         <Image src="/pin.png" alt="Pin" width={24} height={24} priority />
@@ -36,4 +40,5 @@ const PinButton: React.FC<PinButtonProps> = ({ isPinned, onClick }) => {
     </button>
   );
 };
+
 export default React.memo(PinButton);

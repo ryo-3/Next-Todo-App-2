@@ -126,19 +126,19 @@ body {
 /* ピンボタンの表示切替 */
 .fade-in {
   opacity: 0;
-  visibility: hidden; /* 初期状態で見えないようにする */
+  visibility: hidden;
   transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+  z-index: 10;
 }
 
 .fade-in.show {
   opacity: 1;
-  visibility: visible; /* 表示にする */
+  visibility: visible;
 }
 
 .fade-in.hide {
   opacity: 0;
-  visibility: hidden; /* 非表示にする */
-  transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out; /* アニメーションを適用 */
+  visibility: hidden;
 }
 
 @layer utilities {
