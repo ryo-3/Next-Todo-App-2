@@ -97,6 +97,7 @@ const TodoList: React.FC<TodoListProps> = ({
                         )}
                       </div>
 
+
                       <div className="checkbox-custom">
                         <input
                           id={`checkbox-${todo.id}`}
