@@ -142,10 +142,36 @@ body {
   transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
 }
 
-.TrashLid {
-    top: 15.5px;
-    left: 50%;
-    transform: translateX(-50%);
+@keyframes openLid {
+  from {
+    transform: translateX(0) rotate(0) translateY(0);
+  }
+  to {
+    transform: translateX(-15px) rotate(-58deg) translateY(6px);
+  }
+}
+
+@keyframes closeLid {
+  from {
+    transform: translateX(-15px) rotate(-58deg) translateY(6px);
+  }
+  to {
+    transform: translateX(0) rotate(0) translateY(0);
+  }
+}
+
+.trashLid {
+  position: absolute;
+  top: 15.5px;
+  left: 16px;
+}
+
+.trashLid.active-open {
+  animation: openLid 0.7s forwards;
+}
+
+.trashLid.active-close {
+  animation: closeLid 0.7s forwards;
 }
 
 @layer utilities {

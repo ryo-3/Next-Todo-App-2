@@ -1,5 +1,5 @@
 // src/components/client/ui/ClearListButton.client.tsx
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import Image from "next/image";
 import { ClearListButtonProps } from "@/components/models/interface";
 import { useDeletedItemContext } from "../context/DeletedItemContext";
@@ -16,9 +16,20 @@ const ClearListButton: React.FC<ClearListButtonProps> = ({
   const { deletedItems, setDeletedItems } = useDeletedItemContext();
   const { isModalOpen, setIsModalOpen } = useClearButtonModal();
   const { undoStack, setUndoStack } = useUndoStack();
+  const [activeClass, setActiveClass] = useState("");
 
-  // 完了したタスクのみ削除
   const clearCompletedTodos = useCallback(() => {
+      // 完了したタスクの削除ロジック
+    setActiveClass("active-open");
+
+    setTimeout(() => {
+      setActiveClass("active-close");
+    }, 1500);
+
+    setTimeout(() => {
+      setActiveClass("");
+    }, 2200);
+
     const completedTodos = todos.filter((todo) => todo.completed);
     setTodos(todos.filter((todo) => !completedTodos.includes(todo)));
 
@@ -30,8 +41,17 @@ const ClearListButton: React.FC<ClearListButtonProps> = ({
     setUndoStack([...undoStack, { type: "partial", items: deletedItemsToAdd }]);
   }, [todos, setTodos, deletedItems, setDeletedItems, undoStack, setUndoStack]);
 
-  // 全てのタスクを削除（ピン止めされていないもののみ）
   const handleClearTodos = useCallback(() => {
+      // すべてのタスクを削除するロジック
+    setActiveClass("active-open");
+    setTimeout(() => {
+      setActiveClass("active-close");
+    }, 1500);
+
+    setTimeout(() => {
+      setActiveClass("");
+    }, 2200);
+
     const deletableTodos = todos.filter((todo) => !pinnedIds.includes(todo.id));
     setTodos(todos.filter((todo) => pinnedIds.includes(todo.id)));
 
@@ -78,12 +98,12 @@ const ClearListButton: React.FC<ClearListButtonProps> = ({
           priority
         />
         <Image
-          src="/TrashLid.png" // 蓋の画像
+          src="/TrashLid.png"
           alt="蓋"
           width={22}
           height={22}
           priority
-          className="absolute TrashLid" // ゴミ箱の上に重ねる
+          className={`trashLid ${activeClass}`} // アニメーションのクラスを適用
         />
       </button>
       <ClearButtonModal

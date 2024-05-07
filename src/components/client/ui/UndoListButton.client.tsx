@@ -1,5 +1,5 @@
 // src/components/client/ui/UndoListButton.client.tsx
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { useDeletedItemContext } from "../context/DeletedItemContext";
 import { UndoListButtonProps } from "@/components/models/interface";
@@ -8,10 +8,21 @@ import { useUndoStack } from "../context/UndoStackContext";
 const UndoListButton: React.FC<UndoListButtonProps> = ({ todos, setTodos }) => {
   const { deletedItems, setDeletedItems } = useDeletedItemContext();
   const { undoStack, setUndoStack } = useUndoStack();
+  const [activeClass, setActiveClass] = useState("");
 
   const undoRemoval = () => {
     // スタックが空の場合、操作を中断
     if (undoStack.length === 0) return;
+
+    // 蓋が開くアニメーションを適用
+    setActiveClass("active-open");
+    setTimeout(() => {
+      setActiveClass("active-close");
+    }, 1500);
+
+    setTimeout(() => {
+      setActiveClass("");
+    }, 2200);
 
     // 最後の操作を取得
     const lastAction = undoStack[undoStack.length - 1];
@@ -51,6 +62,14 @@ const UndoListButton: React.FC<UndoListButtonProps> = ({ todos, setTodos }) => {
         width={32}
         height={32}
         priority
+      />
+      <Image
+        src="/TrashLid.png"
+        alt="蓋"
+        width={22}
+        height={22}
+        priority
+        className={`trashLid ${activeClass}`} // アニメーションを適用
       />
     </button>
   );
