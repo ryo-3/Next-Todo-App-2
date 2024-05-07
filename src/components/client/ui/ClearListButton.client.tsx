@@ -1,5 +1,5 @@
 // src/components/client/ui/ClearListButton.client.tsx
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import Image from "next/image";
 import { ClearListButtonProps } from "@/components/models/interface";
 import { useDeletedItemContext } from "../context/DeletedItemContext";
@@ -16,28 +16,18 @@ const ClearListButton: React.FC<ClearListButtonProps> = ({
   const { deletedItems, setDeletedItems } = useDeletedItemContext();
   const { isModalOpen, setIsModalOpen } = useClearButtonModal();
   const { undoStack, setUndoStack } = useUndoStack();
-  const [iconActive, setIconActive] = useState(false);
-
-  // アイコンのソースを管理する
-  const getImageSrc = () => {
-    return iconActive || isModalOpen
-      ? "/DeleteButtonActive.png"
-      : "/DeleteButton.png";
-  };
 
   // 完了したタスクのみ削除
   const clearCompletedTodos = useCallback(() => {
-    setIconActive(true); // アイコンをアクティブにする
-    setTimeout(() => setIconActive(false), 700); 
-    const completedTodos = todos.filter(todo => todo.completed);
-    setTodos(todos.filter(todo => !completedTodos.includes(todo)));
+    const completedTodos = todos.filter((todo) => todo.completed);
+    setTodos(todos.filter((todo) => !completedTodos.includes(todo)));
 
-    const deletedItemsToAdd = completedTodos.map(todo => ({
+    const deletedItemsToAdd = completedTodos.map((todo) => ({
       item: todo,
       deletedIndex: todos.indexOf(todo),
     }));
     setDeletedItems([...deletedItems, ...deletedItemsToAdd]);
-    setUndoStack([...undoStack, { type: 'partial', items: deletedItemsToAdd }]);
+    setUndoStack([...undoStack, { type: "partial", items: deletedItemsToAdd }]);
   }, [todos, setTodos, deletedItems, setDeletedItems, undoStack, setUndoStack]);
 
   // 全てのタスクを削除（ピン止めされていないもののみ）
@@ -81,11 +71,19 @@ const ClearListButton: React.FC<ClearListButtonProps> = ({
         className="fixed bottom-4 right-4 bg-white w-14 h-14 border border-stone-300 rounded-full flex justify-center items-center"
       >
         <Image
-          src={getImageSrc()}
+          src="/DeleteButton.png"
           alt="Delete"
           width={32}
           height={32}
           priority
+        />
+        <Image
+          src="/TrashLid.png" // 蓋の画像
+          alt="蓋"
+          width={22}
+          height={22}
+          priority
+          className="absolute TrashLid" // ゴミ箱の上に重ねる
         />
       </button>
       <ClearButtonModal
@@ -96,7 +94,7 @@ const ClearListButton: React.FC<ClearListButtonProps> = ({
         confirmText="削除"
         cancelText="キャンセル"
       >
-        <p className=" text-xs flex justify-end">
+        <p className="text-xs flex justify-end">
           ※ピン止めされたリストは削除されません。
         </p>
       </ClearButtonModal>
