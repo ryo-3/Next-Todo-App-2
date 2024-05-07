@@ -125,23 +125,54 @@ body {
 
 /* ピンボタンの表示切替 */
 .fade-in {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
-    z-index: 10;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+  z-index: 10;
+}
+
+.fade-in.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+}
+
+@keyframes openLid {
+  from {
+    transform: translateX(0) rotate(0) translateY(0);
   }
-  
-  .fade-in.show {
-    opacity: 1;
-    visibility: visible;
+  to {
+    transform: translateX(-15px) rotate(-58deg) translateY(6px);
   }
-  
-  .fade-out {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+}
+
+@keyframes closeLid {
+  from {
+    transform: translateX(-15px) rotate(-58deg) translateY(6px);
   }
-  
+  to {
+    transform: translateX(0) rotate(0) translateY(0);
+  }
+}
+
+.trashLid {
+  position: absolute;
+  top: 15.5px;
+  left: 16px;
+}
+
+.trashLid.active-open {
+  animation: openLid 0.7s forwards;
+}
+
+.trashLid.active-close {
+  animation: closeLid 0.7s forwards;
+}
 
 @layer utilities {
 }

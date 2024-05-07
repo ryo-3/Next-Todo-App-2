@@ -16,32 +16,42 @@ const ClearListButton: React.FC<ClearListButtonProps> = ({
   const { deletedItems, setDeletedItems } = useDeletedItemContext();
   const { isModalOpen, setIsModalOpen } = useClearButtonModal();
   const { undoStack, setUndoStack } = useUndoStack();
-  const [iconActive, setIconActive] = useState(false);
+  const [activeClass, setActiveClass] = useState("");
 
-  // アイコンのソースを管理する
-  const getImageSrc = () => {
-    return iconActive || isModalOpen
-      ? "/DeleteButtonActive.png"
-      : "/DeleteButton.png";
-  };
-
-  // 完了したタスクのみ削除
   const clearCompletedTodos = useCallback(() => {
-    setIconActive(true); // アイコンをアクティブにする
-    setTimeout(() => setIconActive(false), 700); 
-    const completedTodos = todos.filter(todo => todo.completed);
-    setTodos(todos.filter(todo => !completedTodos.includes(todo)));
+      // 完了したタスクの削除ロジック
+    setActiveClass("active-open");
 
-    const deletedItemsToAdd = completedTodos.map(todo => ({
+    setTimeout(() => {
+      setActiveClass("active-close");
+    }, 1500);
+
+    setTimeout(() => {
+      setActiveClass("");
+    }, 2200);
+
+    const completedTodos = todos.filter((todo) => todo.completed);
+    setTodos(todos.filter((todo) => !completedTodos.includes(todo)));
+
+    const deletedItemsToAdd = completedTodos.map((todo) => ({
       item: todo,
       deletedIndex: todos.indexOf(todo),
     }));
     setDeletedItems([...deletedItems, ...deletedItemsToAdd]);
-    setUndoStack([...undoStack, { type: 'partial', items: deletedItemsToAdd }]);
+    setUndoStack([...undoStack, { type: "partial", items: deletedItemsToAdd }]);
   }, [todos, setTodos, deletedItems, setDeletedItems, undoStack, setUndoStack]);
 
-  // 全てのタスクを削除（ピン止めされていないもののみ）
   const handleClearTodos = useCallback(() => {
+      // すべてのタスクを削除するロジック
+    setActiveClass("active-open");
+    setTimeout(() => {
+      setActiveClass("active-close");
+    }, 1500);
+
+    setTimeout(() => {
+      setActiveClass("");
+    }, 2200);
+
     const deletableTodos = todos.filter((todo) => !pinnedIds.includes(todo.id));
     setTodos(todos.filter((todo) => pinnedIds.includes(todo.id)));
 
@@ -81,11 +91,19 @@ const ClearListButton: React.FC<ClearListButtonProps> = ({
         className="fixed bottom-4 right-4 bg-white w-14 h-14 border border-stone-300 rounded-full flex justify-center items-center"
       >
         <Image
-          src={getImageSrc()}
+          src="/DeleteButton.png"
           alt="Delete"
           width={32}
           height={32}
           priority
+        />
+        <Image
+          src="/TrashLid.png"
+          alt="蓋"
+          width={22}
+          height={22}
+          priority
+          className={`trashLid ${activeClass}`} // アニメーションのクラスを適用
         />
       </button>
       <ClearButtonModal
@@ -96,7 +114,7 @@ const ClearListButton: React.FC<ClearListButtonProps> = ({
         confirmText="削除"
         cancelText="キャンセル"
       >
-        <p className=" text-xs flex justify-end">
+        <p className="text-xs flex justify-end">
           ※ピン止めされたリストは削除されません。
         </p>
       </ClearButtonModal>
