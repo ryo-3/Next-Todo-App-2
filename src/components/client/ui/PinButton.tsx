@@ -36,7 +36,7 @@ const PinButton: React.FC<PinButtonProps> = ({ isPinned, onClick, isVisible }) =
       className={`fixed z-50 bottom-20 right-20 bg-white w-14 h-14 border border-stone-300 rounded-full flex justify-center items-center ${fadeInClass}`}
     >
       <div className={animationClass}>
-        <Image src="/pin.png" alt="Pin" width={24} height={24} priority />
+        <Image src="/pin.png" alt="Pin" className="w-7 h-8" width={24} height={24} priority />
       </div>
     </button>
   );

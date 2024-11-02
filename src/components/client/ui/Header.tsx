@@ -13,7 +13,7 @@ const Header = () => {
           width={55}
           height={55}
           priority
-          className=" h-11 w-auto flex mt-5 ml-2"
+          className="h-11 w-14 flex mt-5 ml-2"
         />
       </div>
     </header>
